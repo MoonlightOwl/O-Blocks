@@ -1,0 +1,65 @@
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml">
+
+    <Rectangle arcWidth="10" arcHeight="10"
+               fill="#f3f3ec"
+               x="10" y="10"
+               width="480" height="380" />
+
+    <Line id="delimiter"
+          startX="10" startY="76"
+          endX="490" endY="76" />
+    <Line id="delimiter"
+          startX="10" startY="352"
+          endX="490" endY="352" />
+
+    <Text id="name"
+          text="LokiBlocks"
+          layoutX="23" layoutY="70" />
+    <Label id="description"
+          text="Визуальный язык&#10;программирования&#10;для роботов"
+          layoutX="25" layoutY="86" />
+
+    <Rectangle arcWidth="20" arcHeight="20"
+               fill="#ffffff"
+               x="25" y="180"
+               width="450" height="160" />
+
+    <TextArea
+            layoutX="30" layoutY="185" prefWidth="440" prefHeight="150"
+            editable="false" wrapText="true"
+            text=" Визуальная среда LokiBlocks позволяет быстро&#10;
+и удобно спроектировать программу для робота&#10;
+OpenComputers, не требуя от пользователя знания языка Lua&#10;&#10;
+Автор идеи: NEO&#10;
+Разработка спецификации языка: Totoro&#10;
+Реализация: Totoro&#10;&#10;
+При поддержке образовательного проекта ComputerCraft.RU&#10;&#10;
+Copyright (c) 2015 Dmitry Zhidenkov (aka Totoro)&#10;&#10;
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:&#10;
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.&#10;&#10;
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." />
+
+    <ImageView layoutX="314" layoutY="32">
+        <Image url="@images/logo.png"/>
+    </ImageView>
+
+    <Label id="version"
+          text="0.1"
+          alignment="CENTER"
+          layoutX="322" layoutY="130"
+          prefWidth="140"/>
+
+    <stylesheets>
+        <URL value="@css/style.css" />
+        <URL value="@css/about.css" />
+    </stylesheets>
+</AnchorPane>

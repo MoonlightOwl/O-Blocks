@@ -1,0 +1,47 @@
+#name {
+    -fx-font-family: Hack;
+    -fx-font-size: 46;
+    -fx-fill: #6d6e66;
+}
+#description {
+    -fx-font-family: Hack;
+    -fx-font-size: 20;
+    -fx-text-fill: #6d6e66;
+}
+#version {
+    -fx-font-family: AnonymousPro;
+    -fx-font-size: 32;
+    -fx-text-fill: #ffffff;
+}
+
+#delimiter {
+    -fx-stroke: #6d6e66;
+    -fx-width: 2;
+}
+
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+
+    -fx-padding: 2px;
+    -fx-font-size: 12px;
+    -fx-text-fill: #6d6e66;
+    -fx-highlight-fill: #ffcfff;
+}
+
+.text-area .content {
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area:focused .content {
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area:focused {
+    -fx-highlight-fill: #7ecfff;
+}
+
+.text-area .content {
+    -fx-padding: 2px;
+    -fx-highlight-fill: #7ecfff;
+}
