@@ -1,6 +1,7 @@
 # IDEA files
 .idea/
 *.iml
+*.log
 
 # Builds
 /out/
