@@ -33,3 +33,13 @@
 #toolbox {
     -fx-background-color: rgba(0, 0, 0, .2);
 }
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+.scroll-bar:vertical {
+  -fx-background-color: transparent;
+}

@@ -5,10 +5,9 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.WritableDoubleValue;
 import javafx.geometry.Insets;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -21,12 +20,11 @@ import javafx.util.Duration;
 
 public class ToolPane extends BorderPane {
     private Text title;
-    private HBox panel;
+    private TilePane panel;
 
-    private int width = 400;
+    private int width = 400, actualWidth = width + 16;
     private boolean open = false;
 
-    private WritableDoubleValue leftAnchor;
     private Timeline animation;
 
     public ToolPane(){ this(""); }
@@ -40,14 +38,24 @@ public class ToolPane extends BorderPane {
         titleBar.setId("toolbox");
         setTop(titleBar);
 
-        panel = new HBox();
+        generatePanel();
+    }
+    private void generatePanel(){
+        panel = new TilePane();
         panel.setPrefWidth(width);
-        setCenter(panel);
+        panel.setHgap(10); panel.setVgap(10);
+
+        ScrollPane scrollPane = new ScrollPane(panel);
+        scrollPane.setPadding(new Insets(10, 6, 10, 10));
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setFitToWidth(true);
+        setCenter(scrollPane);
 
         AnchorPane.setTopAnchor(this, 80.0);
         AnchorPane.setBottomAnchor(this, 150.0);
 
-        leftAnchor = new WritableDoubleValue() {
+        WritableDoubleValue leftAnchor = new WritableDoubleValue() {
             private double value;
 
             @Override
@@ -63,7 +71,7 @@ public class ToolPane extends BorderPane {
 
             @Override
             public void setValue(Number value) {
-                if(value == null) set(0.0);
+                if (value == null) set(0.0);
                 else set(value.doubleValue());
             }
 
@@ -76,21 +84,21 @@ public class ToolPane extends BorderPane {
 
         animation = new Timeline();
         animation.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(leftAnchor, 0.0)),
-                new KeyFrame(new Duration(450),
-                        new KeyValue(leftAnchor, 1.05)),
-                new KeyFrame(new Duration(500),
-                        new KeyValue(leftAnchor, 1.0))
+                new KeyFrame(Duration.ZERO,     new KeyValue(leftAnchor, 0.0)),
+                new KeyFrame(new Duration(360), new KeyValue(leftAnchor, 1.05)),
+                new KeyFrame(new Duration(400), new KeyValue(leftAnchor, 1.0))
         );
     }
 
     // Inner methods
     private void setPosition(double percent){
-        AnchorPane.setLeftAnchor(this, -width + (width+10.0)*percent);
+        AnchorPane.setLeftAnchor(this, -actualWidth + (actualWidth+10.0)*percent);
     }
 
     // Public interface
+    public void add(Button button){
+        panel.getChildren().add(button);
+    }
     public void setTitle(String text){
         title.setText(text);
     }
