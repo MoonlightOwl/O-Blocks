@@ -25,7 +25,7 @@ public class OpenBlocks extends Application {
         workspace.init(primaryStage);
 
         primaryStage.setTitle("OpenBlocks " + Settings.VERSION);
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, Settings.WIDTH, Settings.HEIGHT));
         primaryStage.show();
     }
 

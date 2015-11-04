@@ -9,4 +9,5 @@ package moonlightowl.openblocks;
 
 public class Settings {
     public static String VERSION = "0.1";
+    public static int WIDTH = 800, HEIGHT = 600;
 }

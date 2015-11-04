@@ -4,12 +4,19 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
 
 <?import java.net.URL?>
 
 <AnchorPane fx:id="rootPane"
-    fx:controller="moonlightowl.openblocks.Workspace"
-    xmlns:fx="http://javafx.com/fxml">
+            fx:controller="moonlightowl.openblocks.Workspace"
+            xmlns:fx="http://javafx.com/fxml">
+
+    <ScrollPane fx:id="scroller"
+        AnchorPane.bottomAnchor="0.0"
+        AnchorPane.topAnchor="0.0"
+        AnchorPane.leftAnchor="0.0"
+        AnchorPane.rightAnchor="0.0"/>
 
     <MenuBar fx:id="menuBar">
         <Menu text="Файл">

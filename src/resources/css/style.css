@@ -43,3 +43,6 @@
 .scroll-bar:vertical {
   -fx-background-color: transparent;
 }
+.scroll-bar:horizontal {
+  -fx-background-color: transparent;
+}
