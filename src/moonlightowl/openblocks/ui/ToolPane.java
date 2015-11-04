@@ -1,4 +1,4 @@
-package moonlightowl.openblocks;
+package moonlightowl.openblocks.ui;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

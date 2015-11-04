@@ -19,6 +19,8 @@ public class OpenBlocks extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
         Parent root = loader.load();
 
+        Assets.load();
+
         Workspace workspace = loader.getController();
         workspace.init(primaryStage);
 

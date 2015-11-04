@@ -1,4 +1,4 @@
-package moonlightowl.openblocks;
+package moonlightowl.openblocks.ui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;

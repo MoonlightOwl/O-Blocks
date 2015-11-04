@@ -1,12 +1,9 @@
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 
 <?import java.net.URL?>
 
@@ -40,38 +37,10 @@
         </Menu>
     </MenuBar>
 
-    <HBox alignment="CENTER"
+    <HBox fx:id="toolBar" alignment="CENTER"
         AnchorPane.bottomAnchor="10.0"
         AnchorPane.leftAnchor="50.0"
         AnchorPane.rightAnchor="50.0">
-        <Button id="tool" onAction="#toggleRobotTools">
-                <graphic>
-                    <ImageView>
-                        <Image url="@images/tools/robot.png" />
-                    </ImageView>
-                </graphic>
-        </Button>
-        <Button id="tool" onAction="#toggleActionTools">
-            <graphic>
-                <ImageView>
-                    <Image url="@images/tools/action.png" />
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button id="tool" onAction="#toggleCycleTools">
-            <graphic>
-                <ImageView>
-                    <Image url="@images/tools/cycle.png" />
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button id="tool" onAction="#toggleLogicTools">
-            <graphic>
-                <ImageView>
-                    <Image url="@images/tools/logic.png" />
-                </ImageView>
-            </graphic>
-        </Button>
     </HBox>
 
     <stylesheets>
