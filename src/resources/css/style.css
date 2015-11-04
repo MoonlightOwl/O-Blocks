@@ -21,3 +21,15 @@
 #tool:hover {
     -fx-background-color: rgba(0, 0, 0, .2);
 }
+
+
+#toolbox-title {
+    -fx-font-family: Hack;
+    -fx-font-size: 20;
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-background-color: rgba(0, 0, 0, .2);
+}
+#toolbox {
+    -fx-background-color: rgba(0, 0, 0, .2);
+}

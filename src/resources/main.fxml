@@ -1,15 +1,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<?import java.net.URL?>
-
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+
+<?import java.net.URL?>
+
 <AnchorPane fx:id="rootPane"
     fx:controller="moonlightowl.openblocks.Workspace"
     xmlns:fx="http://javafx.com/fxml">
@@ -21,12 +21,16 @@
             <MenuItem text="Сохранить"/>
             <MenuItem text="Сохранить как"/>
             <SeparatorMenuItem/>
+            <MenuItem text="Экспорт в Lua"/>
+            <SeparatorMenuItem/>
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
             <MenuItem text="Копировать"/>
             <MenuItem text="Вырезать"/>
             <MenuItem text="Вставить"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Очистить все"/>
         </Menu>
         <Menu text="Справка">
             <MenuItem text="Поиск" disable="true"/>
@@ -40,28 +44,28 @@
         AnchorPane.bottomAnchor="10.0"
         AnchorPane.leftAnchor="50.0"
         AnchorPane.rightAnchor="50.0">
-        <Button id="tool" onAction="#yeah">
+        <Button id="tool" onAction="#toggleRobotTools">
                 <graphic>
                     <ImageView>
                         <Image url="@images/tools/robot.png" />
                     </ImageView>
                 </graphic>
         </Button>
-        <Button id="tool" onAction="#yeah">
+        <Button id="tool" onAction="#toggleActionTools">
             <graphic>
                 <ImageView>
                     <Image url="@images/tools/action.png" />
                 </ImageView>
             </graphic>
         </Button>
-        <Button id="tool" onAction="#yeah">
+        <Button id="tool" onAction="#toggleCycleTools">
             <graphic>
                 <ImageView>
                     <Image url="@images/tools/cycle.png" />
                 </ImageView>
             </graphic>
         </Button>
-        <Button id="tool" onAction="#yeah">
+        <Button id="tool" onAction="#toggleLogicTools">
             <graphic>
                 <ImageView>
                     <Image url="@images/tools/logic.png" />
