@@ -46,3 +46,7 @@
 .scroll-bar:horizontal {
   -fx-background-color: transparent;
 }
+
+#debug {
+    -fx-background-color: rgba(256, 0, 0, .2);
+}

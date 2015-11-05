@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -32,29 +33,25 @@ public class Workspace {
 
     public Group content;
     public ScrollPane scroller;
+    private ZoomPane zoomPane;
 
     public void init(Stage parent){
         parentStage = parent;
         about = new About(parentStage);
 
-        content = new Group();
-        new ZoomPane(scroller, content);
-
-        ToolButton button = new ToolButton("Test 1", Assets.logo);
-        content.getChildren().add(button);
-        button.setTranslateX(200);
-        button.setTranslateY(200);
-        button = new ToolButton("Test Center", Assets.logo);
-        content.getChildren().add(button);
-        button = new ToolButton("Test 2", Assets.logo);
-        content.getChildren().add(button);
-        button.setTranslateX(-300);
-        button.setTranslateY(-300);
-
+        zoomPane = new ZoomPane(scroller);
         initToolsPanels();
         initToolBar();
 
-        rootPane.setOnMouseClicked(event -> closeAllToolPanes());
+        rootPane.setOnMouseClicked(event -> {
+            closeAllToolPanes();
+            if(event.getButton() == MouseButton.PRIMARY) {
+                Button b = new ToolButton("Test X", Assets.toolIcons[0]);
+                b.setTranslateX(zoomPane.projectX(event.getX() - rootPane.getWidth()/2));
+                b.setTranslateY(zoomPane.projectY(event.getY() - rootPane.getHeight()/2));
+                zoomPane.add(b);
+            }
+        });
     }
 
     /** UI generation */
