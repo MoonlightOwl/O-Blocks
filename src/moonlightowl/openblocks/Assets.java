@@ -14,7 +14,7 @@ import java.io.File;
 public class Assets {
     public static File imagesPath = new File("/images/");
 
-    public static Image logo;
+    public static Image logo, node;
     public static Image[] toolBarIcon, toolIcons;
 
     public static Image loadImage(String name){
@@ -23,6 +23,7 @@ public class Assets {
 
     public static void load() {
         logo = loadImage("logo.png");
+        node = loadImage("blocks/node.png");
         toolBarIcon = new Image[]{
                 loadImage("tools/robot.png"),
                 loadImage("tools/action.png"),
