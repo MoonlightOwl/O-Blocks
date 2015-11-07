@@ -1,5 +1,9 @@
 package moonlightowl.openblocks.structure;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import moonlightowl.openblocks.Assets;
@@ -29,6 +33,29 @@ public class Block extends Group {
         setTranslateX(x); setTranslateY(y);
 
         nodes = new ArrayList<>();
+
+        // Make block draggable by mouse
+        final ObjectProperty<Point2D> lastMouseCoordinates = new SimpleObjectProperty<>();
+        setOnMousePressed(event -> {
+            lastMouseCoordinates.set(new Point2D(event.getX(), event.getY()));
+            getScene().setCursor(Cursor.MOVE);
+        });
+        setOnMouseReleased(event -> getScene().setCursor(Cursor.HAND));
+        setOnMouseDragged(event -> {
+            setX(getX() + event.getX() - lastMouseCoordinates.get().getX());
+            setY(getY() + event.getY() - lastMouseCoordinates.get().getY());
+            event.consume();
+        });
+        setOnMouseEntered(event -> {
+            if (!event.isPrimaryButtonDown()) {
+                getScene().setCursor(Cursor.HAND);
+            }
+        });
+        setOnMouseExited(event -> {
+            if (!event.isPrimaryButtonDown()) {
+                getScene().setCursor(Cursor.DEFAULT);
+            }
+        });
     }
 
     public double getWidth(){ return back.getImage().getWidth(); }

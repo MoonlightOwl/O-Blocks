@@ -44,6 +44,7 @@ public class Workspace {
     private ImageView selectedIcon;
 
     public void init(Stage parent){
+        // Init GUI
         parentStage = parent;
         about = new About(parentStage);
 
@@ -56,20 +57,26 @@ public class Workspace {
         initToolsPanels();
         initToolBar();
 
-        Random random = new Random(System.currentTimeMillis());
-
+        // Add event listeners
         rootPane.setOnMouseClicked(event -> {
             if(hasOpenedPanes())
                 closeAllToolPanes();
             else
                 if(event.getButton() == MouseButton.PRIMARY) {
                     if(selected != null) {
-                        Block block = selected.getInstance().setPosition(zoomPane.projectX(event.getX() - rootPane.getWidth() / 2),
-                                zoomPane.projectY(event.getY() - rootPane.getHeight() / 2));
+                        Block block = selected.getInstance()
+                                .setPosition(zoomPane.projectX(event.getX() - rootPane.getWidth() / 2),
+                                             zoomPane.projectY(event.getY() - rootPane.getHeight() / 2));
                         zoomPane.add(block);
+                    } else if (selectedWire) {
+
+                    } else if (selectedTrash) {
+
                     }
                 } else if(event.getButton() == MouseButton.SECONDARY) deselect();
         });
+
+        // Move mouse tool icon
         rootPane.setOnMouseMoved(event -> {
             selectedIcon.setTranslateX(event.getSceneX());
             selectedIcon.setTranslateY(event.getSceneY());
