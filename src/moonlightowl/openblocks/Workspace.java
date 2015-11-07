@@ -6,11 +6,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import moonlightowl.openblocks.structure.Block;
-import moonlightowl.openblocks.structure.robot.Start;
 import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
@@ -46,6 +46,8 @@ public class Workspace {
 
         zoomPane = new ZoomPane(scroller);
         selectedIcon = new ImageView();
+        selectedIcon.setScaleX(0.3);
+        selectedIcon.setScaleY(0.3);
         rootPane.getChildren().add(selectedIcon);
 
         initToolsPanels();
@@ -69,6 +71,7 @@ public class Workspace {
             selectedIcon.setTranslateX(event.getSceneX());
             selectedIcon.setTranslateY(event.getSceneY());
         });
+        rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
     }
 
     /** UI generation */
