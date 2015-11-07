@@ -19,6 +19,8 @@ import javafx.util.Duration;
  */
 
 public class ToolPane extends BorderPane {
+    public static final int DURATION = 300;
+
     private Text title;
     private TilePane panel;
 
@@ -85,8 +87,8 @@ public class ToolPane extends BorderPane {
         animation = new Timeline();
         animation.getKeyFrames().addAll(
                 new KeyFrame(Duration.ZERO,     new KeyValue(leftAnchor, 0.0)),
-                new KeyFrame(new Duration(360), new KeyValue(leftAnchor, 1.05)),
-                new KeyFrame(new Duration(400), new KeyValue(leftAnchor, 1.0))
+                new KeyFrame(new Duration(DURATION*0.9), new KeyValue(leftAnchor, 1.05)),
+                new KeyFrame(new Duration(DURATION), new KeyValue(leftAnchor, 1.0))
         );
     }
 
