@@ -1,10 +1,7 @@
 package moonlightowl.openblocks.structure;
 
 import javafx.geometry.Point2D;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
+import javafx.scene.effect.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -50,16 +47,19 @@ public class Node extends ImageView {
         // Set color tint to ImageView
         setClip(new Circle(8, 8, 7.9));
 
-        ColorAdjust monochrome = new ColorAdjust();
-        monochrome.setSaturation(-1.0);
-        Blend tint = new Blend(
-                BlendMode.MULTIPLY,
-                null,
-                new ColorInput(0, 0,
-                        Assets.node.getWidth(), Assets.node.getHeight(),
-                        colors[type])
-        );
+        ColorInput colorize = new ColorInput(0, 0,
+                Assets.node.getWidth(), Assets.node.getHeight(),
+                colors[type]);
+        Bloom bloom = new Bloom();
+        bloom.setThreshold(0.1);
+
+        Blend tint = new Blend(BlendMode.MULTIPLY, null, colorize);
+        Blend higlight = new Blend(BlendMode.MULTIPLY, bloom, colorize);
         setEffect(tint);
+
+        // Set hover effect
+        setOnMouseEntered(event -> setEffect(higlight));
+        setOnMouseExited(event -> setEffect(tint));
     }
 
     public double getRelativeX() { return x; }
