@@ -25,10 +25,12 @@ public class Assets {
         logo = loadImage("logo.png");
         node = loadImage("blocks/node.png");
         toolBarIcon = new Image[]{
+                loadImage("tools/wire.png"),
                 loadImage("tools/robot.png"),
                 loadImage("tools/action.png"),
                 loadImage("tools/cycle.png"),
-                loadImage("tools/logic.png")
+                loadImage("tools/logic.png"),
+                loadImage("tools/trash.png")
         };
         toolIcons = new Image[]{
                 loadImage("tools/robot/start.png"),
