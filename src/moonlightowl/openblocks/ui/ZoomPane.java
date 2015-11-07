@@ -2,10 +2,13 @@ package moonlightowl.openblocks.ui;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import moonlightowl.openblocks.Settings;
 
@@ -45,12 +48,16 @@ public class ZoomPane {
 
         // Panning via drag
         final ObjectProperty<Point2D> lastMouseCoordinates = new SimpleObjectProperty<>();
-        content.setOnMousePressed(event ->
-                lastMouseCoordinates.set(new Point2D(event.getX(), event.getY())));
+        content.setOnMousePressed(event -> {
+            if(event.getButton() == MouseButton.MIDDLE)
+                lastMouseCoordinates.set(new Point2D(event.getX(), event.getY()));
+        });
 
-        content.setOnMouseDragged(event ->
+        content.setOnMouseDragged(event -> {
+            if(event.getButton() == MouseButton.MIDDLE)
                 drag(event.getX() - lastMouseCoordinates.get().getX(),
-                     event.getY() - lastMouseCoordinates.get().getY()));
+                     event.getY() - lastMouseCoordinates.get().getY());
+        });
 
         return scroller;
     }
@@ -81,5 +88,9 @@ public class ZoomPane {
 
     public void add(Node node){
         content.getChildren().add(node);
+    }
+
+    public void setOnClickListener(EventHandler<? super MouseEvent> listener){
+        content.setOnMouseClicked(listener);
     }
 }

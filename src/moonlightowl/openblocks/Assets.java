@@ -15,7 +15,7 @@ public class Assets {
     public static File imagesPath = new File("/images/");
 
     public static Image logo, node;
-    public static Image[] toolBarIcon, toolIcons;
+    public static Image[] toolBarIcon, toolIcons, blockBack;
 
     public static Image loadImage(String name){
         return new Image(new File(imagesPath, name).getPath());
@@ -48,6 +48,12 @@ public class Assets {
                 loadImage("tools/logic/greater_or_equal.png"),
                 loadImage("tools/logic/not_equal.png"),
                 loadImage("tools/logic/not.png"),
+        };
+        blockBack = new Image[]{
+                loadImage("blocks/robot.png"),
+                loadImage("blocks/action.png"),
+                loadImage("blocks/cycle.png"),
+                loadImage("blocks/logic.png"),
         };
     }
 }
