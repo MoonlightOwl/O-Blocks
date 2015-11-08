@@ -60,7 +60,6 @@ public class Workspace {
         Block.setOnClickListenter(event -> {
             if (selectedTrash) {
                 zoomPane.remove((Node)event.getSource());
-                System.out.println(zoomPane.getChildrenCount());
             }
         });
 

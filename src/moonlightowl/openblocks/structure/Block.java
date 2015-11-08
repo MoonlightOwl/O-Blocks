@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import moonlightowl.openblocks.Assets;
@@ -26,7 +27,7 @@ public class Block extends Group {
     private Blocks.Category category;
     private double x, y;
 
-    private ImageView back;
+    private ImageView back, icon;
     private ArrayList<Node> nodes;
 
     public Block(double x, double y, Blocks.Category category){
@@ -35,6 +36,9 @@ public class Block extends Group {
         back = new ImageView(Assets.blockBack[category.ordinal()]);
         getChildren().add(back);
         setTranslateX(x); setTranslateY(y);
+
+        icon = new ImageView();
+        getChildren().add(icon);
 
         nodes = new ArrayList<>();
 
@@ -78,6 +82,12 @@ public class Block extends Group {
     public Block addNode(Node node){
         nodes.add(node);
         getChildren().add(node);
+        return this;
+    }
+    public Block setIcon(Image icon) {
+        this.icon.setImage(icon);
+        this.icon.setTranslateX(getWidth()/2 - icon.getWidth()/2);
+        this.icon.setTranslateY(getHeight()/2 - icon.getHeight()/2);
         return this;
     }
 

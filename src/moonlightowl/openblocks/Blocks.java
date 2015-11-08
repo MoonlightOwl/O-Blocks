@@ -1,6 +1,7 @@
 package moonlightowl.openblocks;
 
 import moonlightowl.openblocks.structure.Block;
+import moonlightowl.openblocks.structure.action.Move;
 import moonlightowl.openblocks.structure.robot.End;
 import moonlightowl.openblocks.structure.robot.Start;
 import java.util.function.Supplier;
@@ -16,7 +17,8 @@ public class Blocks {
     public enum Category { ROBOT, ACTION, CYCLE, LOGIC }
     public enum Id {
         START(Category.ROBOT, "Начало", Start::new),
-        END(Category.ROBOT, "Конец", End::new);
+        END(Category.ROBOT, "Конец", End::new),
+        MOVE(Category.ACTION, "Двигаться", Move::new);
 
         public final int id;
         public final Category category;
@@ -30,7 +32,6 @@ public class Blocks {
         public Block getInstance(){ return supplier.get(); }
     }
 
-//        all.put(MOVE, new Desc(MOVE, Category.ACTION, "Двигаться"));
 //        all.put(DIG, new Desc(DIG, Category.ACTION, "Копать"));
 //        all.put(BUILD, new Desc(BUILD, Category.ACTION, "Строить"));
 //        all.put(SELECT_SLOT, new Desc(SELECT_SLOT, Category.ACTION, "Выбрать слот"));

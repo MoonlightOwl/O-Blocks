@@ -15,7 +15,7 @@ public class Assets {
     public static File imagesPath = new File("/images/");
 
     public static Image logo, node;
-    public static Image[] toolBarIcon, toolIcons, blockBack;
+    public static Image[] toolBarIcon, toolIcons, blockBack, blockIcons;
 
     public static Image loadImage(String name){
         return new Image(new File(imagesPath, name).getPath());
@@ -56,6 +56,9 @@ public class Assets {
                 loadImage("blocks/action.png"),
                 loadImage("blocks/cycle.png"),
                 loadImage("blocks/logic.png"),
+        };
+        blockIcons = new Image[]{
+                loadImage("blocks/icons/move.png")
         };
     }
 }
