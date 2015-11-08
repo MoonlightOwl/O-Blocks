@@ -1,6 +1,7 @@
 package moonlightowl.openblocks;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -16,8 +17,6 @@ import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
 import moonlightowl.openblocks.ui.ZoomPane;
-
-import java.util.Random;
 
 /**
  * OpenBlocks.Workspace
@@ -58,6 +57,13 @@ public class Workspace {
         initToolBar();
 
         // Add event listeners
+        Block.setOnClickListenter(event -> {
+            if (selectedTrash) {
+                zoomPane.remove((Node)event.getSource());
+                System.out.println(zoomPane.getChildrenCount());
+            }
+        });
+
         rootPane.setOnMouseClicked(event -> {
             if(hasOpenedPanes())
                 closeAllToolPanes();
@@ -69,8 +75,6 @@ public class Workspace {
                                              zoomPane.projectY(event.getY() - rootPane.getHeight() / 2));
                         zoomPane.add(block);
                     } else if (selectedWire) {
-
-                    } else if (selectedTrash) {
 
                     }
                 } else if(event.getButton() == MouseButton.SECONDARY) deselect();

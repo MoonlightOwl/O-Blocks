@@ -2,10 +2,12 @@ package moonlightowl.openblocks.structure;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import moonlightowl.openblocks.Assets;
 import moonlightowl.openblocks.Blocks;
 
@@ -19,6 +21,8 @@ import java.util.ArrayList;
  */
 
 public class Block extends Group {
+    private static EventHandler<? super MouseEvent> listener;
+
     private Blocks.Category category;
     private double x, y;
 
@@ -56,6 +60,7 @@ public class Block extends Group {
                 getScene().setCursor(Cursor.DEFAULT);
             }
         });
+        setOnMouseClicked(listener);
     }
 
     public double getWidth(){ return back.getImage().getWidth(); }
@@ -74,5 +79,9 @@ public class Block extends Group {
         nodes.add(node);
         getChildren().add(node);
         return this;
+    }
+
+    public static void setOnClickListenter(EventHandler<? super MouseEvent> handler){
+        listener = handler;
     }
 }

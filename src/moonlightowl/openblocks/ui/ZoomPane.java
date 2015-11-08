@@ -62,6 +62,7 @@ public class ZoomPane {
         return scroller;
     }
 
+    /** Public interface */
     public double projectX(double screenX){
         double paneX = screenX / scale;
         double scrollX = (content.getLayoutBounds().getWidth() - scroller.getWidth()) / scale
@@ -74,8 +75,9 @@ public class ZoomPane {
                 * (scroller.getVvalue() - 0.5);
         return scrollY + paneY;
     }
+    public int getChildrenCount(){ return content.getChildren().size(); }
 
-    /** Public interface */
+
     public void drag(double deltaX, double deltaY){
         double deltaH = (deltaX * scale) / content.getLayoutBounds().getWidth();
         double desiredH = scroller.getHvalue() - deltaH;
@@ -88,6 +90,9 @@ public class ZoomPane {
 
     public void add(Node node){
         content.getChildren().add(node);
+    }
+    public void remove(Node node) {
+        content.getChildren().remove(node);
     }
 
     public void setOnClickListener(EventHandler<? super MouseEvent> listener){
