@@ -11,8 +11,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurve;
 import javafx.stage.Stage;
 import moonlightowl.openblocks.structure.Block;
+import moonlightowl.openblocks.structure.Joint;
+import moonlightowl.openblocks.structure.Wire;
 import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
@@ -41,6 +45,7 @@ public class Workspace {
     private boolean selectedTrash = false;
     private Blocks.Id selected;
     private ImageView selectedIcon;
+    private Wire wire;
 
     public void init(Stage parent){
         // Init GUI
@@ -57,6 +62,15 @@ public class Workspace {
         initToolBar();
 
         // Add event listeners
+        Joint.setOnClickListenter(event ->{
+            Joint joint = (Joint)event.getSource();
+            if(wire == null) {
+                wire = new Wire();
+                joint.attachWire(wire);
+                zoomPane.addToBottom(wire);
+                //scroller.getContent().getC
+            }
+        });
         Block.setOnClickListenter(event -> {
             if (selectedTrash) {
                 zoomPane.remove((Node)event.getSource());
@@ -70,11 +84,9 @@ public class Workspace {
                 if(event.getButton() == MouseButton.PRIMARY) {
                     if(selected != null) {
                         Block block = selected.getInstance()
-                                .setPosition(zoomPane.projectX(event.getX() - rootPane.getWidth() / 2),
-                                             zoomPane.projectY(event.getY() - rootPane.getHeight() / 2));
+                                .setPosition(zoomPane.projectX(event.getX()),
+                                             zoomPane.projectY(event.getY()));
                         zoomPane.add(block);
-                    } else if (selectedWire) {
-
                     }
                 } else if(event.getButton() == MouseButton.SECONDARY) deselect();
         });
@@ -83,6 +95,9 @@ public class Workspace {
         rootPane.setOnMouseMoved(event -> {
             selectedIcon.setTranslateX(event.getSceneX());
             selectedIcon.setTranslateY(event.getSceneY());
+            //if(wire != null) wire.reposition
+            //        (zoomPane.projectX(event.getX() - rootPane.getWidth() / 2)
+            //        , zoomPane.projectY(event.getY() - rootPane.getHeight() / 2));
         });
         rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
     }

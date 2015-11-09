@@ -28,7 +28,7 @@ public class Block extends Group {
     private double x, y;
 
     private ImageView back, icon;
-    private ArrayList<Node> nodes;
+    private ArrayList<Joint> joints;
 
     public Block(double x, double y, Blocks.Category category){
         this.x = x; this.y = y; this.category = category;
@@ -40,7 +40,7 @@ public class Block extends Group {
         icon = new ImageView();
         getChildren().add(icon);
 
-        nodes = new ArrayList<>();
+        joints = new ArrayList<>();
 
         // Make block draggable by mouse
         final ObjectProperty<Point2D> lastMouseCoordinates = new SimpleObjectProperty<>();
@@ -52,6 +52,7 @@ public class Block extends Group {
         setOnMouseDragged(event -> {
             setX(getX() + event.getX() - lastMouseCoordinates.get().getX());
             setY(getY() + event.getY() - lastMouseCoordinates.get().getY());
+            joints.forEach(Joint::update);
             event.consume();
         });
         setOnMouseEntered(event -> {
@@ -79,9 +80,9 @@ public class Block extends Group {
     public Block setPosition(double x, double y) {
         setX(x); setY(y); return this;
     }
-    public Block addNode(Node node){
-        nodes.add(node);
-        getChildren().add(node);
+    public Block addJoint(Joint joint){
+        joints.add(joint);
+        getChildren().add(joint);
         return this;
     }
     public Block setIcon(Image icon) {

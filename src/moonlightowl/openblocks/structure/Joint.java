@@ -1,38 +1,40 @@
 package moonlightowl.openblocks.structure;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import moonlightowl.openblocks.Assets;
 
 /**
- * OpenBlocks.Node
+ * OpenBlocks.Joint
  * Created by MoonlightOwl on 11/5/15.
  * ===
- * Node is an object, that belongs to one block, and links to another
+ * Joint is an object, that belongs to one block, and links to another
  */
 
-public class Node extends ImageView {
+public class Joint extends ImageView {
     public final static int FROM = 0, TO = 1, BOOLEAN = 2, NUMBER = 3, STRING = 4, LINK = 5, ERROR = 6;
     public final static Color[] colors = {
             new Color(0.49, 0.98, 0.05, 1.0), new Color(0.98, 0.27, 0.13, 1),
             new Color(0.98, 0.89, 0.05, 1.0), new Color(0.05, 0.89, 0.98, 1.0),
             Color.VIOLET, Color.WHITE, Color.DARKGRAY
     };
+    private static EventHandler<? super MouseEvent> listener;
 
-    // Relative note coordinates (in block)
-    public double x, y;
-    public Point2D normal;
+    // Relative node coordinates (in block)
+    private double x, y;
+    private Point2D normal;
 
-    // Node
-    public Wire wire;
-    public Block link, owner;
+    // Joint
+    private Wire wire;
+    private Block link, owner;
+    private int type;
 
-    public int type;
-
-    public Node(Block owner, double x, double y, int type) {
+    public Joint(Block owner, double x, double y, int type) {
         this.owner = owner;
         this.x = x; this.y = y;
         this.type = type;
@@ -60,6 +62,9 @@ public class Node extends ImageView {
         // Set hover effect
         setOnMouseEntered(event -> setEffect(higlight));
         setOnMouseExited(event -> setEffect(tint));
+
+        // Add listener
+        setOnMouseClicked(listener);
     }
 
     public double getRelativeX() { return x; }
@@ -68,4 +73,20 @@ public class Node extends ImageView {
     public double getAbsY() { return owner.getCenterY() + y; }
     public double getNormalX(){ return normal.getX(); }
     public double getNormalY(){ return normal.getY(); }
+
+    public boolean attachWire(Wire wire){
+        if(wire.link(this)) {
+            this.wire = wire;
+            wire.reposition();
+            return true;
+        }
+        else return false;
+    }
+    public void update(){
+        if(wire != null) wire.reposition();
+    }
+
+    public static void setOnClickListenter(EventHandler<? super MouseEvent> handler){
+        listener = handler;
+    }
 }

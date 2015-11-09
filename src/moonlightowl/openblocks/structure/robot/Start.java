@@ -2,7 +2,7 @@ package moonlightowl.openblocks.structure.robot;
 
 import moonlightowl.openblocks.Blocks.Category;
 import moonlightowl.openblocks.structure.Block;
-import moonlightowl.openblocks.structure.Node;
+import moonlightowl.openblocks.structure.Joint;
 
 /**
  * OpenBlocks.Start
@@ -14,6 +14,6 @@ import moonlightowl.openblocks.structure.Node;
 public class Start extends Block {
     public Start() {
         super(0, 0, Category.ROBOT);
-        addNode(new Node(this, 0, 46, Node.FROM));
+        addJoint(new Joint(this, 0, 46, Joint.FROM));
     }
 }

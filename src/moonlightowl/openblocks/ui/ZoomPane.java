@@ -9,7 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import moonlightowl.openblocks.Settings;
 
 public class ZoomPane {
@@ -17,7 +17,7 @@ public class ZoomPane {
     final public static double SCALE_DELTA = 1.1;
 
     private ScrollPane scroller;
-    private StackPane content;
+    private Pane content;
     private double scale = 1.0;
 
     public ZoomPane(ScrollPane root){
@@ -28,9 +28,10 @@ public class ZoomPane {
     }
 
     private Parent createZoomPane() {
-        content = new StackPane();
+        content = new Pane();
         content.setPrefWidth(Settings.WIDTH * SIZE_FACTOR);
         content.setPrefHeight(Settings.HEIGHT * SIZE_FACTOR);
+        content.setId("debug");
 
         scroller.setContent(content);
 
@@ -65,15 +66,18 @@ public class ZoomPane {
     /** Public interface */
     public double projectX(double screenX){
         double paneX = screenX / scale;
-        double scrollX = (content.getLayoutBounds().getWidth() - scroller.getWidth()) / scale
-                * (scroller.getHvalue() - 0.5);
-        return scrollX + paneX;
+        double offsetX = (content.getWidth() - (content.getWidth() * scale)) / 2;
+        double scrollX = (content.getWidth() - scroller.getWidth())
+                * scroller.getHvalue() * scale;
+        System.out.printf("X: screen=%f scroll=%f pane=%f offset=%f\n", screenX, scrollX, paneX, offsetX);
+        return scrollX + paneX - offsetX;
     }
     public double projectY(double screenY){
         double paneY = screenY / scale;
-        double scrollY = (content.getLayoutBounds().getHeight() - scroller.getHeight()) / scale
-                * (scroller.getVvalue() - 0.5);
-        return scrollY + paneY;
+        double offsetY = (content.getHeight() - (content.getHeight() * scale)) / 2;
+        double scrollY = (content.getHeight() - scroller.getHeight())
+                * scroller.getVvalue() * scale;
+        return scrollY + paneY - offsetY;
     }
     public int getChildrenCount(){ return content.getChildren().size(); }
 
@@ -93,6 +97,9 @@ public class ZoomPane {
     }
     public void remove(Node node) {
         content.getChildren().remove(node);
+    }
+    public void addToBottom(Node node) {
+        content.getChildren().add(0, node);
     }
 
     public void setOnClickListener(EventHandler<? super MouseEvent> listener){
