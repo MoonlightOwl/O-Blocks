@@ -65,19 +65,14 @@ public class ZoomPane {
 
     /** Public interface */
     public double projectX(double screenX){
-        double paneX = screenX / scale;
-        double offsetX = (content.getWidth() - (content.getWidth() * scale)) / 2;
-        double scrollX = (content.getWidth() - scroller.getWidth())
-                * scroller.getHvalue() * scale;
-        System.out.printf("X: screen=%f scroll=%f pane=%f offset=%f\n", screenX, scrollX, paneX, offsetX);
-        return scrollX + paneX - offsetX;
+        double scroll = (content.getWidth() - scroller.getWidth()) * scroller.getHvalue();
+        double offset = (content.getWidth() - (content.getWidth() * scale)) / 2;
+        return (scroll + screenX - offset) / scale;
     }
     public double projectY(double screenY){
-        double paneY = screenY / scale;
-        double offsetY = (content.getHeight() - (content.getHeight() * scale)) / 2;
-        double scrollY = (content.getHeight() - scroller.getHeight())
-                * scroller.getVvalue() * scale;
-        return scrollY + paneY - offsetY;
+        double scroll = (content.getHeight() - scroller.getHeight()) * scroller.getVvalue();
+        double offset = (content.getHeight() - (content.getHeight() * scale)) / 2;
+        return (scroll + screenY - offset) / scale;
     }
     public int getChildrenCount(){ return content.getChildren().size(); }
 

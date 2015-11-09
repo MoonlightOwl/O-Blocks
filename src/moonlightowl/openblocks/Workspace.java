@@ -91,13 +91,12 @@ public class Workspace {
                 } else if(event.getButton() == MouseButton.SECONDARY) deselect();
         });
 
-        // Move mouse tool icon
+        // Move mouse tool icon & current wire loose end (if any)
         rootPane.setOnMouseMoved(event -> {
             selectedIcon.setTranslateX(event.getSceneX());
             selectedIcon.setTranslateY(event.getSceneY());
-            //if(wire != null) wire.reposition
-            //        (zoomPane.projectX(event.getX() - rootPane.getWidth() / 2)
-            //        , zoomPane.projectY(event.getY() - rootPane.getHeight() / 2));
+            if(wire != null) wire.reposition(zoomPane.projectX(event.getX()),
+                                             zoomPane.projectY(event.getY()));
         });
         rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
     }
