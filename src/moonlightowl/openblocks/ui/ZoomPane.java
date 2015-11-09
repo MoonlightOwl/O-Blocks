@@ -31,7 +31,6 @@ public class ZoomPane {
         content = new Pane();
         content.setPrefWidth(Settings.WIDTH * SIZE_FACTOR);
         content.setPrefHeight(Settings.HEIGHT * SIZE_FACTOR);
-        content.setId("debug");
 
         scroller.setContent(content);
 

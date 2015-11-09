@@ -1,7 +1,6 @@
 package moonlightowl.openblocks;
 
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -11,8 +10,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurve;
 import javafx.stage.Stage;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
@@ -41,7 +38,6 @@ public class Workspace {
     public About about;
     private ZoomPane zoomPane;
 
-    private boolean selectedWire = false;
     private boolean selectedTrash = false;
     private Blocks.Id selected;
     private ImageView selectedIcon;
@@ -64,16 +60,37 @@ public class Workspace {
         // Add event listeners
         Joint.setOnClickListenter(event ->{
             Joint joint = (Joint)event.getSource();
-            if(wire == null) {
-                wire = new Wire();
-                joint.attachWire(wire);
-                zoomPane.addToBottom(wire);
-                //scroller.getContent().getC
+            if(event.getButton() == MouseButton.PRIMARY) {
+                // Replace existing one
+                if(joint.isAttached()){
+                    Wire old = joint.getWire();
+                    joint.attachWire(wire);
+                    wire = old;
+                // Or create / attach new wire
+                } else {
+                    if (wire == null) {
+                        wire = new Wire();
+                        joint.attachWire(wire);
+                        zoomPane.addToBottom(wire);
+                    } else {
+                        joint.attachWire(wire);
+                        wire = null;
+                    }
+                }
             }
         });
         Block.setOnClickListenter(event -> {
             if (selectedTrash) {
-                zoomPane.remove((Node)event.getSource());
+                Block block = (Block)event.getSource();
+                for(Joint j: block.getJoints())
+                    removeWire(j.getWire());
+                zoomPane.remove(block);
+            }
+        });
+        Wire.setOnClickListenter(event -> {
+            if (selectedTrash) {
+                Wire wire = (Wire)event.getSource();
+                removeWire(wire);
             }
         });
 
@@ -88,7 +105,15 @@ public class Workspace {
                                              zoomPane.projectY(event.getY()));
                         zoomPane.add(block);
                     }
-                } else if(event.getButton() == MouseButton.SECONDARY) deselect();
+                } else if(event.getButton() == MouseButton.SECONDARY) {
+                    // Deselect current block type
+                    deselect();
+                    // Remove current uncomplete wire
+                    if(wire != null){
+                        removeWire(wire);
+                        wire = null;
+                    }
+                }
         });
 
         // Move mouse tool icon & current wire loose end (if any)
@@ -99,6 +124,14 @@ public class Workspace {
                                              zoomPane.projectY(event.getY()));
         });
         rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
+    }
+
+    /** Blocks / joints / wires magic */
+    public void removeWire(Wire wire){
+        if(wire != null) {
+            wire.getJoints().forEach(Joint::detachWire);
+            zoomPane.remove(wire);
+        }
     }
 
     /** UI generation */
@@ -117,9 +150,6 @@ public class Workspace {
         for(ToolPane pane: tools) rootPane.getChildren().add(pane);
     }
     private void initToolBar(){
-        Button wires = newToolBarButton(Assets.toolBarIcon[0]);
-        wires.setOnAction(event -> selectWireTool());
-        toolBar.getChildren().add(wires);
         for(int c = 0; c < 4; c++) {
             Button button = newToolBarButton(Assets.toolBarIcon[c+1]);
             int id = c; button.setOnAction(event -> toggleToolPane(id));
@@ -137,11 +167,6 @@ public class Workspace {
     }
 
     /** Tool actions */
-    public void selectWireTool(){
-        deselect();
-        selectedWire = true;
-        selectedIcon.setImage(Assets.toolBarIcon[0]);
-    }
     public void selectTrashTool(){
         deselect();
         selectedTrash = true;
@@ -154,7 +179,6 @@ public class Workspace {
     }
     public void deselect(){
         selected = null;
-        selectedWire = false;
         selectedTrash = false;
         selectedIcon.setImage(null);
     }

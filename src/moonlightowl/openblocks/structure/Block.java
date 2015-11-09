@@ -74,6 +74,7 @@ public class Block extends Group {
     public double getY() { return y; }
     public double getCenterX(){ return x + getWidth()/2; }
     public double getCenterY(){ return y + getHeight()/2; }
+    public ArrayList<Joint> getJoints(){ return new ArrayList<>(joints); }
 
     public Block setX(double x) { this.x = x; setTranslateX(x); return this; }
     public Block setY(double y) { this.y = y; setTranslateY(y); return this; }

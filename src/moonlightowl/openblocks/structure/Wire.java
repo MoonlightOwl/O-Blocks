@@ -1,7 +1,11 @@
 package moonlightowl.openblocks.structure;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
+
+import java.util.LinkedList;
 
 /**
  * OpenBlocks.Wire
@@ -11,14 +15,26 @@ import javafx.scene.shape.CubicCurve;
  */
 
 public class Wire extends CubicCurve {
-    public static double STRENGTH = 100;
+    public static double STRENGTH = 80;
+
+    private static EventHandler<? super MouseEvent> listener;
 
     private Joint a, b;
 
     public Wire(){
         setStroke(Color.BLACK);
-        setStrokeWidth(3);
-        setFill(Color.RED);
+        setStrokeWidth(4);
+        setFill(null);
+
+        // Add listener
+        setOnMouseClicked(listener);
+    }
+
+    public LinkedList<Joint> getJoints(){
+        LinkedList<Joint> list = new LinkedList<>();
+        if(a != null) list.add(a);
+        if(b != null) list.add(b);
+        return list;
     }
 
     public boolean link(Joint x) {
@@ -36,21 +52,14 @@ public class Wire extends CubicCurve {
 
     public void reposition(){ reposition(0, 0); }
     public void reposition(double defX, double defY){
-        //if(a != null && b != null) setVisible(true);
-        //else setVisible(false);
-
-        setStart(0, 0, 0, 0);
-        double x = 300;
-        setEnd(x, 0, x, 0);
-
-        /*if(a != null)
+        if(a != null)
             setStart(a.getAbsX(), a.getAbsY(),
                     a.getAbsX() + a.getNormalX()*STRENGTH, a.getAbsY() + a.getNormalY()*STRENGTH);
         else setStart(defX, defY, defX, defY);
         if(b != null)
             setEnd(b.getAbsX(), b.getAbsY(),
                     b.getAbsX() + b.getNormalX()*STRENGTH, b.getAbsY() + b.getNormalY()*STRENGTH);
-        else setEnd(defX, defY, defX, defY);*/
+        else setEnd(defX, defY, defX, defY);
     }
     private void setStart(double x, double y, double cx, double cy){
         setStartX(x); setStartY(y);
@@ -59,5 +68,9 @@ public class Wire extends CubicCurve {
     private void setEnd(double x, double y, double cx, double cy){
         setEndX(x); setEndY(y);
         setControlX2(cx); setControlY2(cy);
+    }
+
+    public static void setOnClickListenter(EventHandler<? super MouseEvent> handler){
+        listener = handler;
     }
 }

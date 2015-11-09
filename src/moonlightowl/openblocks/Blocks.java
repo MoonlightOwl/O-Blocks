@@ -4,6 +4,7 @@ import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.action.Move;
 import moonlightowl.openblocks.structure.robot.End;
 import moonlightowl.openblocks.structure.robot.Start;
+
 import java.util.function.Supplier;
 
 /**

@@ -2,7 +2,10 @@ package moonlightowl.openblocks.structure;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.effect.*;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -73,11 +76,24 @@ public class Joint extends ImageView {
     public double getAbsY() { return owner.getCenterY() + y; }
     public double getNormalX(){ return normal.getX(); }
     public double getNormalY(){ return normal.getY(); }
+    public boolean isAttached(){ return wire != null; }
+    public Wire getWire(){ return wire; }
 
     public boolean attachWire(Wire wire){
-        if(wire.link(this)) {
-            this.wire = wire;
-            wire.reposition();
+        detachWire();
+        if(wire != null) {
+            if (wire.link(this)) {
+                this.wire = wire;
+                wire.reposition();
+                return true;
+            } else return false;
+        }
+        return true;
+    }
+    public boolean detachWire(){
+        if(wire != null){
+            wire.unlink(this);
+            wire = null;
             return true;
         }
         else return false;
