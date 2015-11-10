@@ -6,6 +6,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -57,7 +58,8 @@ public class Workspace {
         initToolsPanels();
         initToolBar();
 
-        // Add event listeners
+        /** Event listenters */
+        // Wire operations
         Joint.setOnClickListenter(event ->{
             Joint joint = (Joint)event.getSource();
             if(event.getButton() == MouseButton.PRIMARY) {
@@ -79,6 +81,7 @@ public class Workspace {
                 }
             }
         });
+        // Block removement
         Block.setOnClickListenter(event -> {
             if (selectedTrash) {
                 Block block = (Block)event.getSource();
@@ -87,6 +90,7 @@ public class Workspace {
                 zoomPane.remove(block);
             }
         });
+        // Wire removement
         Wire.setOnClickListenter(event -> {
             if (selectedTrash) {
                 Wire wire = (Wire)event.getSource();
@@ -124,6 +128,13 @@ public class Workspace {
                                              zoomPane.projectY(event.getY()));
         });
         rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
+
+        rootPane.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.DIGIT1) toggleToolPane(0);
+            if(event.getCode() == KeyCode.DIGIT2) toggleToolPane(1);
+            if(event.getCode() == KeyCode.DIGIT3) toggleToolPane(2);
+            if(event.getCode() == KeyCode.DIGIT4) toggleToolPane(3);
+        });
     }
 
     /** Blocks / joints / wires magic */
