@@ -73,6 +73,7 @@ public class Workspace {
                     if (wire == null) {
                         wire = new Wire();
                         joint.attachWire(wire);
+                        wire.reposition(joint.getAbsX(), joint.getAbsY());
                         zoomPane.addToBottom(wire);
                     } else {
                         joint.attachWire(wire);
