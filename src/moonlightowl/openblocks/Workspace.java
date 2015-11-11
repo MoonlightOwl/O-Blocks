@@ -64,4 +64,7 @@ public class Workspace {
         // Clean up
         zoomPane.clear();
     }
+
+    public LinkedList<Block> getBlocks(){ return new LinkedList<>(blocks); }
+    public LinkedList<Wire> getWires(){ return new LinkedList<>(wires); }
 }

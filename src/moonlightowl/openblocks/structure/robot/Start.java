@@ -14,6 +14,6 @@ import moonlightowl.openblocks.structure.Joint;
 public class Start extends Block {
     public Start() {
         super(0, 0, Category.ROBOT);
-        addJoint(new Joint(this, 0, 46, Joint.FROM));
+        addJoint(new Joint(this, 0, 46, Joint.FROM, 0));
     }
 }

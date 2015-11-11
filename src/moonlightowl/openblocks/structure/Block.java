@@ -68,6 +68,7 @@ public class Block extends Group {
         setOnMouseClicked(listener);
     }
 
+    public Blocks.Category getCategory(){ return category; }
     public double getWidth(){ return back.getImage().getWidth(); }
     public double getHeight(){ return back.getImage().getHeight(); }
     public double getX() { return x; }

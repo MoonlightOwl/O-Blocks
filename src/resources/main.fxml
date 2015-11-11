@@ -21,8 +21,8 @@
         <Menu text="Файл">
             <MenuItem text="Новый" onAction="#newProject"/>
             <MenuItem text="Открыть"/>
-            <MenuItem text="Сохранить"/>
-            <MenuItem text="Сохранить как"/>
+            <MenuItem text="Сохранить" onAction="#saveProject"/>
+            <MenuItem text="Сохранить как" onAction="#saveProjectAs"/>
             <SeparatorMenuItem/>
             <MenuItem text="Экспорт в Lua"/>
             <SeparatorMenuItem/>

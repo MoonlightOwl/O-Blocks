@@ -12,6 +12,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import moonlightowl.openblocks.Assets;
 
+import java.util.LinkedList;
+
 /**
  * OpenBlocks.Joint
  * Created by MoonlightOwl on 11/5/15.
@@ -34,13 +36,13 @@ public class Joint extends ImageView {
 
     // Joint
     private Wire wire;
-    private Block link, owner;
-    private int type;
+    private Block owner;
+    private int type, ID;
 
-    public Joint(Block owner, double x, double y, int type) {
+    public Joint(Block owner, double x, double y, int type, int id) {
         this.owner = owner;
         this.x = x; this.y = y;
-        this.type = type;
+        this.type = type; this.ID = id;
 
         // Calculate normal vector to "circle bounds" of parent block
         normal = new Point2D(x, y).normalize();
@@ -78,6 +80,19 @@ public class Joint extends ImageView {
     public double getNormalY(){ return normal.getY(); }
     public boolean isAttached(){ return wire != null; }
     public Wire getWire(){ return wire; }
+    public int getType(){ return type; }
+    public int getJointID(){ return ID; }
+    public Joint getLink(){
+        if(wire != null){
+            LinkedList<Joint> joints = wire.getJoints();
+            if(joints.size() > 1){
+                if(joints.get(0) != this) return joints.get(0);
+                else return joints.get(1);
+            }
+        }
+        return null;
+    }
+    public Block getOwner(){ return owner; }
 
     public boolean attachWire(Wire wire){
         detachWire();

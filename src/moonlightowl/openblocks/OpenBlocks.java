@@ -2,7 +2,6 @@ package moonlightowl.openblocks;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,13 +14,24 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.parser.JSONParser;
+import moonlightowl.openblocks.io.JSON;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
 import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * OpenBlocks.OpenBlocks
@@ -31,21 +41,23 @@ import moonlightowl.openblocks.ui.ToolPane;
  */
 
 public class OpenBlocks extends Application {
-    public Stage parentStage;
+    private Stage parentStage;
     // FXML links
     public AnchorPane rootPane;
     public MenuBar menuBar;
     public HBox toolBar;
     public ScrollPane scroller;
     // Custom elements
-    public ToolPane[] tools;
-    public About about;
+    private ToolPane[] tools;
+    private About about;
     private Workspace workspace;
 
     private boolean selectedTrash = false;
     private Blocks.Id selected;
     private ImageView selectedIcon;
     private Wire wire;
+
+    private File projectFile;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -222,9 +234,31 @@ public class OpenBlocks extends Application {
     public boolean hasOpenedPanes(){ for(ToolPane pane: tools) if(pane.isOpen()) return true; return false; }
 
 
+    /** Project file management */
+    private void save(){
+        String data = JSON.generate(workspace).toJSONString();
+        try (FileWriter file = new FileWriter(projectFile)) {
+            file.write(data);
+            Log.out("Successfully Copied JSON Object to File...");
+            Log.out("JSON Object: " + data);
+        } catch (IOException e) { Log.error("Project saving error", e); }
+    }
+
     /** Menu actions */
-    public void newProject(ActionEvent actionEvent) {
+    public void newProject() {
         workspace.clear();
+    }
+    public void saveProject() {
+        if(projectFile == null) saveProjectAs();
+        else save();
+    }
+    public void saveProjectAs() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Сохранить как...");
+        fileChooser.setInitialFileName("untitled");
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Проект OcBlocks", "*.ob"));
+        projectFile = fileChooser.showSaveDialog(parentStage);
+        save();
     }
 
     public void showAboutWindow() {
