@@ -22,7 +22,7 @@
           endX="490" endY="352" />
 
     <Text id="name"
-          text="LokiBlocks"
+          text="OcBlocks"
           layoutX="23" layoutY="70" />
     <Label id="description"
           text="Визуальный язык&#10;программирования&#10;для роботов"
@@ -36,7 +36,7 @@
     <TextArea
             layoutX="30" layoutY="185" prefWidth="440" prefHeight="150"
             editable="false" wrapText="true"
-            text=" Визуальная среда LokiBlocks позволяет быстро&#10;
+            text=" Визуальная среда OcBlocks позволяет быстро&#10;
 и удобно спроектировать программу для робота&#10;
 OpenComputers, не требуя от пользователя знания языка Lua&#10;&#10;
 Автор идеи: NEO&#10;

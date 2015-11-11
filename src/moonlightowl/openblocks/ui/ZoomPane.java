@@ -89,12 +89,13 @@ public class ZoomPane {
     public void add(Node node){
         content.getChildren().add(node);
     }
-    public void remove(Node node) {
-        content.getChildren().remove(node);
-    }
     public void addToBottom(Node node) {
         content.getChildren().add(0, node);
     }
+    public void remove(Node node) {
+        content.getChildren().remove(node);
+    }
+    public void clear(){ content.getChildren().clear(); }
 
     public void setOnClickListener(EventHandler<? super MouseEvent> listener){
         content.setOnMouseClicked(listener);

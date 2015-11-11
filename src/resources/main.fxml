@@ -9,7 +9,6 @@
 <?import java.net.URL?>
 
 <AnchorPane fx:id="rootPane"
-            fx:controller="moonlightowl.openblocks.Workspace"
             xmlns:fx="http://javafx.com/fxml">
 
     <ScrollPane fx:id="scroller"
@@ -20,7 +19,7 @@
 
     <MenuBar fx:id="menuBar">
         <Menu text="Файл">
-            <MenuItem text="Новый"/>
+            <MenuItem text="Новый" onAction="#newProject"/>
             <MenuItem text="Открыть"/>
             <MenuItem text="Сохранить"/>
             <MenuItem text="Сохранить как"/>
