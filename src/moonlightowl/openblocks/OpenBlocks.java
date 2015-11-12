@@ -54,6 +54,7 @@ public class OpenBlocks extends Application {
     private Wire wire;
 
     private File projectFile;
+    private boolean changed = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -85,6 +86,13 @@ public class OpenBlocks extends Application {
             parentStage.setTitle(title + " - OpenBlocks " + Settings.VERSION);
         else
             parentStage.setTitle("OpenBlocks " + Settings.VERSION);
+        changed = false;
+    }
+    public void projectChanged() {
+        if(!changed){
+            parentStage.setTitle("*"+parentStage.getTitle());
+            changed = true;
+        }
     }
 
     public void initUI(){
@@ -121,6 +129,7 @@ public class OpenBlocks extends Application {
                         wire = null;
                     }
                 }
+                projectChanged();
             }
         });
         // Block removement
@@ -128,6 +137,7 @@ public class OpenBlocks extends Application {
             if (selectedTrash) {
                 Block block = (Block)event.getSource();
                 workspace.removeBlock(block);
+                projectChanged();
             }
         });
         // Wire removement
@@ -135,6 +145,7 @@ public class OpenBlocks extends Application {
             if (selectedTrash) {
                 Wire wire = (Wire)event.getSource();
                 workspace.removeWire(wire);
+                projectChanged();
             }
         });
 
@@ -149,6 +160,7 @@ public class OpenBlocks extends Application {
                             .setPosition(workspace.projectX(event.getX()),
                                     workspace.projectY(event.getY()));
                     workspace.addBlock(block);
+                    projectChanged();
                 }
             } else if(event.getButton() == MouseButton.SECONDARY) {
                 // Deselect current block type
