@@ -1,7 +1,6 @@
 package moonlightowl.openblocks;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -26,7 +25,6 @@ import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.Optional;
@@ -316,6 +314,7 @@ public class OpenBlocks extends Application {
         fileChooser.setSelectedExtensionFilter(
                 new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
         projectFile = fileChooser.showOpenDialog(parentStage);
+        workspace.clear();
         load();
         setTitle(projectFile.getName());
     }
