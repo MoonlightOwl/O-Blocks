@@ -20,20 +20,20 @@
     <MenuBar fx:id="menuBar">
         <Menu text="Файл">
             <MenuItem text="Новый" onAction="#newProject"/>
-            <MenuItem text="Открыть"/>
+            <MenuItem text="Открыть" onAction="#openProject"/>
             <MenuItem text="Сохранить" onAction="#saveProject"/>
             <MenuItem text="Сохранить как" onAction="#saveProjectAs"/>
             <SeparatorMenuItem/>
-            <MenuItem text="Экспорт в Lua"/>
+            <MenuItem text="Экспорт в Lua" disable="true"/>
             <SeparatorMenuItem/>
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Копировать"/>
-            <MenuItem text="Вырезать"/>
-            <MenuItem text="Вставить"/>
+            <MenuItem text="Копировать" disable="true"/>
+            <MenuItem text="Вырезать" disable="true"/>
+            <MenuItem text="Вставить" disable="true"/>
             <SeparatorMenuItem/>
-            <MenuItem text="Очистить все"/>
+            <MenuItem text="Очистить все" onAction="#newProject"/>
         </Menu>
         <Menu text="Справка">
             <MenuItem text="Поиск" disable="true"/>

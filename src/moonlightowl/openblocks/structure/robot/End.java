@@ -13,7 +13,7 @@ import moonlightowl.openblocks.structure.Joint;
 
 public class End extends Block {
     public End(){
-        super(0, 0, Blocks.Category.ROBOT);
+        super(0, 0, Blocks.Id.END);
         addJoint(new Joint(this, 0, -50, Joint.TO, 0));
     }
 }

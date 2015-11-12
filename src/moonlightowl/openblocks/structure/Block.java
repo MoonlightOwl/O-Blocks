@@ -24,16 +24,16 @@ import java.util.ArrayList;
 public class Block extends Group {
     private static EventHandler<? super MouseEvent> listener;
 
-    private Blocks.Category category;
+    private Blocks.Id blockId;
     private double x, y;
 
     private ImageView back, icon;
     private ArrayList<Joint> joints;
 
-    public Block(double x, double y, Blocks.Category category){
-        this.x = x; this.y = y; this.category = category;
+    public Block(double x, double y, Blocks.Id blockId){
+        this.x = x; this.y = y; this.blockId = blockId;
 
-        back = new ImageView(Assets.blockBack[category.ordinal()]);
+        back = new ImageView(Assets.blockBack[blockId.category.ordinal()]);
         getChildren().add(back);
         setTranslateX(x); setTranslateY(y);
 
@@ -68,7 +68,7 @@ public class Block extends Group {
         setOnMouseClicked(listener);
     }
 
-    public Blocks.Category getCategory(){ return category; }
+    public Blocks.Id getBlockId(){ return blockId; }
     public double getWidth(){ return back.getImage().getWidth(); }
     public double getHeight(){ return back.getImage().getHeight(); }
     public double getX() { return x; }

@@ -4,19 +4,18 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.parser.JSONParser;
 import moonlightowl.openblocks.io.JSON;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
@@ -24,14 +23,11 @@ import moonlightowl.openblocks.structure.Wire;
 import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.io.*;
 
 /**
  * OpenBlocks.OpenBlocks
@@ -135,6 +131,7 @@ public class OpenBlocks extends Application {
             }
         });
 
+        // Add new objects to workspace
         rootPane.setOnMouseClicked(event -> {
             if(hasOpenedPanes())
                 closeAllToolPanes();
@@ -235,18 +232,42 @@ public class OpenBlocks extends Application {
 
 
     /** Project file management */
-    private void save(){
+    private void save() {
         String data = JSON.generate(workspace).toJSONString();
-        try (FileWriter file = new FileWriter(projectFile)) {
-            file.write(data);
+        try (FileWriter writer = new FileWriter(projectFile)) {
+            writer.write(data);
             Log.out("Successfully Copied JSON Object to File...");
             Log.out("JSON Object: " + data);
-        } catch (IOException e) { Log.error("Project saving error", e); }
+        } catch (IOException e) {
+            Log.error("Project saving error", e);
+            error("Ошибка записи проекта",
+                    "В силу неведомых причин, сериализация проекта в JSON прошла неудачно.\n" +
+                            "Проверьте, есть ли свободное место на диске, и имеет ли программа права на запись" +
+                            "в выбранном каталоге.", e);
+        }
+    }
+    private void load() {
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(projectFile)) {
+            JSONObject data = (JSONObject) parser.parse(reader);
+            JSON.recreate(workspace, data);
+        } catch (Exception e) {
+            Log.error("Error loading project", e);
+            error("Ошибка открытия проекта",
+                    "Вероятнее всего, файл, который вы пытаетесь открыть - поврежден.", e);
+        }
     }
 
     /** Menu actions */
     public void newProject() {
         workspace.clear();
+    }
+    public void openProject(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Открыть...");
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Проект OcBlocks", "*.ob"));
+        projectFile = fileChooser.showOpenDialog(parentStage);
+        load();
     }
     public void saveProject() {
         if(projectFile == null) saveProjectAs();
@@ -267,5 +288,42 @@ public class OpenBlocks extends Application {
 
     public void exit() {
         Platform.exit();
+    }
+
+    /** Messages */
+    public void error(String title, String message, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("Упс! Что-то пошло не так...");
+        alert.setContentText(message);
+
+        if(e != null) {
+            // Create expandable Exception.
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            String exceptionText = sw.toString();
+
+            Label label = new Label("Стектрейс (отправьте разработчику):");
+
+            TextArea textArea = new TextArea(exceptionText);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+
+            // Set expandable Exception into the dialog pane.
+            alert.getDialogPane().setExpandableContent(expContent);
+        }
+
+        alert.showAndWait();
     }
 }
