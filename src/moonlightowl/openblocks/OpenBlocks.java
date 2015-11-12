@@ -70,7 +70,7 @@ public class OpenBlocks extends Application {
         initUI();
 
         // Create IDE window
-        primaryStage.setTitle("OpenBlocks " + Settings.VERSION);
+        setTitle(Settings.UNTITLED);
         primaryStage.setScene(new Scene(rootPane, Settings.WIDTH, Settings.HEIGHT));
         primaryStage.setMinWidth(500);
         primaryStage.setMinHeight(400);
@@ -78,6 +78,13 @@ public class OpenBlocks extends Application {
     }
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void setTitle(String title){
+        if(title != null)
+            parentStage.setTitle(title + " - OpenBlocks " + Settings.VERSION);
+        else
+            parentStage.setTitle("OpenBlocks " + Settings.VERSION);
     }
 
     public void initUI(){
@@ -261,13 +268,17 @@ public class OpenBlocks extends Application {
     /** Menu actions */
     public void newProject() {
         workspace.clear();
+        projectFile = null;
+        setTitle(Settings.UNTITLED);
     }
     public void openProject(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Открыть...");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Проект OcBlocks", "*.ob"));
+        fileChooser.setSelectedExtensionFilter(
+                new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
         projectFile = fileChooser.showOpenDialog(parentStage);
         load();
+        setTitle(projectFile.getName());
     }
     public void saveProject() {
         if(projectFile == null) saveProjectAs();
@@ -276,10 +287,13 @@ public class OpenBlocks extends Application {
     public void saveProjectAs() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Сохранить как...");
-        fileChooser.setInitialFileName("untitled");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Проект OcBlocks", "*.ob"));
+        fileChooser.setInitialFileName(projectFile == null ?
+                Settings.UNTITLED + "." + Settings.EXTENSION : projectFile.getName());
+        fileChooser.setSelectedExtensionFilter(
+                new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
         projectFile = fileChooser.showSaveDialog(parentStage);
         save();
+        setTitle(projectFile.getName());
     }
 
     public void showAboutWindow() {
