@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import moonlightowl.openblocks.io.JSON;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
@@ -28,6 +29,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.util.Optional;
 
 /**
  * OpenBlocks.OpenBlocks
@@ -76,10 +78,34 @@ public class OpenBlocks extends Application {
         primaryStage.setMinWidth(500);
         primaryStage.setMinHeight(400);
         primaryStage.show();
+
+        // Handle exit
+        primaryStage.setOnCloseRequest(event -> {
+            if(changed) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Завершение работы");
+                alert.setHeaderText("Сохранение изменений");
+                alert.setContentText("В проект были внесены изменения. Сохранить?");
+
+                ButtonType buttonSave = new ButtonType("Сохранить");
+                ButtonType buttonDiscard = new ButtonType("Не сохранять");
+                ButtonType buttonCancel = new ButtonType("Отмена", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonSave, buttonDiscard, buttonCancel);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonSave){
+                    saveProject();
+                } else if (result.get() == buttonCancel) {
+                    event.consume();
+                }
+            }
+        });
     }
     public static void main(String[] args) {
         launch(args);
     }
+
 
     public void setTitle(String title){
         if(title != null)
@@ -94,6 +120,7 @@ public class OpenBlocks extends Application {
             changed = true;
         }
     }
+
 
     public void initUI(){
         about = new About(parentStage);
@@ -313,7 +340,7 @@ public class OpenBlocks extends Application {
     }
 
     public void exit() {
-        Platform.exit();
+        parentStage.fireEvent(new WindowEvent(parentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     /** Messages */
