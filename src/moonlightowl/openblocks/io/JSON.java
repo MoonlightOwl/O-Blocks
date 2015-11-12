@@ -69,20 +69,20 @@ public class JSON {
             workspace.addBlock(b);
         }
         LinkedList<Block> workspaceBlocks = workspace.getBlocks();
-        for(int c=0; c<blocks.size(); c++) {
-            JSONObject block = (JSONObject) blocks.get(c);
+        for (Object block1 : blocks) {
+            JSONObject block = (JSONObject) block1;
             JSONArray joints = (JSONArray) block.get(JOINTS);
-            for(int i=0; i<joints.size(); i++) {
-                JSONObject joint = (JSONObject) joints.get(i);
+            for (Object joint1 : joints) {
+                JSONObject joint = (JSONObject) joint1;
 
                 Long id = (Long) joint.get(ID);
                 Long link_jid = (Long) joint.get(LINK_JOINT_ID);
                 Long link_bid = (Long) joint.get(LINK_BLOCK_ID);
-                if(link_jid != null) {
-                    ArrayList<Joint> blockJoints = workspaceBlocks.get((int)(long)block.get(ID)).getJoints();
+                if (link_jid != null) {
+                    ArrayList<Joint> blockJoints = workspaceBlocks.get((int) (long) block.get(ID)).getJoints();
                     Joint j = blockJoints.get(id.intValue());
                     // Exclude possible duplicates
-                    if(j.getWire() == null) {
+                    if (j.getWire() == null) {
                         Wire wire = new Wire();
                         j.attachWire(wire);
 
