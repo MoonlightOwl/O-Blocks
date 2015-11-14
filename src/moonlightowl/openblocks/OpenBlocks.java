@@ -1,6 +1,7 @@
 package moonlightowl.openblocks;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -320,7 +321,7 @@ public class OpenBlocks extends Application {
     }
     public void saveProject() {
         if(projectFile == null) saveProjectAs();
-        else save();
+        else{ save(); setTitle(projectFile.getName()); }
     }
     public void saveProjectAs() {
         FileChooser fileChooser = new FileChooser();
@@ -347,7 +348,9 @@ public class OpenBlocks extends Application {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText("Упс! Что-то пошло не так...");
-        alert.setContentText(message);
+
+        Label l = new Label(message);
+        alert.getDialogPane().setContent(l);
 
         if(e != null) {
             // Create expandable Exception.
@@ -356,7 +359,7 @@ public class OpenBlocks extends Application {
             e.printStackTrace(pw);
             String exceptionText = sw.toString();
 
-            Label label = new Label("Стектрейс (отправьте разработчику):");
+            Label label = new Label("Стектрейс:");
 
             TextArea textArea = new TextArea(exceptionText);
             textArea.setEditable(false);
@@ -372,8 +375,16 @@ public class OpenBlocks extends Application {
             expContent.add(label, 0, 0);
             expContent.add(textArea, 0, 1);
 
-            // Set expandable Exception into the dialog pane.
             alert.getDialogPane().setExpandableContent(expContent);
+
+            // Dirty hack for proper resizing
+            alert.getDialogPane().expandedProperty().addListener((event) -> {
+                Platform.runLater(() -> {
+                    alert.getDialogPane().requestLayout();
+                    Stage stage = (Stage)alert.getDialogPane().getScene().getWindow();
+                    stage.sizeToScene();
+                });
+            });
         }
 
         alert.showAndWait();
