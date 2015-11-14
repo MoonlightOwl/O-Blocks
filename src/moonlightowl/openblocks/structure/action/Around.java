@@ -6,17 +6,17 @@ import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 
 /**
- * OpenBlocks.Move
+ * OpenBlocks.Around
  * Created by MoonlightOwl on 11/8/15.
  * ===
  * Tell your robot not to stand still
  */
 
-public class Move extends Block {
-    public Move() {
-        super(0, 0, Blocks.Id.MOVE);
+public class Around extends Block {
+    public Around() {
+        super(0, 0, Blocks.Id.AROUND);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[0]);
+        setIcon(Assets.blockIcons[6]);
     }
 }

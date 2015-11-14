@@ -1,7 +1,7 @@
 package moonlightowl.openblocks;
 
 import moonlightowl.openblocks.structure.Block;
-import moonlightowl.openblocks.structure.action.Move;
+import moonlightowl.openblocks.structure.action.*;
 import moonlightowl.openblocks.structure.robot.End;
 import moonlightowl.openblocks.structure.robot.Start;
 
@@ -19,7 +19,13 @@ public class Blocks {
     public enum Id {
         START(Category.ROBOT, "Начало", Start::new),
         END(Category.ROBOT, "Конец", End::new),
-        MOVE(Category.ACTION, "Двигаться", Move::new);
+        FORWARD(Category.ACTION, "Вперед", Forward::new),
+        BACK(Category.ACTION, "Назад", Back::new),
+        UP(Category.ACTION, "Вверх", Up::new),
+        DOWN(Category.ACTION, "Вниз", Down::new),
+        LEFT(Category.ACTION, "Поворот влево", Left::new),
+        RIGHT(Category.ACTION, "Поворот вправо", Right::new),
+        AROUND(Category.ACTION, "Разворот на 180", Around::new);
 
         public final int id;
         public final Category category;

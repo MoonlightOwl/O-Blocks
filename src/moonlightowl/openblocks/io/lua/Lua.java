@@ -40,8 +40,20 @@ public class Lua {
                 switch(current.getBlockId()){
                     case START:
                         stream.write("local robot = require('robot')\n".getBytes()); break;
-                    case MOVE:
+                    case FORWARD:
                         stream.write("robot.forward()\n".getBytes()); break;
+                    case BACK:
+                        stream.write("robot.back()\n".getBytes()); break;
+                    case UP:
+                        stream.write("robot.up()\n".getBytes()); break;
+                    case DOWN:
+                        stream.write("robot.down()\n".getBytes()); break;
+                    case LEFT:
+                        stream.write("robot.turnLeft()\n".getBytes()); break;
+                    case RIGHT:
+                        stream.write("robot.turnRight()\n".getBytes()); break;
+                    case AROUND:
+                        stream.write("robot.turnAround()\n".getBytes()); break;
                 }
                 Block block = null;
                 for(Joint joint: current.getJoints()){

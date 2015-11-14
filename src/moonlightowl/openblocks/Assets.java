@@ -2,8 +2,6 @@ package moonlightowl.openblocks;
 
 import javafx.scene.image.Image;
 
-import java.io.File;
-
 /**
  * OpenBlocks.Assets
  * Created by MoonlightOwl on 11/4/15.
@@ -12,13 +10,13 @@ import java.io.File;
  */
 
 public class Assets {
-    public static File imagesPath = new File("/images/");
+    public static String imagesPath = "/images/";
 
     public static Image logo, node;
     public static Image[] toolBarIcon, toolIcons, blockBack, blockIcons;
 
     public static Image loadImage(String name){
-        return new Image(new File(imagesPath, name).getPath());
+        return new Image(Assets.class.getResource(imagesPath + name).toExternalForm());
     }
 
     public static void load() {
@@ -35,7 +33,13 @@ public class Assets {
         toolIcons = new Image[]{
                 loadImage("tools/robot/start.png"),
                 loadImage("tools/robot/end.png"),
-                loadImage("tools/action/move.png"),
+                loadImage("tools/action/forward.png"),
+                loadImage("tools/action/back.png"),
+                loadImage("tools/action/up.png"),
+                loadImage("tools/action/down.png"),
+                loadImage("tools/action/left.png"),
+                loadImage("tools/action/right.png"),
+                loadImage("tools/action/around.png"),
                 loadImage("tools/action/dig.png"),
                 loadImage("tools/action/build.png"),
                 loadImage("tools/action/select_slot.png"),
@@ -58,7 +62,13 @@ public class Assets {
                 loadImage("blocks/logic.png"),
         };
         blockIcons = new Image[]{
-                loadImage("blocks/icons/move.png")
+                loadImage("blocks/icons/forward.png"),
+                loadImage("blocks/icons/back.png"),
+                loadImage("blocks/icons/up.png"),
+                loadImage("blocks/icons/down.png"),
+                loadImage("blocks/icons/left.png"),
+                loadImage("blocks/icons/right.png"),
+                loadImage("blocks/icons/around.png"),
         };
     }
 }
