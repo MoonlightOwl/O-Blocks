@@ -1,6 +1,7 @@
 package moonlightowl.openblocks.structure;
 
 import javafx.event.EventHandler;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
@@ -25,6 +26,12 @@ public class Wire extends CubicCurve {
         setStroke(Color.BLACK);
         setStrokeWidth(4);
         setFill(null);
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetY(6.0);
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.5));
+        setEffect(dropShadow);
 
         // Add listener
         setOnMouseClicked(listener);

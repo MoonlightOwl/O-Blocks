@@ -6,9 +6,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import moonlightowl.openblocks.Assets;
 import moonlightowl.openblocks.Blocks;
 
@@ -36,6 +38,12 @@ public class Block extends Group {
         back = new ImageView(Assets.blockBack[blockId.category.ordinal()]);
         getChildren().add(back);
         setTranslateX(x); setTranslateY(y);
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetY(6.0);
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.5));
+        back.setEffect(dropShadow);
 
         icon = new ImageView();
         getChildren().add(icon);
