@@ -17,7 +17,9 @@ import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import moonlightowl.openblocks.io.JSON;
+import moonlightowl.openblocks.io.lua.Lua;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
@@ -333,6 +335,24 @@ public class OpenBlocks extends Application {
         projectFile = fileChooser.showSaveDialog(parentStage);
         save();
         setTitle(projectFile.getName());
+    }
+    public void exportProject() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Экспортировать в...");
+        fileChooser.setInitialFileName((projectFile == null ?
+                Settings.UNTITLED : projectFile.getName().split("\\.")[0]) + ".lua");
+        fileChooser.setSelectedExtensionFilter(
+                new FileChooser.ExtensionFilter("Программа OpenComputers", "*.lua"));
+        File file = fileChooser.showSaveDialog(parentStage);
+        try (FileOutputStream stream = new FileOutputStream(file)) {
+            if(!Lua.export(workspace, stream))
+                error("Ошибка экспорта",
+                        "Внезапно, структура проекта не поддается экпорту! \nОтправьте проект автору IDE, пусть тоже удивится.", null);
+        } catch (IOException e) {
+            Log.error("Cannot export project properly! Some errors occured.", e);
+            error("Ошибка записи проекта",
+                    "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);
+        }
     }
 
     public void showAboutWindow() {

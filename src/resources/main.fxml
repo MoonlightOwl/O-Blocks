@@ -24,7 +24,7 @@
             <MenuItem text="Сохранить" onAction="#saveProject"/>
             <MenuItem text="Сохранить как" onAction="#saveProjectAs"/>
             <SeparatorMenuItem/>
-            <MenuItem text="Экспорт в Lua" disable="true"/>
+            <MenuItem text="Экспорт в Lua" onAction="#exportProject"/>
             <SeparatorMenuItem/>
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
