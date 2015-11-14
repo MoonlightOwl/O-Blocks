@@ -316,6 +316,7 @@ public class OpenBlocks extends Application {
     public void openProject(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Открыть...");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.setSelectedExtensionFilter(
                 new FileChooser.ExtensionFilter("Проект "+Settings.TITLE, "*."+Settings.EXTENSION));
         projectFile = fileChooser.showOpenDialog(parentStage);
@@ -332,6 +333,7 @@ public class OpenBlocks extends Application {
     public void saveProjectAs() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Сохранить как...");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.setInitialFileName(projectFile == null ?
                 Settings.UNTITLED + "." + Settings.EXTENSION : projectFile.getName());
         fileChooser.setSelectedExtensionFilter(
@@ -345,6 +347,7 @@ public class OpenBlocks extends Application {
     public void exportProject() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Экспортировать в...");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         fileChooser.setInitialFileName((projectFile == null ?
                 Settings.UNTITLED : projectFile.getName().split("\\.")[0]) + ".lua");
         fileChooser.setSelectedExtensionFilter(
