@@ -281,15 +281,19 @@ public class OpenBlocks extends Application {
     /** Project file management */
     private void save() {
         String data = JSON.generate(workspace).toJSONString();
-        try (FileWriter writer = new FileWriter(projectFile)) {
-            writer.write(data);
-            Log.out("Successfully saved JSON Object to file...");
-        } catch (IOException e) {
-            Log.error("Project saving error", e);
-            error("Ошибка записи проекта",
-                    "В силу неведомых причин, сериализация проекта в JSON прошла неудачно.\n" +
-                            "Проверьте, есть ли свободное место на диске, и имеет ли программа права на запись" +
-                            "в выбранном каталоге.", e);
+        if(projectFile != null) {
+            try (FileWriter writer = new FileWriter(projectFile)) {
+                writer.write(data);
+                Log.out("Successfully saved JSON Object to file...");
+            } catch (IOException e) {
+                Log.error("Project saving error", e);
+                error("Ошибка записи проекта",
+                        "В силу неведомых причин, сериализация проекта в JSON прошла неудачно.\n" +
+                                "Проверьте, есть ли свободное место на диске, и имеет ли программа права на запись" +
+                                "в выбранном каталоге.", e);
+            }
+        } else {
+            error("Ошибка записи проекта", "Не удалось выбрать имя файла", null);
         }
     }
     private void load() {
@@ -316,9 +320,11 @@ public class OpenBlocks extends Application {
         fileChooser.setSelectedExtensionFilter(
                 new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
         projectFile = fileChooser.showOpenDialog(parentStage);
-        workspace.clear();
-        load();
-        setTitle(projectFile.getName());
+        if(projectFile != null) {
+            workspace.clear();
+            load();
+            setTitle(projectFile.getName());
+        }
     }
     public void saveProject() {
         if(projectFile == null) saveProjectAs();
@@ -332,8 +338,10 @@ public class OpenBlocks extends Application {
         fileChooser.setSelectedExtensionFilter(
                 new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
         projectFile = fileChooser.showSaveDialog(parentStage);
-        save();
-        setTitle(projectFile.getName());
+        if(projectFile != null) {
+            save();
+            setTitle(projectFile.getName());
+        }
     }
     public void exportProject() {
         FileChooser fileChooser = new FileChooser();
@@ -352,6 +360,11 @@ public class OpenBlocks extends Application {
             error("Ошибка записи проекта",
                     "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);
         }
+    }
+
+    public void clearProject(){
+        workspace.clear();
+        projectChanged();
     }
 
     public void showAboutWindow() {

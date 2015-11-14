@@ -33,7 +33,7 @@
             <MenuItem text="Вырезать" disable="true"/>
             <MenuItem text="Вставить" disable="true"/>
             <SeparatorMenuItem/>
-            <MenuItem text="Очистить все" onAction="#newProject"/>
+            <MenuItem text="Очистить все" onAction="#clearProject"/>
         </Menu>
         <Menu text="Справка">
             <MenuItem text="Поиск" disable="true"/>
