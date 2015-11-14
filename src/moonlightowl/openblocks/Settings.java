@@ -8,7 +8,7 @@ package moonlightowl.openblocks;
  */
 
 public class Settings {
-    public static String VERSION = "0.1";
+    public static String VERSION = "0.1", TITLE = "OcBlocks";
     public static int WIDTH = 800, HEIGHT = 600;
     public static String UNTITLED = "untitled", EXTENSION = "ob";
 }

@@ -8,7 +8,7 @@ OpenBlocks
 от пользователя каких либо знаний языков программирования.
 
 ![Вот так может выглядеть программа на языке OpenBlocks]
-(https://lh3.googleusercontent.com/-vvN_QdYypWg/VizX3Gg9VJI/AAAAAAAABOA/jsh8q-bSWHU/s500-Ic42/openblocks0.png)
+(https://lh3.googleusercontent.com/-bPjCAZ2WLdU/Vkchl_yo5aI/AAAAAAAABPo/upMI9kpP7bI/s682-Ic42/OpenBlocks1.png)
 
 Принцип действия
 ---------
@@ -26,6 +26,7 @@ OpenBlocks
 * IDE: экспорт в Lua
 
 ##### Демо 0.2
+* Работа с группами блоков (выделить, переместить, копировать, вырезать, вставить)
 * Взаимодействие с консолью
 * Дополнительные действия (добыча, постройка)
 * Операторы условных переходов / бинарная логика

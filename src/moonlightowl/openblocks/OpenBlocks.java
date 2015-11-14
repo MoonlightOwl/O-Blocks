@@ -17,7 +17,6 @@ import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import moonlightowl.openblocks.io.JSON;
 import moonlightowl.openblocks.io.lua.Lua;
 import moonlightowl.openblocks.structure.Block;
@@ -110,9 +109,9 @@ public class OpenBlocks extends Application {
 
     public void setTitle(String title){
         if(title != null)
-            parentStage.setTitle(title + " - OpenBlocks " + Settings.VERSION);
+            parentStage.setTitle(title + " - " + Settings.TITLE + " " + Settings.VERSION);
         else
-            parentStage.setTitle("OpenBlocks " + Settings.VERSION);
+            parentStage.setTitle(Settings.TITLE + " " + Settings.VERSION);
         changed = false;
     }
     public void projectChanged() {
@@ -318,7 +317,7 @@ public class OpenBlocks extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Открыть...");
         fileChooser.setSelectedExtensionFilter(
-                new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
+                new FileChooser.ExtensionFilter("Проект "+Settings.TITLE, "*."+Settings.EXTENSION));
         projectFile = fileChooser.showOpenDialog(parentStage);
         if(projectFile != null) {
             workspace.clear();
@@ -336,7 +335,7 @@ public class OpenBlocks extends Application {
         fileChooser.setInitialFileName(projectFile == null ?
                 Settings.UNTITLED + "." + Settings.EXTENSION : projectFile.getName());
         fileChooser.setSelectedExtensionFilter(
-                new FileChooser.ExtensionFilter("Проект OcBlocks", "*."+Settings.EXTENSION));
+                new FileChooser.ExtensionFilter("Проект "+Settings.TITLE, "*."+Settings.EXTENSION));
         projectFile = fileChooser.showSaveDialog(parentStage);
         if(projectFile != null) {
             save();
