@@ -283,8 +283,7 @@ public class OpenBlocks extends Application {
         String data = JSON.generate(workspace).toJSONString();
         try (FileWriter writer = new FileWriter(projectFile)) {
             writer.write(data);
-            Log.out("Successfully Copied JSON Object to File...");
-            Log.out("JSON Object: " + data);
+            Log.out("Successfully saved JSON Object to file...");
         } catch (IOException e) {
             Log.error("Project saving error", e);
             error("Ошибка записи проекта",

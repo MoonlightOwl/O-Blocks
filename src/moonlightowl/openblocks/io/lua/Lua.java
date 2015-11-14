@@ -53,6 +53,7 @@ public class Lua {
                     }
                 }
                 current = block;
+                if(current != null && current.getBlockId() == START) break;
             }
             return true;
         }
