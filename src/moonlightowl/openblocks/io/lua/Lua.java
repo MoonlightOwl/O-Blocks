@@ -14,7 +14,7 @@ import static moonlightowl.openblocks.Blocks.Id.START;
  * OpenBlocks.Lua
  * Created by MoonlightOwl on 11/13/15.
  * ===
- * Core export module
+ * Core project export module
  */
 
 public class Lua {
@@ -36,25 +36,12 @@ public class Lua {
         }
         public boolean run() throws IOException {
             while(current != null){
+                // Finita la commedia
                 if(current.getBlockId() == END) break;
-                switch(current.getBlockId()){
-                    case START:
-                        stream.write("local robot = require('robot')\n".getBytes()); break;
-                    case FORWARD:
-                        stream.write("robot.forward()\n".getBytes()); break;
-                    case BACK:
-                        stream.write("robot.back()\n".getBytes()); break;
-                    case UP:
-                        stream.write("robot.up()\n".getBytes()); break;
-                    case DOWN:
-                        stream.write("robot.down()\n".getBytes()); break;
-                    case LEFT:
-                        stream.write("robot.turnLeft()\n".getBytes()); break;
-                    case RIGHT:
-                        stream.write("robot.turnRight()\n".getBytes()); break;
-                    case AROUND:
-                        stream.write("robot.turnAround()\n".getBytes()); break;
-                }
+                // Translate to Lua code
+                stream.write(current.getCode().getBytes());
+                stream.write('\n');
+                // Move to next block
                 Block block = null;
                 for(Joint joint: current.getJoints()){
                     if(joint.getType() == Joint.FROM){

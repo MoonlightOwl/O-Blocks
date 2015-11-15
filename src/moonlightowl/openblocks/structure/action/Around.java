@@ -18,5 +18,6 @@ public class Around extends Block {
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIcons[6]);
+        code = "robot.turnAround()";
     }
 }

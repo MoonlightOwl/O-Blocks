@@ -15,5 +15,6 @@ public class Start extends Block {
     public Start() {
         super(0, 0, Blocks.Id.START);
         addJoint(new Joint(this, 0, 46, Joint.FROM, 0));
+        code = "local robot = require('robot')";
     }
 }
