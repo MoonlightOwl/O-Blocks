@@ -68,6 +68,7 @@ public class OpenBlocks extends Application {
 
         // Resources
         Assets.load();
+        Log.init();
 
         // Generate GUI
         initUI();
@@ -82,6 +83,7 @@ public class OpenBlocks extends Application {
         // Handle exit
         primaryStage.setOnCloseRequest(event -> {
             if(changed) {
+                // Ask a question
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Завершение работы");
                 alert.setHeaderText("Сохранение изменений");
@@ -93,6 +95,7 @@ public class OpenBlocks extends Application {
 
                 alert.getButtonTypes().setAll(buttonSave, buttonDiscard, buttonCancel);
 
+                // Get an answer
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == buttonSave){
                     saveProject();
@@ -100,7 +103,15 @@ public class OpenBlocks extends Application {
                     event.consume();
                 }
             }
+
+            // Finalize resources
+            if(!event.isConsumed()){
+                Log.out("Shutdown.");
+                Log.close();
+            }
         });
+
+        Log.out("Let's go!");
     }
     public static void main(String[] args) {
         launch(args);
