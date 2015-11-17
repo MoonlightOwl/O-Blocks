@@ -41,7 +41,11 @@ public class Assets {
                 loadImage("tools/action/right.png"),
                 loadImage("tools/action/around.png"),
                 loadImage("tools/action/dig.png"),
+                loadImage("tools/action/dig_up.png"),
+                loadImage("tools/action/dig_down.png"),
                 loadImage("tools/action/build.png"),
+                loadImage("tools/action/build_up.png"),
+                loadImage("tools/action/build_down.png"),
                 loadImage("tools/action/select_slot.png"),
                 loadImage("tools/cycle/while.png"),
                 loadImage("tools/cycle/for.png"),
@@ -69,6 +73,12 @@ public class Assets {
                 loadImage("blocks/icons/left.png"),
                 loadImage("blocks/icons/right.png"),
                 loadImage("blocks/icons/around.png"),
+                loadImage("blocks/icons/dig.png"),
+                loadImage("blocks/icons/dig_up.png"),
+                loadImage("blocks/icons/dig_down.png"),
+                loadImage("blocks/icons/build.png"),
+                loadImage("blocks/icons/build_up.png"),
+                loadImage("blocks/icons/build_down.png"),
         };
     }
 }

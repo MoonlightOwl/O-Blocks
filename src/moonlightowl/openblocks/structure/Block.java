@@ -24,6 +24,8 @@ import java.util.ArrayList;
  */
 
 public class Block extends Group {
+    public static final int DEPTH = 2;
+
     private static EventHandler<? super MouseEvent> listener;
 
     private Blocks.Id blockId;
@@ -84,7 +86,7 @@ public class Block extends Group {
     public double getX() { return x; }
     public double getY() { return y; }
     public double getCenterX(){ return x + getWidth()/2; }
-    public double getCenterY(){ return y + getHeight()/2; }
+    public double getCenterY(){ return y + getHeight()/2 - DEPTH; }
     public ArrayList<Joint> getJoints(){ return new ArrayList<>(joints); }
     public String getCode() { return code; }
 
@@ -101,7 +103,7 @@ public class Block extends Group {
     public Block setIcon(Image icon) {
         this.icon.setImage(icon);
         this.icon.setTranslateX(getWidth()/2 - icon.getWidth()/2);
-        this.icon.setTranslateY(getHeight()/2 - icon.getHeight()/2);
+        this.icon.setTranslateY(getHeight()/2 - icon.getHeight()/2 - DEPTH);
         return this;
     }
 

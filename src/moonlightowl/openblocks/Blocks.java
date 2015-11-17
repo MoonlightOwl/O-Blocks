@@ -25,7 +25,13 @@ public class Blocks {
         DOWN(Category.ACTION, "Вниз", Down::new),
         LEFT(Category.ACTION, "Поворот влево", Left::new),
         RIGHT(Category.ACTION, "Поворот вправо", Right::new),
-        AROUND(Category.ACTION, "Разворот на 180", Around::new);
+        AROUND(Category.ACTION, "Разворот на 180", Around::new),
+        DIG(Category.ACTION, "Копать вперед", Dig::new),
+        DIGUP(Category.ACTION, "Копать вверх", DigUp::new),
+        DIGDOWN(Category.ACTION, "Копать вниз", DigDown::new),
+        BUILD(Category.ACTION, "Строить впереди", Build::new),
+        BUILDUP(Category.ACTION, "Строить сверху", BuildUp::new),
+        BUILDDOWN(Category.ACTION, "Строить снизу", BuildDown::new);
 
         public final int id;
         public final Category category;
@@ -39,8 +45,6 @@ public class Blocks {
         public Block getInstance(){ return supplier.get(); }
     }
 
-//        all.put(DIG, new Desc(DIG, Category.ACTION, "Копать"));
-//        all.put(BUILD, new Desc(BUILD, Category.ACTION, "Строить"));
 //        all.put(SELECT_SLOT, new Desc(SELECT_SLOT, Category.ACTION, "Выбрать слот"));
 //        all.put(WHILE, new Desc(WHILE, Category.CYCLE, "Повторять пока"));
 //        all.put(FOR, new Desc(FOR, Category.CYCLE, "Повторить N раз"));
