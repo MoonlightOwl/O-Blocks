@@ -30,6 +30,10 @@ public class Workspace {
     public double projectX(double screenX){ return zoomPane.projectX(screenX); }
     public double projectY(double screenY){ return zoomPane.projectY(screenY); }
 
+    public void drag(double deltaX, double deltaY){
+        zoomPane.drag(deltaX, deltaY);
+    }
+
     /** Blocks / joints / wires magic */
     public void addBlock(Block block){
         zoomPane.add(block);

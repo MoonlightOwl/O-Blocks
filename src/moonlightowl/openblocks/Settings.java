@@ -12,6 +12,8 @@ public class Settings {
     public static String VERSION = "0.11", TITLE = "OcBlocks";
     // Initial window size
     public static int WIDTH = 800, HEIGHT = 600;
+    // Workspace properties
+    public static double DRAG_SPEED = 60.0;
     // Project properties
     public static String UNTITLED = "untitled", EXTENSION = "ob";
     public static boolean LOG_FILE = false;
