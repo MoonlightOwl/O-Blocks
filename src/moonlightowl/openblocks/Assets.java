@@ -48,6 +48,7 @@ public class Assets {
                 loadImage("tools/action/build.png"),
                 loadImage("tools/action/build_up.png"),
                 loadImage("tools/action/build_down.png"),
+                loadImage("tools/action/detect.png"),
                 loadImage("tools/logic/if.png"),
                 loadImage("tools/action/select_slot.png"),
                 loadImage("tools/cycle/while.png"),
@@ -81,7 +82,8 @@ public class Assets {
                 loadImage("blocks/icons/build.png"),    // 10
                 loadImage("blocks/icons/build_up.png"),
                 loadImage("blocks/icons/build_down.png"),
-                loadImage("blocks/icons/if.png"),       // 13
+                loadImage("blocks/icons/detect.png"),
+                loadImage("blocks/icons/if.png"),       // 14
         };
     }
 }

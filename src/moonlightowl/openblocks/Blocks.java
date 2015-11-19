@@ -33,6 +33,7 @@ public class Blocks {
         BUILD(Category.ACTION, "Строить впереди", Build::new),
         BUILDUP(Category.ACTION, "Строить сверху", BuildUp::new),
         BUILDDOWN(Category.ACTION, "Строить снизу", BuildDown::new),
+        DETECT(Category.ACTION, "Блок на пути?", Detect::new),
         IF(Category.LOGIC, "Если ... иначе", If::new);
 
         public final int id;

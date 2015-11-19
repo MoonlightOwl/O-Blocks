@@ -3,7 +3,7 @@ package moonlightowl.openblocks.structure;
 import javafx.scene.paint.Color;
 
 /**
- * OpenBlocks.${CLASS}
+ * OpenBlocks.Data
  * Created by MoonlightOwl on 11/20/15.
  * ===
  * Possible types of value that can be transmitted by wires
