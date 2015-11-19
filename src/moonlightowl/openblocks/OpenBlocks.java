@@ -155,8 +155,9 @@ public class OpenBlocks extends Application {
                     Wire old = joint.getWire();
                     joint.attachWire(wire);
                     wire = old;
-                    // Or create / attach new wire
-                } else {
+                }
+                // Or create / attach new wire
+                else {
                     if (wire == null) {
                         wire = new Wire();
                         joint.attachWire(wire);

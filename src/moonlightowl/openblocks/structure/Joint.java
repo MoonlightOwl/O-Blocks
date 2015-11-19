@@ -23,7 +23,6 @@ import java.util.LinkedList;
 
 public class Joint extends ImageView {
     public final static int FROM = 0, TO = 1, YES = 2, NO = 3, ERROR = 6;
-    public final static int NOTHING = 0, BOOLEAN = 1, NUMBER = 2, STRING = 3, LINK = 4;
     public final static Color[] colors = {
             new Color(0.49, 0.98, 0.05, 1.0), new Color(0.98, 0.27, 0.13, 1.0),
             new Color(0.77, 0.98, 0.05, 1.0), new Color(0.05, 0.98, 0.50, 1.0),
@@ -42,7 +41,7 @@ public class Joint extends ImageView {
     private int action, data, ID;
 
     public Joint(Block owner, double x, double y, int action, int id) {
-        this(owner, x, y, action, NOTHING, id);
+        this(owner, x, y, action, Data.NOTHING, id);
     }
     public Joint(Block owner, double x, double y, int action, int data, int id) {
         this.owner = owner;

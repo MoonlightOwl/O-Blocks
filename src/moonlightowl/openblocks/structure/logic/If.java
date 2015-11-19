@@ -15,9 +15,9 @@ import moonlightowl.openblocks.structure.Joint;
 public class If extends Block {
     public If() {
         super(0, 0, Blocks.Id.IF);
-        addJoint(new Joint(this, -39, -2, Joint.TO, Joint.NOTHING, 0));
-        addJoint(new Joint(this, 0, -42, Joint.NO, Joint.BOOLEAN,  2));
-        addJoint(new Joint(this, 0, 39, Joint.YES, Joint.BOOLEAN,  3));
+        addJoint(new Joint(this, -39, -2, Joint.TO, 0));
+        addJoint(new Joint(this, 0, -42, Joint.NO, 2));
+        addJoint(new Joint(this, 0, 39, Joint.YES, 3));
         setIcon(Assets.blockIcons[13]);
         code = "if true then end";
     }
