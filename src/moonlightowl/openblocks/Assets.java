@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 public class Assets {
     public static String imagesPath = "/images/";
 
-    public static Image logo, node;
+    public static Image logo, node, nodePlus, nodeMinus;
     public static Image[] toolBarIcon, toolIcons, blockBack, blockIcons;
 
     public static Image loadImage(String name){
@@ -22,6 +22,8 @@ public class Assets {
     public static void load() {
         logo = loadImage("logo.png");
         node = loadImage("blocks/node.png");
+        nodePlus = loadImage("blocks/node_plus.png");
+        nodeMinus = loadImage("blocks/node_minus.png");
         toolBarIcon = new Image[]{
                 loadImage("tools/wire.png"),
                 loadImage("tools/robot.png"),
@@ -46,11 +48,11 @@ public class Assets {
                 loadImage("tools/action/build.png"),
                 loadImage("tools/action/build_up.png"),
                 loadImage("tools/action/build_down.png"),
+                loadImage("tools/logic/if.png"),
                 loadImage("tools/action/select_slot.png"),
                 loadImage("tools/cycle/while.png"),
                 loadImage("tools/cycle/for.png"),
                 loadImage("tools/cycle/loop.png"),
-                loadImage("tools/logic/if.png"),
                 loadImage("tools/logic/less.png"),
                 loadImage("tools/logic/greater.png"),
                 loadImage("tools/logic/equal.png"),
@@ -66,7 +68,7 @@ public class Assets {
                 loadImage("blocks/logic.png"),
         };
         blockIcons = new Image[]{
-                loadImage("blocks/icons/forward.png"),
+                loadImage("blocks/icons/forward.png"),  // 0
                 loadImage("blocks/icons/back.png"),
                 loadImage("blocks/icons/up.png"),
                 loadImage("blocks/icons/down.png"),
@@ -76,9 +78,10 @@ public class Assets {
                 loadImage("blocks/icons/dig.png"),
                 loadImage("blocks/icons/dig_up.png"),
                 loadImage("blocks/icons/dig_down.png"),
-                loadImage("blocks/icons/build.png"),
+                loadImage("blocks/icons/build.png"),    // 10
                 loadImage("blocks/icons/build_up.png"),
                 loadImage("blocks/icons/build_down.png"),
+                loadImage("blocks/icons/if.png"),       // 13
         };
     }
 }

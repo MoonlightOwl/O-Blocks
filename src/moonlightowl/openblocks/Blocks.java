@@ -2,6 +2,7 @@ package moonlightowl.openblocks;
 
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.action.*;
+import moonlightowl.openblocks.structure.logic.If;
 import moonlightowl.openblocks.structure.robot.End;
 import moonlightowl.openblocks.structure.robot.Start;
 
@@ -31,7 +32,8 @@ public class Blocks {
         DIGDOWN(Category.ACTION, "Копать вниз", DigDown::new),
         BUILD(Category.ACTION, "Строить впереди", Build::new),
         BUILDUP(Category.ACTION, "Строить сверху", BuildUp::new),
-        BUILDDOWN(Category.ACTION, "Строить снизу", BuildDown::new);
+        BUILDDOWN(Category.ACTION, "Строить снизу", BuildDown::new),
+        IF(Category.LOGIC, "Если ... иначе", If::new);
 
         public final int id;
         public final Category category;
@@ -49,7 +51,6 @@ public class Blocks {
 //        all.put(WHILE, new Desc(WHILE, Category.CYCLE, "Повторять пока"));
 //        all.put(FOR, new Desc(FOR, Category.CYCLE, "Повторить N раз"));
 //        all.put(LOOP, new Desc(LOOP, Category.CYCLE, "Вечный цикл"));
-//        all.put(IF, new Desc(IF, Category.LOGIC, "Если .. иначе"));
 //        all.put(LESS, new Desc(LESS, Category.LOGIC, "Меньше"));
 //        all.put(GREATER, new Desc(GREATER, Category.LOGIC, "Больше"));
 //        all.put(EQUAL, new Desc(EQUAL, Category.LOGIC, "Равно"));

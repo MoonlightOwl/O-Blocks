@@ -22,9 +22,11 @@ import java.util.LinkedList;
  */
 
 public class Joint extends ImageView {
-    public final static int FROM = 0, TO = 1, BOOLEAN = 2, NUMBER = 3, STRING = 4, LINK = 5, ERROR = 6;
+    public final static int FROM = 0, TO = 1, YES = 2, NO = 3, ERROR = 6;
+    public final static int NOTHING = 0, BOOLEAN = 1, NUMBER = 2, STRING = 3, LINK = 4;
     public final static Color[] colors = {
-            new Color(0.49, 0.98, 0.05, 1.0), new Color(0.98, 0.27, 0.13, 1),
+            new Color(0.49, 0.98, 0.05, 1.0), new Color(0.98, 0.27, 0.13, 1.0),
+            new Color(0.77, 0.98, 0.05, 1.0), new Color(0.05, 0.98, 0.50, 1.0),
             new Color(0.98, 0.89, 0.05, 1.0), new Color(0.05, 0.89, 0.98, 1.0),
             Color.VIOLET, Color.WHITE, Color.DARKGRAY
     };
@@ -37,18 +39,27 @@ public class Joint extends ImageView {
     // Joint
     private Wire wire;
     private Block owner;
-    private int type, ID;
+    private int action, data, ID;
 
-    public Joint(Block owner, double x, double y, int type, int id) {
+    public Joint(Block owner, double x, double y, int action, int id) {
+        this(owner, x, y, action, NOTHING, id);
+    }
+    public Joint(Block owner, double x, double y, int action, int data, int id) {
         this.owner = owner;
         this.x = x; this.y = y;
-        this.type = type; this.ID = id;
+        this.action = action; this.data = data;
+        this.ID = id;
 
         // Calculate normal vector to "circle bounds" of parent block
         normal = new Point2D(x, y).normalize();
 
         // Set image
-        setImage(Assets.node);
+        if(action == YES)
+            setImage(Assets.nodePlus);
+        else if(action == NO)
+            setImage(Assets.nodeMinus);
+        else
+            setImage(Assets.node);
         setTranslateX(owner.getWidth()/2 + x - 8); setTranslateY(owner.getHeight()/2 + y - 8);
 
         // Set color tint to ImageView
@@ -56,7 +67,7 @@ public class Joint extends ImageView {
 
         ColorInput colorize = new ColorInput(0, 0,
                 Assets.node.getWidth(), Assets.node.getHeight(),
-                colors[type]);
+                colors[action]);
         Bloom bloom = new Bloom();
         bloom.setThreshold(0.1);
 
@@ -80,7 +91,8 @@ public class Joint extends ImageView {
     public double getNormalY(){ return normal.getY(); }
     public boolean isAttached(){ return wire != null; }
     public Wire getWire(){ return wire; }
-    public int getType(){ return type; }
+    public int getActionType(){ return action; }
+    public int getDataType(){ return data; }
     public int getJointID(){ return ID; }
     public Joint getLink(){
         if(wire != null){

@@ -44,7 +44,7 @@ public class Lua {
                 // Move to next block
                 Block block = null;
                 for(Joint joint: current.getJoints()){
-                    if(joint.getType() == Joint.FROM){
+                    if(joint.getActionType() == Joint.FROM){
                         Joint next = joint.getLink();
                         if(next != null){
                             block = next.getOwner(); break;

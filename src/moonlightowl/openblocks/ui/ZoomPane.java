@@ -76,7 +76,7 @@ public class ZoomPane {
     public int getChildrenCount(){ return content.getChildren().size(); }
 
 
-    public void drag(double deltaX, double deltaY){
+    public void drag(double deltaX, double deltaY) {
         double deltaH = (deltaX * scale) / content.getLayoutBounds().getWidth();
         double desiredH = scroller.getHvalue() - deltaH;
         scroller.setHvalue(Math.max(0, Math.min(scroller.getHmax(), desiredH)));
