@@ -50,6 +50,7 @@ public class Block extends Group {
         back.setEffect(dropShadow);
 
         icon = new ImageView();
+        icon.setSmooth(true);
         getChildren().add(icon);
 
         joints = new ArrayList<>();

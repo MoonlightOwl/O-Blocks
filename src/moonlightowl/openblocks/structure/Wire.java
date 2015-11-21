@@ -42,7 +42,7 @@ public class Wire extends Group {
 
         data.setStroke(Data.color[dataType]);
         data.setFill(null);
-        data.setStrokeWidth(2);
+        data.setStrokeWidth(3);
         data.getStrokeDashArray().addAll(6.0, 20.0);
         data.setStrokeLineCap(StrokeLineCap.ROUND);
 
