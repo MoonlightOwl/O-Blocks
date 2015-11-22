@@ -2,6 +2,7 @@ package moonlightowl.openblocks.structure.action;
 
 import moonlightowl.openblocks.Assets;
 import moonlightowl.openblocks.Blocks;
+import moonlightowl.openblocks.io.lua.Action;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 
@@ -18,6 +19,6 @@ public class Down extends Block {
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIcons[3]);
-        code = "robot.down()";
+        operator = new Action("robot.down()");
     }
 }

@@ -17,4 +17,6 @@ public class Settings {
     // Project properties
     public static String UNTITLED = "untitled", EXTENSION = "ob";
     public static boolean LOG_FILE = false;
+    // Code properties
+    public static String EOL = "\r\n";
 }

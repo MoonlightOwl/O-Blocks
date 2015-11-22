@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import moonlightowl.openblocks.Assets;
 import moonlightowl.openblocks.Blocks;
+import moonlightowl.openblocks.io.lua.Operator;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class Block extends Group {
     private ImageView back, icon;
     private ArrayList<Joint> joints;
 
-    protected String code;
+    protected Operator operator;
 
     public Block(double x, double y, Blocks.Id blockId){
         this.x = x; this.y = y; this.blockId = blockId;
@@ -89,7 +90,7 @@ public class Block extends Group {
     public double getCenterX(){ return x + getWidth()/2; }
     public double getCenterY(){ return y + getHeight()/2 - DEPTH; }
     public ArrayList<Joint> getJoints(){ return new ArrayList<>(joints); }
-    public String getCode() { return code; }
+    public Operator getOperator() { return operator; }
 
     public Block setX(double x) { this.x = x; setTranslateX(x); return this; }
     public Block setY(double y) { this.y = y; setTranslateY(y); return this; }
