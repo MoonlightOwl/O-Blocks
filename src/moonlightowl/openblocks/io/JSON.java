@@ -69,28 +69,33 @@ public class JSON {
             workspace.addBlock(b);
         }
         LinkedList<Block> workspaceBlocks = workspace.getBlocks();
-        for (Object block1 : blocks) {
-            JSONObject block = (JSONObject) block1;
+        for (Object _block : blocks) {
+            JSONObject block = (JSONObject) _block;
             JSONArray joints = (JSONArray) block.get(JOINTS);
-            for (Object joint1 : joints) {
-                JSONObject joint = (JSONObject) joint1;
+
+            for (Object _joint : joints) {
+                JSONObject joint = (JSONObject) _joint;
 
                 Long id = (Long) joint.get(ID);
                 Long link_jid = (Long) joint.get(LINK_JOINT_ID);
                 Long link_bid = (Long) joint.get(LINK_BLOCK_ID);
                 if (link_jid != null) {
                     ArrayList<Joint> blockJoints = workspaceBlocks.get((int) (long) block.get(ID)).getJoints();
-                    Joint j = blockJoints.get(id.intValue());
-                    // Exclude possible duplicates
-                    if (j.getWire() == null) {
-                        Wire wire = new Wire();
-                        j.attachWire(wire);
+                    Joint j = null;
+                    for(Joint _j: blockJoints)
+                            if(_j.getJointID() == id.intValue()){ j = _j; break; }
+                    if(j != null) {
+                        // Exclude possible duplicates
+                        if (j.getWire() == null) {
+                            Wire wire = new Wire();
+                            j.attachWire(wire);
 
-                        blockJoints = workspaceBlocks.get(link_bid.intValue()).getJoints();
-                        j = blockJoints.get(link_jid.intValue());
-                        j.attachWire(wire);
+                            blockJoints = workspaceBlocks.get(link_bid.intValue()).getJoints();
+                            j = blockJoints.get(link_jid.intValue());
+                            j.attachWire(wire);
 
-                        workspace.addWire(wire);
+                            workspace.addWire(wire);
+                        }
                     }
                 }
             }

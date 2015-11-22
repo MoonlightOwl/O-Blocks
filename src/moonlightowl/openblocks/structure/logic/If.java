@@ -20,6 +20,5 @@ public class If extends Block {
         addJoint(new Joint(this, 0, -42, Joint.NO, 2));
         addJoint(new Joint(this, 0, 39, Joint.YES, 3));
         setIcon(Assets.blockIcons[14]);
-        operator = new Action("if true then end");
     }
 }

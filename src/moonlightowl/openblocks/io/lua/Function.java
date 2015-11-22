@@ -28,6 +28,9 @@ public class Function extends Operator {
 
     public String getName() { return name; }
     public ArrayList<Operator> getChildren() { return children; }
+    public Operator last() {
+        return children.get(children.size()-1);
+    }
 
     public String toString(){
         String body = "";

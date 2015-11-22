@@ -374,6 +374,8 @@ public class OpenBlocks extends Application {
             if(!Lua.export(workspace, stream))
                 error("Ошибка экспорта",
                         "Внезапно, структура проекта не поддается экпорту! \nОтправьте проект автору IDE, пусть тоже удивится.", null);
+            else
+                Log.out("Successfully exported project to Lua");
         } catch (IOException e) {
             Log.error("Cannot export project properly! Some errors occured.", e);
             error("Ошибка записи проекта",

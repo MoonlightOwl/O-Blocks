@@ -6,7 +6,7 @@ import moonlightowl.openblocks.Settings;
  * OpenBlocks.Action
  * Created by MoonlightOwl on 11/22/15.
  * ===
- * Simple action call. Requires nothing, returns nothing
+ * Simple action call. Requires nothing, may return a variable
  */
 
 public class Action extends Operator {
