@@ -14,8 +14,8 @@ public class Condition extends Operator {
     private Function plus, minus;
 
     public Condition(Operator expression, Function plus, Function minus) {
-        this.expression = expression;
-        this.plus = plus; this.minus = minus;
+        setExpression(expression);
+        setPlusBranch(plus); setMinusBranch(minus);
     }
 
     public Condition setExpression(Operator expression) { this.expression = expression; return this; }
@@ -29,7 +29,7 @@ public class Condition extends Operator {
     public String toString() {
         return "if " + expression.toString() + " then " + Settings.EOL +
                 plus.toString() +
-                "else" + Settings.EOL +
+                " else" + Settings.EOL +
                 minus.toString() +
                 "end" + Settings.EOL;
     }

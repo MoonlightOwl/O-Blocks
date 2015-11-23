@@ -3,6 +3,7 @@ package moonlightowl.openblocks.io.lua;
 import moonlightowl.openblocks.Settings;
 import moonlightowl.openblocks.Workspace;
 import moonlightowl.openblocks.structure.Block;
+import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
 
 import java.io.IOException;
@@ -45,15 +46,30 @@ public class Lua {
         public void run() throws IOException {
             while(current != null){
                 // Build structure
-                if(current.getBlockId() == IF) {
-                    Function plus = new Function("plus"), minus = new Function("minus");
-                    Condition condition = new Condition(function.last(), plus, minus);
-                    Block plusBlock = otherSideOf(current, Joint.YES);
-                    if(plusBlock != null) new Tracer(plusBlock, plus).run();
-                    Block minusBlock = otherSideOf(current, Joint.NO);
-                    if(minusBlock != null) new Tracer(minusBlock, minus).run();
-                    function.add(condition);
-                } else function.add(current.getOperator());
+                switch (current.getBlockId()) {
+                    case IF:
+                        Function plus = new Function("plus"), minus = new Function("minus");
+                        // Get last operator variable, if any
+                        Operator last = function.last(), expression;
+                        if(last instanceof Variable)
+                            expression = new Action(((Variable) last).getName());
+                        else
+                            expression = new Action("true");
+                        // Build condition
+                        Condition condition = new Condition(expression, plus, minus);
+                        Block plusBlock = otherSideOf(current, Joint.YES);
+                        if(plusBlock != null) new Tracer(plusBlock, plus).run();
+                        Block minusBlock = otherSideOf(current, Joint.NO);
+                        if(minusBlock != null) new Tracer(minusBlock, minus).run();
+                        function.add(condition);
+                        break;
+                    default:
+                        Joint from = jointOf(current, Joint.FROM);
+                        if(from != null && from.getDataType() != Data.NOTHING) {
+                            function.add(new Variable("x", current.getOperator()));
+                        }
+                        else function.add(current.getOperator());
+                }
                 // Finita la commedia
                 if(current.getBlockId() == END) break;
                 // Or move to the next block
@@ -64,7 +80,7 @@ public class Lua {
 
         /**
          * Get linked block from first non-empty joint of the given type from source block
-         * */
+         */
         private Block otherSideOf(Block source, int jointType) {
             Block block = null;
             for(Joint joint: source.getJoints()){
@@ -76,6 +92,19 @@ public class Lua {
                 }
             }
             return block;
+        }
+        /**
+         * Get first non-empty or last empty joint of given type from source block
+         */
+        private Joint jointOf(Block source, int jointType) {
+            Joint joint = null;
+            for(Joint j: source.getJoints()) {
+                if(j.getActionType() == jointType) {
+                    joint = j;
+                    if(joint.getLink() != null) break;
+                }
+            }
+            return joint;
         }
     }
 }
