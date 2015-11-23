@@ -2,6 +2,9 @@ package moonlightowl.openblocks;
 
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * OpenBlocks.Assets
  * Created by MoonlightOwl on 11/4/15.
@@ -13,10 +16,17 @@ public class Assets {
     public static String imagesPath = "/images/";
 
     public static Image logo, node, nodePlus, nodeMinus;
-    public static Image[] toolBarIcon, toolIcons, blockBack, blockIcons;
+    public static Image[] toolBarIcon, toolIcons, blockBack;
+    public static ArrayList<Image> blockIcons;
+    public static HashMap<String, Image> blockIconsIndex;
 
-    public static Image loadImage(String name){
+    public static Image loadImage(String name) {
         return new Image(Assets.class.getResource(imagesPath + name).toExternalForm());
+    }
+    public static void loadBlockIcon(String name) {
+        Image image = new Image(Assets.class.getResource(imagesPath + "blocks/icons/" + name).toExternalForm());
+        blockIcons.add(image);
+        blockIconsIndex.put(name, image);
     }
 
     public static void load() {
@@ -49,6 +59,8 @@ public class Assets {
                 loadImage("tools/action/build_up.png"),
                 loadImage("tools/action/build_down.png"),
                 loadImage("tools/action/detect.png"),
+                loadImage("tools/action/detect_up.png"),
+                loadImage("tools/action/detect_down.png"),
                 loadImage("tools/logic/if.png"),
                 loadImage("tools/logic/not.png"),
                 loadImage("tools/action/select_slot.png"),
@@ -68,23 +80,26 @@ public class Assets {
                 loadImage("blocks/cycle.png"),
                 loadImage("blocks/logic.png"),
         };
-        blockIcons = new Image[]{
-                loadImage("blocks/icons/forward.png"),  // 0
-                loadImage("blocks/icons/back.png"),
-                loadImage("blocks/icons/up.png"),
-                loadImage("blocks/icons/down.png"),
-                loadImage("blocks/icons/left.png"),
-                loadImage("blocks/icons/right.png"),
-                loadImage("blocks/icons/around.png"),
-                loadImage("blocks/icons/dig.png"),
-                loadImage("blocks/icons/dig_up.png"),
-                loadImage("blocks/icons/dig_down.png"),
-                loadImage("blocks/icons/build.png"),    // 10
-                loadImage("blocks/icons/build_up.png"),
-                loadImage("blocks/icons/build_down.png"),
-                loadImage("blocks/icons/detect.png"),
-                loadImage("blocks/icons/if.png"),
-                loadImage("blocks/icons/not.png"),       // 15
-        };
+        
+        blockIconsIndex = new HashMap<>();
+        blockIcons = new ArrayList<>();
+        loadBlockIcon("forward.png");
+        loadBlockIcon("back.png");
+        loadBlockIcon("up.png");
+        loadBlockIcon("down.png");
+        loadBlockIcon("left.png");
+        loadBlockIcon("right.png");
+        loadBlockIcon("around.png");
+        loadBlockIcon("dig.png");
+        loadBlockIcon("dig_up.png");
+        loadBlockIcon("dig_down.png");
+        loadBlockIcon("build.png");
+        loadBlockIcon("build_up.png");
+        loadBlockIcon("build_down.png");
+        loadBlockIcon("detect.png");
+        loadBlockIcon("detect_up.png");
+        loadBlockIcon("detect_down.png");
+        loadBlockIcon("if.png");
+        loadBlockIcon("not.png");
     }
 }

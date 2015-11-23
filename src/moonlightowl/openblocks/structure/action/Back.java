@@ -18,7 +18,7 @@ public class Back extends Block {
         super(0, 0, Blocks.Id.BACK);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[1]);
+        setIcon(Assets.blockIconsIndex.get("back.png"));
         operator = new Action("robot.back()");
     }
 }

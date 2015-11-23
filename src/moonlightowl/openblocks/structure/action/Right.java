@@ -18,7 +18,7 @@ public class Right extends Block {
         super(0, 0, Blocks.Id.RIGHT);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[5]);
+        setIcon(Assets.blockIconsIndex.get("right.png"));
         operator = new Action("robot.turnRight()");
     }
 }

@@ -18,7 +18,7 @@ public class BuildUp extends Block {
         super(0, 0, Blocks.Id.BUILDUP);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[11]);
+        setIcon(Assets.blockIconsIndex.get("build_up.png"));
         operator = new Action("robot.placeUp()");
     }
 }

@@ -18,7 +18,7 @@ public class BuildDown extends Block {
         super(0, 0, Blocks.Id.BUILDDOWN);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[12]);
+        setIcon(Assets.blockIconsIndex.get("build_down.png"));
         operator = new Action("robot.placeDown()");
     }
 }

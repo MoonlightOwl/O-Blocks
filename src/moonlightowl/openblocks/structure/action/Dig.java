@@ -18,7 +18,7 @@ public class Dig extends Block {
         super(0, 0, Blocks.Id.DIG);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[7]);
+        setIcon(Assets.blockIconsIndex.get("dig.png"));
         operator = new Action("robot.swing()");
     }
 }

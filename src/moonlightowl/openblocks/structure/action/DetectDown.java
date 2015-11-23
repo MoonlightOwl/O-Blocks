@@ -8,18 +8,18 @@ import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
 
 /**
- * OpenBlocks.Detect
+ * OpenBlocks.DetectDown
  * Created by MoonlightOwl on 11/20/15.
  * ===
  * Is there any obstacles on the way?
  */
 
-public class Detect extends Block {
-    public Detect(){
-        super(0, 0, Blocks.Id.DETECT);
+public class DetectDown extends Block {
+    public DetectDown(){
+        super(0, 0, Blocks.Id.DETECTDOWN);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, Data.BOOLEAN, 1));
-        setIcon(Assets.blockIconsIndex.get("detect.png"));
-        operator = new Action("robot.detect()");
+        setIcon(Assets.blockIconsIndex.get("detect_down.png"));
+        operator = new Action("robot.detectDown()");
     }
 }

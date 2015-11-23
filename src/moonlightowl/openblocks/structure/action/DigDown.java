@@ -18,7 +18,7 @@ public class DigDown extends Block {
         super(0, 0, Blocks.Id.DIGDOWN);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[9]);
+        setIcon(Assets.blockIconsIndex.get("dig_down.png"));
         operator = new Action("robot.swingDown()");
     }
 }

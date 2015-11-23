@@ -18,7 +18,7 @@ public class DigUp extends Block {
         super(0, 0, Blocks.Id.DIGUP);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[8]);
+        setIcon(Assets.blockIconsIndex.get("dig_up.png"));
         operator = new Action("robot.swingUp()");
     }
 }

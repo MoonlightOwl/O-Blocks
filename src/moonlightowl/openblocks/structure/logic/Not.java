@@ -18,6 +18,6 @@ public class Not extends Block {
         super(0, 0, Blocks.Id.NOT);
         addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0));
         addJoint(new Joint(this, 39, -2, Joint.FROM, Data.BOOLEAN, 1));
-        setIcon(Assets.blockIcons[15]);
+        setIcon(Assets.blockIconsIndex.get("not.png"));
     }
 }

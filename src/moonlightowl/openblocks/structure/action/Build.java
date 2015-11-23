@@ -18,7 +18,7 @@ public class Build extends Block {
         super(0, 0, Blocks.Id.BUILD);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[10]);
+        setIcon(Assets.blockIconsIndex.get("build.png"));
         operator = new Action("robot.place()");
     }
 }

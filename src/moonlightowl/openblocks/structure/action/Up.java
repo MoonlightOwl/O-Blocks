@@ -18,7 +18,7 @@ public class Up extends Block {
         super(0, 0, Blocks.Id.UP);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
-        setIcon(Assets.blockIcons[2]);
+        setIcon(Assets.blockIconsIndex.get("up.png"));
         operator = new Action("robot.up()");
     }
 }

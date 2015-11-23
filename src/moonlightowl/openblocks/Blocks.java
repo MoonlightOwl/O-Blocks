@@ -35,6 +35,8 @@ public class Blocks {
         BUILDUP(Category.ACTION, "Строить сверху", BuildUp::new),
         BUILDDOWN(Category.ACTION, "Строить снизу", BuildDown::new),
         DETECT(Category.ACTION, "Блок на пути?", Detect::new),
+        DETECTUP(Category.ACTION, "Блок сверху?", DetectUp::new),
+        DETECTDOWN(Category.ACTION, "Блок снизу?", DetectDown::new),
         IF(Category.LOGIC, "Если ... иначе", If::new),
         NOT(Category.LOGIC, "Не", Not::new);
 
