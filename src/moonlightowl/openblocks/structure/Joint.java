@@ -50,7 +50,7 @@ public class Joint extends ImageView {
         this.ID = id;
 
         // Calculate normal vector to "circle bounds" of parent block
-        normal = new Point2D(x, y).normalize();
+        normal = new Point2D(x, y+Block.DEPTH).normalize();
 
         // Set image
         if(action == YES)

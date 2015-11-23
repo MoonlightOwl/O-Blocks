@@ -63,6 +63,14 @@ public class Lua {
                         if(minusBlock != null) new Tracer(minusBlock, minus).run();
                         function.add(condition);
                         break;
+                    case NOT:
+                        Operator l = function.last(), ex;
+                        if(l instanceof Variable)
+                            ex = new Action(((Variable) l).getName());
+                        else
+                            ex = new Action("true");
+                        function.add(new Variable("n", new Unary("not ", ex)));
+                        break;
                     default:
                         Joint from = jointOf(current, Joint.FROM);
                         if(from != null && from.getDataType() != Data.NOTHING) {

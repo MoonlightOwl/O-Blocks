@@ -83,21 +83,14 @@ public class Wire extends Group {
             if(a == null) { a = x; success = true; }
             else if(b == null) { b = x; success = true; }
         }
-        if(success)
-            if(x.getDataType() != Data.NOTHING) { setDataType(x.getDataType()); }
+        if(success) calculateDataType();
         return success;
     }
     public boolean unlink(Joint x) {
         boolean success = false;
         if(a == x) { a = null; success = true; }
         else if(b == x) { b = null; success = true; }
-        if(success)
-            if(x.getDataType() != Data.NOTHING)
-                if(getDataType() == Data.ERROR)
-                    if(a != null) setDataType(a.getDataType());
-                    else if(b != null) setDataType(b.getDataType());
-                    else setDataType(Data.NOTHING);
-                else setDataType(Data.NOTHING);
+        if(success) calculateDataType();
         return success;
     }
     public void reposition(){ reposition(0, 0); }
@@ -116,10 +109,7 @@ public class Wire extends Group {
         listener = handler;
     }
     public void setDataType(int type) {
-        if(this.dataType != Data.NOTHING) {
-            this.dataType = Data.ERROR;
-        }
-        else this.dataType = type;
+        this.dataType = type;
 
         if(this.dataType != Data.NOTHING) {
             data.setStroke(Data.color[this.dataType]);
@@ -127,5 +117,27 @@ public class Wire extends Group {
         }
         else
             data.setVisible(false);
+    }
+    public void calculateDataType() {
+        int type = Data.NOTHING;
+        if(a != null && b != null){
+            if(a.getActionType() == b.getActionType())
+                type = Data.ERROR;
+            else if((a.getDataType() != Data.NOTHING) && (b.getDataType() != Data.NOTHING)) {
+                if (a.getDataType() != b.getDataType())
+                    type = Data.ERROR;
+                else
+                    type = a.getDataType();
+            }
+            else if(a.getDataType() != Data.NOTHING)
+                type = a.getDataType();
+            else if(b.getDataType() != Data.NOTHING)
+                type = b.getDataType();
+        }
+        else if(a != null)
+            type = a.getDataType();
+        else if(b != null)
+            type = b.getDataType();
+        setDataType(type);
     }
 }

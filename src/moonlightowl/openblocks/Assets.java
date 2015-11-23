@@ -50,6 +50,7 @@ public class Assets {
                 loadImage("tools/action/build_down.png"),
                 loadImage("tools/action/detect.png"),
                 loadImage("tools/logic/if.png"),
+                loadImage("tools/logic/not.png"),
                 loadImage("tools/action/select_slot.png"),
                 loadImage("tools/cycle/while.png"),
                 loadImage("tools/cycle/for.png"),
@@ -60,7 +61,6 @@ public class Assets {
                 loadImage("tools/logic/less_or_equal.png"),
                 loadImage("tools/logic/greater_or_equal.png"),
                 loadImage("tools/logic/not_equal.png"),
-                loadImage("tools/logic/not.png"),
         };
         blockBack = new Image[]{
                 loadImage("blocks/robot.png"),
@@ -83,7 +83,8 @@ public class Assets {
                 loadImage("blocks/icons/build_up.png"),
                 loadImage("blocks/icons/build_down.png"),
                 loadImage("blocks/icons/detect.png"),
-                loadImage("blocks/icons/if.png"),       // 14
+                loadImage("blocks/icons/if.png"),
+                loadImage("blocks/icons/not.png"),       // 15
         };
     }
 }

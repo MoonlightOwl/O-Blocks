@@ -7,18 +7,17 @@ import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
 
 /**
- * OpenBlocks.If
- * Created by MoonlightOwl on 11/19/15.
+ * OpenBlocks.Not
+ * Created by MoonlightOwl on 11/23/15.
  * ===
- * Basic logical class
+ * Inverts boolean value
  */
 
-public class If extends Block {
-    public If() {
-        super(0, 0, Blocks.Id.IF);
+public class Not extends Block {
+    public Not() {
+        super(0, 0, Blocks.Id.NOT);
         addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0));
-        addJoint(new Joint(this, 0, -42, Joint.NO, 2));
-        addJoint(new Joint(this, 0, 39, Joint.YES, 3));
-        setIcon(Assets.blockIcons[14]);
+        addJoint(new Joint(this, 39, -2, Joint.FROM, Data.BOOLEAN, 1));
+        setIcon(Assets.blockIcons[15]);
     }
 }

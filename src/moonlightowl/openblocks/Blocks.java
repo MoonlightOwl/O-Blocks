@@ -3,6 +3,7 @@ package moonlightowl.openblocks;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.action.*;
 import moonlightowl.openblocks.structure.logic.If;
+import moonlightowl.openblocks.structure.logic.Not;
 import moonlightowl.openblocks.structure.robot.End;
 import moonlightowl.openblocks.structure.robot.Start;
 
@@ -34,7 +35,8 @@ public class Blocks {
         BUILDUP(Category.ACTION, "Строить сверху", BuildUp::new),
         BUILDDOWN(Category.ACTION, "Строить снизу", BuildDown::new),
         DETECT(Category.ACTION, "Блок на пути?", Detect::new),
-        IF(Category.LOGIC, "Если ... иначе", If::new);
+        IF(Category.LOGIC, "Если ... иначе", If::new),
+        NOT(Category.LOGIC, "Не", Not::new);
 
         public final int id;
         public final Category category;
@@ -58,5 +60,4 @@ public class Blocks {
 //        all.put(LESS_OR_EQUAL, new Desc(LESS_OR_EQUAL, Category.LOGIC, "Меньше или равно"));
 //        all.put(GREATER_OR_EQUAL, new Desc(GREATER_OR_EQUAL, Category.LOGIC, "Больше или равно"));
 //        all.put(NOT_EQUAL, new Desc(NOT_EQUAL, Category.LOGIC, "Не равно"));
-//        all.put(NOT, new Desc(NOT, Category.LOGIC, "Не"));
 }

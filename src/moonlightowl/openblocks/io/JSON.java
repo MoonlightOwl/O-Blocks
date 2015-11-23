@@ -91,7 +91,8 @@ public class JSON {
                             j.attachWire(wire);
 
                             blockJoints = workspaceBlocks.get(link_bid.intValue()).getJoints();
-                            j = blockJoints.get(link_jid.intValue());
+                            for(Joint _j: blockJoints)
+                                if(_j.getJointID() == link_jid.intValue()){ j = _j; break; }
                             j.attachWire(wire);
 
                             workspace.addWire(wire);
