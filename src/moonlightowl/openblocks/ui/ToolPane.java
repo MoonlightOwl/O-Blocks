@@ -5,6 +5,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.WritableDoubleValue;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -46,9 +47,9 @@ public class ToolPane extends BorderPane {
         generatePanel();
     }
     private void generatePanel(){
-        panel = new TilePane();
+        panel = new TilePane(Orientation.HORIZONTAL);
         panel.setPrefWidth(width);
-        panel.setHgap(10); panel.setVgap(10);
+        panel.setHgap(2); panel.setVgap(10);
 
         ScrollPane scrollPane = new ScrollPane(panel);
         scrollPane.setPadding(new Insets(10, 6, 10, 10));
