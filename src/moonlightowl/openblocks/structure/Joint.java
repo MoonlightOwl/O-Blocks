@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import moonlightowl.openblocks.Assets;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -36,9 +37,10 @@ public class Joint extends ImageView {
     private Point2D normal;
 
     // Joint
-    private Wire wire;
+    private ArrayList<Wire> wires;
     private Block owner;
     private int action, data, ID;
+    private boolean multiwired = false;
 
     public Joint(Block owner, double x, double y, int action, int id) {
         this(owner, x, y, action, Data.NOTHING, id);
@@ -48,6 +50,8 @@ public class Joint extends ImageView {
         this.x = x; this.y = y;
         this.action = action; this.data = data;
         this.ID = id;
+
+        wires = new ArrayList<>();
 
         // Calculate normal vector to "circle bounds" of parent block
         normal = new Point2D(x, y+Block.DEPTH).normalize();
@@ -82,18 +86,20 @@ public class Joint extends ImageView {
         setOnMouseClicked(listener);
     }
 
+    /** Getters */
     public double getRelativeX() { return x; }
     public double getRelativeY() { return y; }
     public double getAbsX() { return owner.getCenterX() + x; }
     public double getAbsY() { return owner.getCenterY() + y; }
-    public double getNormalX(){ return normal.getX(); }
-    public double getNormalY(){ return normal.getY(); }
-    public boolean isAttached(){ return wire != null; }
-    public Wire getWire(){ return wire; }
+    public double getNormalX() { return normal.getX(); }
+    public double getNormalY() { return normal.getY(); }
+    public boolean isAttached() { return !wires.isEmpty(); }
+    public boolean isMultiwired() { return multiwired; }
+    public Wire[] getWires(){ return wires.toArray(new Wire[wires.size()]); }
     public int getActionType(){ return action; }
     public int getDataType(){ return data; }
     public int getJointID(){ return ID; }
-    public Joint getLink(){
+    public Joint getLink(Wire wire){
         if(wire != null){
             LinkedList<Joint> joints = wire.getJoints();
             if(joints.size() > 1){
@@ -105,27 +111,34 @@ public class Joint extends ImageView {
     }
     public Block getOwner(){ return owner; }
 
+
+    /** Setters */
+    public Joint setMultiwired(boolean multi) { this.multiwired = multi; return this; }
     public boolean attachWire(Wire wire){
-        detachWire();
+        if(!multiwired) detachAllWires();
         if(wire != null) {
             if (wire.link(this)) {
-                this.wire = wire;
+                wires.add(wire);
                 wire.reposition();
                 return true;
             } else return false;
         }
         return true;
     }
-    public boolean detachWire(){
+    public boolean detachWire(Wire wire){
         if(wire != null){
             wire.unlink(this);
-            wire = null;
+            wires.remove(wire);
             return true;
         }
         else return false;
     }
+    public void detachAllWires() {
+        for(Wire wire: wires) wire.unlink(this);
+        wires.clear();
+    }
     public void update(){
-        if(wire != null) wire.reposition();
+        wires.forEach(Wire::reposition);
     }
 
     public static void setOnClickListenter(EventHandler<? super MouseEvent> handler){

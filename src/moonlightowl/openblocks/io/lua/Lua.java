@@ -5,6 +5,7 @@ import moonlightowl.openblocks.Workspace;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
+import moonlightowl.openblocks.structure.Wire;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -93,9 +94,12 @@ public class Lua {
             Block block = null;
             for(Joint joint: source.getJoints()){
                 if(joint.getActionType() == jointType){
-                    Joint far = joint.getLink();
-                    if(far != null){
-                        block = far.getOwner(); break;
+                    for(Wire wire: joint.getWires()) {
+                        Joint far = joint.getLink(wire);
+                        if (far != null) {
+                            block = far.getOwner();
+                            break;
+                        }
                     }
                 }
             }
@@ -109,7 +113,8 @@ public class Lua {
             for(Joint j: source.getJoints()) {
                 if(j.getActionType() == jointType) {
                     joint = j;
-                    if(joint.getLink() != null) break;
+                    for(Wire wire: joint.getWires())
+                        if(joint.getLink(wire) != null) break;
                 }
             }
             return joint;

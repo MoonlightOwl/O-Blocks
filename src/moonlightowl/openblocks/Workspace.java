@@ -47,15 +47,19 @@ public class Workspace {
     public void removeBlock(Block block){ removeBlock(block, true); }
     private void removeBlock(Block block, boolean clean){
         if(block != null) {
-            for (Joint j : block.getJoints()) removeWire(j.getWire());
+            for (Joint j : block.getJoints())
+                for(Wire wire: j.getWires())
+                    removeWire(wire);
             zoomPane.remove(block);
             if(clean) blocks.remove(block);
         }
     }
     public void removeWire(Wire wire){ removeWire(wire, true); }
+    /** Remove wire from list. If not 'clean' - then just detach from blocks */
     private void removeWire(Wire wire, boolean clean){
         if(wire != null) {
-            wire.getJoints().forEach(Joint::detachWire);
+            for(Joint joint: wire.getJoints())
+                joint.detachWire(wire);
             zoomPane.remove(wire);
             if(clean) wires.remove(wire);
         }

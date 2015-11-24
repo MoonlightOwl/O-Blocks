@@ -28,6 +28,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -52,7 +54,8 @@ public class OpenBlocks extends Application {
     private boolean selectedTrash = false;
     private Blocks.Id selected;
     private ImageView selectedIcon;
-    private Wire wire;
+    private ArrayList<Wire> wires;
+    private boolean addWires = false;
 
     private File projectFile;
     private boolean changed = false;
@@ -144,6 +147,8 @@ public class OpenBlocks extends Application {
         initToolsPanels();
         initToolBar();
 
+        wires = new ArrayList<>();
+
         /** Event listenters */
         // Wire operations
         Joint.setOnClickListenter(event ->{
@@ -151,20 +156,28 @@ public class OpenBlocks extends Application {
             if(event.getButton() == MouseButton.PRIMARY) {
                 // Replace existing one
                 if(joint.isAttached()){
-                    Wire old = joint.getWire();
-                    joint.attachWire(wire);
-                    wire = old;
+                    Wire[] old = new Wire[]{};
+                    if(!joint.isMultiwired() || wires.isEmpty()){
+                        old = joint.getWires();
+                        joint.detachAllWires();
+                    }
+                    if(!addWires) {
+                        wires.forEach(joint::attachWire);
+                        wires.clear();
+                    }
+                    wires.addAll(Arrays.asList(old));
                 }
                 // Or create / attach new wire
                 else {
-                    if (wire == null) {
-                        wire = new Wire();
+                    if (wires.isEmpty()) {
+                        Wire wire = new Wire();
                         joint.attachWire(wire);
                         wire.reposition(joint.getAbsX(), joint.getAbsY());
                         workspace.addWire(wire);
+                        wires.add(wire);
                     } else {
-                        joint.attachWire(wire);
-                        wire = null;
+                        wires.forEach(joint::attachWire);
+                        wires.clear();
                     }
                 }
                 projectChanged();
@@ -204,9 +217,9 @@ public class OpenBlocks extends Application {
                 // Deselect current block type
                 deselect();
                 // Remove current uncomplete wire
-                if(wire != null){
-                    workspace.removeWire(wire);
-                    wire = null;
+                if(!wires.isEmpty()){
+                    wires.forEach(workspace::removeWire);
+                    wires.clear();
                 }
             }
         });
@@ -215,8 +228,10 @@ public class OpenBlocks extends Application {
         rootPane.setOnMouseMoved(event -> {
             selectedIcon.setTranslateX(event.getSceneX());
             selectedIcon.setTranslateY(event.getSceneY());
-            if(wire != null) wire.reposition(workspace.projectX(event.getX()),
-                    workspace.projectY(event.getY()));
+            if(!wires.isEmpty())
+                for(Wire wire: wires)
+                    wire.reposition(workspace.projectX(event.getX()),
+                                    workspace.projectY(event.getY()));
         });
         rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
 
@@ -231,6 +246,12 @@ public class OpenBlocks extends Application {
                 case W: workspace.drag(0, Settings.DRAG_SPEED); break;
                 case D: workspace.drag(-Settings.DRAG_SPEED, 0); break;
                 case A: workspace.drag(Settings.DRAG_SPEED, 0); break;
+                case SHIFT: addWires = true;
+            }
+        });
+        rootPane.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case SHIFT: addWires = false;
             }
         });
     }
