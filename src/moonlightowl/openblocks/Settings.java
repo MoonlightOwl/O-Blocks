@@ -18,5 +18,5 @@ public class Settings {
     public static String UNTITLED = "untitled", EXTENSION = "ob";
     public static boolean LOG_FILE = false;
     // Code properties
-    public static String EOL = "\r\n";
+    public static String EOL = "\r\n", INDENT = "  ";
 }

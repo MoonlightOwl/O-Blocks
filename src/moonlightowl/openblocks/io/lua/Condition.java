@@ -9,7 +9,7 @@ import moonlightowl.openblocks.Settings;
  * if .. then .. else .. end
  */
 
-public class Condition extends Operator {
+public class Condition extends Compound {
     private Operator expression;
     private Function plus, minus;
 
@@ -27,10 +27,20 @@ public class Condition extends Operator {
     public Function getMinusBranch() { return minus; }
 
     public String toString() {
-        return "if " + expression.toString() + " then " + Settings.EOL +
-                plus.toString() +
-                " else" + Settings.EOL +
-                minus.toString() +
-                "end" + Settings.EOL;
+        if(isOneLiner()) {
+            minus.setIndent(0); minus.setOneLiner(true);
+            plus.setIndent(0); plus.setOneLiner(true);
+            return getIndentString() + "if " + expression.toString() + " then " +
+                    plus.toString() + " else " + minus.toString() + " end";
+        }
+        else {
+            minus.setIndent(1); minus.setOneLiner(false); String sMinus = minus.toString();
+            plus.setIndent(1); plus.setOneLiner(false); String sPlus = plus.toString();
+            return  getIndentString() + "if " + expression.toString() + " then" + Settings.EOL +
+                    getIndentString() + (sPlus.isEmpty() ? Settings.INDENT + "-- pass --" : sPlus) + Settings.EOL +
+                    getIndentString() + "else" + Settings.EOL +
+                    getIndentString() + (sMinus.isEmpty() ? Settings.INDENT + "-- pass --" : sMinus) + Settings.EOL +
+                    getIndentString() + "end";
+        }
     }
 }

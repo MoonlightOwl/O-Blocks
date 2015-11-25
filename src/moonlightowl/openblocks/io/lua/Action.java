@@ -1,7 +1,5 @@
 package moonlightowl.openblocks.io.lua;
 
-import moonlightowl.openblocks.Settings;
-
 /**
  * OpenBlocks.Action
  * Created by MoonlightOwl on 11/22/15.
@@ -18,6 +16,6 @@ public class Action extends Operator {
     public String getCode() { return code; }
 
     public String toString(){
-        return getCode() + Settings.EOL;
+        return getCode();
     }
 }

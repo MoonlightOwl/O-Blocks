@@ -30,8 +30,8 @@ public class Lua {
                 break;
             }
         // Export
-        stream.write(("-- [OcBlocks v"+ Settings.VERSION +" generated code] --"+ Settings.EOL).getBytes());
-        stream.write(program.toString().getBytes());
+        stream.write(("-- [OcBlocks v" + Settings.VERSION + " generated code] --" + Settings.EOL).getBytes());
+        stream.write((program.toString() + Settings.EOL).getBytes());
         stream.write("-- [The END] --".getBytes());
         return true;
     }
@@ -50,6 +50,8 @@ public class Lua {
                 switch (current.getBlockId()) {
                     case IF:
                         Function plus = new Function("plus"), minus = new Function("minus");
+                        plus.setIndent(function.getIndent() + 1);
+                        minus.setIndent(function.getIndent() + 1);
                         // Get last operator variable, if any
                         Operator last = function.last(), expression;
                         if(last instanceof Variable)
@@ -58,6 +60,7 @@ public class Lua {
                             expression = new Action("true");
                         // Build condition
                         Condition condition = new Condition(expression, plus, minus);
+                        condition.setIndent(function.getIndent());
                         Block plusBlock = otherSideOf(current, Joint.YES);
                         if(plusBlock != null) new Tracer(plusBlock, plus).run();
                         Block minusBlock = otherSideOf(current, Joint.NO);
