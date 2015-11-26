@@ -185,7 +185,7 @@ public class OpenBlocks extends Application {
         });
         // Block removement
         Block.setOnClickListenter(event -> {
-            if (selectedTrash) {
+            if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
                 Block block = (Block)event.getSource();
                 workspace.removeBlock(block);
                 projectChanged();
@@ -193,7 +193,7 @@ public class OpenBlocks extends Application {
         });
         // Wire removement
         Wire.setOnClickListenter(event -> {
-            if (selectedTrash) {
+            if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
                 Wire wire = (Wire)event.getSource();
                 workspace.removeWire(wire);
                 projectChanged();
@@ -246,7 +246,9 @@ public class OpenBlocks extends Application {
                 case W: workspace.drag(0, Settings.DRAG_SPEED); break;
                 case D: workspace.drag(-Settings.DRAG_SPEED, 0); break;
                 case A: workspace.drag(Settings.DRAG_SPEED, 0); break;
-                case SHIFT: addWires = true;
+                case SHIFT: addWires = true; break;
+                case DELETE: selectTrashTool(); break;
+                case ESCAPE: deselect(); break;
             }
         });
         rootPane.setOnKeyReleased(event -> {
@@ -350,6 +352,7 @@ public class OpenBlocks extends Application {
         workspace.clear();
         projectFile = null;
         setTitle(Settings.UNTITLED);
+        deselect(); // Drop all previously selected tools
     }
     public void openProject(){
         FileChooser fileChooser = new FileChooser();
@@ -362,6 +365,7 @@ public class OpenBlocks extends Application {
             workspace.clear();
             load();
             setTitle(projectFile.getName());
+            deselect(); // Drop all previously selected tools
         }
     }
     public void saveProject() {
@@ -407,6 +411,7 @@ public class OpenBlocks extends Application {
     public void clearProject(){
         workspace.clear();
         projectChanged();
+        deselect(); // Drop all previously selected tools
     }
 
     public void showAboutWindow() {
