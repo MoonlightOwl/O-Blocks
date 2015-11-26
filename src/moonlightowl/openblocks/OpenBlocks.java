@@ -2,6 +2,7 @@ package moonlightowl.openblocks;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,6 +23,7 @@ import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
 import moonlightowl.openblocks.ui.About;
+import moonlightowl.openblocks.ui.Progress;
 import moonlightowl.openblocks.ui.ToolButton;
 import moonlightowl.openblocks.ui.ToolPane;
 import org.json.simple.JSONObject;
@@ -48,6 +50,7 @@ public class OpenBlocks extends Application {
     public ScrollPane scroller;
     // Custom elements
     private ToolPane[] tools;
+    private Progress progress;
     private About about;
     private Workspace workspace;
 
@@ -136,6 +139,7 @@ public class OpenBlocks extends Application {
 
 
     public void initUI(){
+        progress = new Progress(parentStage);
         about = new About(parentStage);
         workspace = new Workspace(scroller);
 
@@ -395,23 +399,45 @@ public class OpenBlocks extends Application {
         fileChooser.setSelectedExtensionFilter(
                 new FileChooser.ExtensionFilter("Программа OpenComputers", "*.lua"));
         File file = fileChooser.showSaveDialog(parentStage);
-        try (FileOutputStream stream = new FileOutputStream(file)) {
-            if(!Lua.export(workspace, stream))
-                error("Ошибка экспорта",
-                        "Внезапно, структура проекта не поддается экпорту! \nОтправьте проект автору IDE, пусть тоже удивится.", null);
-            else
-                Log.out("Successfully exported project to Lua");
-        } catch (IOException e) {
-            Log.error("Cannot export project properly! Some errors occured.", e);
-            error("Ошибка записи проекта",
-                    "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);
-        }
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            public Void call() throws InterruptedException {
+                try (FileOutputStream stream = new FileOutputStream(file)) {
+                    if(!Lua.export(workspace, stream))
+                        error("Ошибка экспорта",
+                                "Внезапно, структура проекта не поддается экпорту! \nОтправьте проект автору IDE, пусть тоже удивится.", null);
+                    else {
+                        Log.out("Successfully exported project to Lua");
+                    }
+                } catch (IOException e) {
+                    Log.error("Cannot export project properly! Some errors occured.", e);
+                    error("Ошибка записи проекта",
+                            "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);
+                }
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+            progress.hide();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Операция завершена");
+            alert.setHeaderText("Экспорт в Lua");
+            alert.setContentText("Программа успешно экспортирована");
+            alert.showAndWait();
+        });
+
+        progress.show();
+        Thread thread = new Thread(task);
+        thread.start();
     }
 
     public void clearProject(){
         workspace.clear();
         projectChanged();
         deselect(); // Drop all previously selected tools
+        progress.show();
     }
 
     public void showAboutWindow() {
