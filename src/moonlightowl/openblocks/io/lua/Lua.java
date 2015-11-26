@@ -21,6 +21,7 @@ import static moonlightowl.openblocks.Blocks.Id.*;
 
 public class Lua {
     public static boolean export(Workspace workspace, OutputStream stream) throws IOException {
+        NameGen.init();
         // Create root structure for project
         Function program = new Function("main");
         // Let's get started - search for Start block
@@ -73,12 +74,12 @@ public class Lua {
                             ex = new Action(((Variable) l).getName());
                         else
                             ex = new Action("true");
-                        function.add(new Variable("n", new Unary("not ", ex)));
+                        function.add(new Variable(NameGen.getName(), new Unary("not ", ex)));
                         break;
                     default:
                         Joint from = jointOf(current, Joint.FROM);
                         if(from != null && from.getDataType() != Data.NOTHING) {
-                            function.add(new Variable("x", current.getOperator()));
+                            function.add(new Variable(NameGen.getName(), current.getOperator()));
                         }
                         else function.add(current.getOperator());
                 }

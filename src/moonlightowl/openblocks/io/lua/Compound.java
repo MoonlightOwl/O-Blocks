@@ -11,7 +11,7 @@ import moonlightowl.openblocks.Settings;
 
 public class Compound extends Operator {
     protected int indent;
-    protected boolean oneLiner = true;
+    protected boolean oneLiner = false;
 
     public void setIndent(int indent) { this.indent = indent; }
     public void indent() { indent++; }
