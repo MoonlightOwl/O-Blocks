@@ -16,6 +16,8 @@ import moonlightowl.openblocks.Blocks;
 import moonlightowl.openblocks.io.lua.Operator;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * OpenBlocks.Block
@@ -30,6 +32,7 @@ public class Block extends Group {
     private static EventHandler<? super MouseEvent> listener;
 
     private Blocks.Id blockId;
+    private String ID;
     private double x, y;
 
     private ImageView back, icon;
@@ -39,6 +42,8 @@ public class Block extends Group {
 
     public Block(double x, double y, Blocks.Id blockId){
         this.x = x; this.y = y; this.blockId = blockId;
+
+        ID = UUID.randomUUID().toString();
 
         back = new ImageView(Assets.blockBack[blockId.category.ordinal()]);
         getChildren().add(back);
@@ -83,6 +88,7 @@ public class Block extends Group {
     }
 
     public Blocks.Id getBlockId(){ return blockId; }
+    public String getID() { return ID; }
     public double getWidth(){ return back.getImage().getWidth(); }
     public double getHeight(){ return back.getImage().getHeight(); }
     public double getX() { return x; }
@@ -90,6 +96,9 @@ public class Block extends Group {
     public double getCenterX(){ return x + getWidth()/2; }
     public double getCenterY(){ return y + getHeight()/2 - DEPTH; }
     public ArrayList<Joint> getJoints(){ return new ArrayList<>(joints); }
+    public Optional<Joint> getJoint(int id){
+        return joints.stream().filter(joint -> joint.getJointID() == id).findAny();
+    }
     public Operator getOperator() { return operator; }
 
     public Block setX(double x) { this.x = x; setTranslateX(x); return this; }

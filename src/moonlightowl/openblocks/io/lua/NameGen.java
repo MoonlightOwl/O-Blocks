@@ -34,4 +34,9 @@ public class NameGen {
         inc(0);
         return name;
     }
+    public static String lastName() {
+        return word.stream()
+                .map(Object::toString)
+                .reduce((acc, character) -> acc + character).get();
+    }
 }

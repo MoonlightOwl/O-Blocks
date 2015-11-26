@@ -23,6 +23,7 @@ public class Wire extends Group {
     private CubicCurve line, data;
     private Joint a, b;
     private int dataType = Data.NOTHING;
+    private boolean main = true;
 
     private static EventHandler<? super MouseEvent> listener;
 
@@ -121,10 +122,16 @@ public class Wire extends Group {
         }
         else
             data.setVisible(false);
+        if(main)
+            line.setStroke(Color.BLACK);
+        else
+            line.setStroke(Color.WHITE);
     }
     public void calculateDataType() {
         int type = Data.NOTHING;
+        main = true;
         if(a != null && b != null){
+            if(!a.isActionFrom() && !b.isActionFrom()) main = false;
             if(a.getActionType() == b.getActionType())
                 type = Data.ERROR;
             else if((a.getDataType() != Data.NOTHING) && (b.getDataType() != Data.NOTHING)) {

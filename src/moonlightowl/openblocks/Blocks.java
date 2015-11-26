@@ -2,6 +2,7 @@ package moonlightowl.openblocks;
 
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.action.*;
+import moonlightowl.openblocks.structure.logic.Equals;
 import moonlightowl.openblocks.structure.logic.If;
 import moonlightowl.openblocks.structure.logic.Not;
 import moonlightowl.openblocks.structure.robot.End;
@@ -38,7 +39,8 @@ public class Blocks {
         DETECTUP(Category.ACTION, "Блок сверху?", DetectUp::new),
         DETECTDOWN(Category.ACTION, "Блок снизу?", DetectDown::new),
         IF(Category.LOGIC, "Если ... иначе", If::new),
-        NOT(Category.LOGIC, "Не", Not::new);
+        NOT(Category.LOGIC, "Не", Not::new),
+        EQUALS(Category.LOGIC, "Равно", Equals::new);
 
         public final int id;
         public final Category category;

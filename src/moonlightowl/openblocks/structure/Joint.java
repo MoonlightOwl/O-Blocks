@@ -23,11 +23,11 @@ import java.util.LinkedList;
  */
 
 public class Joint extends ImageView {
-    public final static int FROM = 0, TO = 1, YES = 2, NO = 3, ERROR = 6;
+    public final static int FROM = 0, TO = 1, YES = 2, NO = 3, VARIABLE = 4, LINK = 5, ERROR = 6;
     public final static Color[] colors = {
             new Color(0.49, 0.98, 0.05, 1.0), new Color(0.98, 0.27, 0.13, 1.0),
             new Color(0.77, 0.98, 0.05, 1.0), new Color(0.05, 0.98, 0.50, 1.0),
-            new Color(0.98, 0.89, 0.05, 1.0), new Color(0.05, 0.89, 0.98, 1.0),
+            new Color(0.05, 0.89, 0.98, 1.0), new Color(0.98, 0.89, 0.05, 1.0),
             Color.VIOLET, Color.WHITE, Color.DARKGRAY
     };
     private static EventHandler<? super MouseEvent> listener;
@@ -97,6 +97,7 @@ public class Joint extends ImageView {
     public boolean isMultiwired() { return multiwired; }
     public Wire[] getWires(){ return wires.toArray(new Wire[wires.size()]); }
     public int getActionType(){ return action; }
+    public boolean isActionFrom() { return action == FROM || action == YES || action == NO; }
     public int getDataType(){ return data; }
     public int getJointID(){ return ID; }
     public Joint getLink(Wire wire){

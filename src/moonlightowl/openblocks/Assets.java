@@ -63,13 +63,13 @@ public class Assets {
                 loadImage("tools/action/detect_down.png"),
                 loadImage("tools/logic/if.png"),
                 loadImage("tools/logic/not.png"),
+                loadImage("tools/logic/equals.png"),
                 loadImage("tools/action/select_slot.png"),
                 loadImage("tools/cycle/while.png"),
                 loadImage("tools/cycle/for.png"),
                 loadImage("tools/cycle/loop.png"),
                 loadImage("tools/logic/less.png"),
                 loadImage("tools/logic/greater.png"),
-                loadImage("tools/logic/equal.png"),
                 loadImage("tools/logic/less_or_equal.png"),
                 loadImage("tools/logic/greater_or_equal.png"),
                 loadImage("tools/logic/not_equal.png"),
@@ -101,5 +101,6 @@ public class Assets {
         loadBlockIcon("detect_down.png");
         loadBlockIcon("if.png");
         loadBlockIcon("not.png");
+        loadBlockIcon("equals.png");
     }
 }
