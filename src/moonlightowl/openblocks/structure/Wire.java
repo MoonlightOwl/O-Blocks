@@ -95,13 +95,17 @@ public class Wire extends Group {
     }
     public void reposition(){ reposition(0, 0); }
     public void reposition(double defX, double defY){
+        double lenX = (a != null && b != null) ? Math.abs(a.getAbsX()-b.getAbsX()) : 0;
+        double lenY = (a != null && b != null) ? Math.abs(a.getAbsY()-b.getAbsY()) : 0;
         if(a != null)
             setStart(a.getAbsX(), a.getAbsY(),
-                    a.getAbsX() + a.getNormalX()*STRENGTH, a.getAbsY() + a.getNormalY()*STRENGTH);
+                    a.getAbsX() + a.getNormalX()*(STRENGTH+(lenX/10)),
+                    a.getAbsY() + a.getNormalY()*(STRENGTH+(lenY/10)));
         else setStart(defX, defY, defX, defY);
         if(b != null)
             setEnd(b.getAbsX(), b.getAbsY(),
-                    b.getAbsX() + b.getNormalX()*STRENGTH, b.getAbsY() + b.getNormalY()*STRENGTH);
+                    b.getAbsX() + b.getNormalX()*(STRENGTH+(lenX/10)),
+                    b.getAbsY() + b.getNormalY()*(STRENGTH+(lenY/10)));
         else setEnd(defX, defY, defX, defY);
     }
 
