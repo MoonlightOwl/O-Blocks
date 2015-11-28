@@ -66,6 +66,7 @@ public class Block extends Group {
         setOnMousePressed(event -> {
             lastMouseCoordinates.set(new Point2D(event.getX(), event.getY()));
             getScene().setCursor(Cursor.MOVE);
+            event.consume();
         });
         setOnMouseReleased(event -> getScene().setCursor(Cursor.HAND));
         setOnMouseDragged(event -> {

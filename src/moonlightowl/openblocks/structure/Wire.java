@@ -18,7 +18,7 @@ import java.util.LinkedList;
  */
 
 public class Wire extends Group {
-    public static double STRENGTH = 80;
+    public static double STRENGTH = 60;
 
     private CubicCurve line, data;
     private Joint a, b;
@@ -100,13 +100,13 @@ public class Wire extends Group {
         double lenY = (a != null && b != null) ? Math.abs(a.getAbsY()-b.getAbsY()) : 0;
         if(a != null)
             setStart(a.getAbsX(), a.getAbsY(),
-                    a.getAbsX() + a.getNormalX()*(STRENGTH+(lenX/10)),
-                    a.getAbsY() + a.getNormalY()*(STRENGTH+(lenY/10)));
+                    a.getAbsX() + a.getNormalX()*(STRENGTH+(lenX/6)),
+                    a.getAbsY() + a.getNormalY()*(STRENGTH+(lenY/6)));
         else setStart(defX, defY, defX, defY);
         if(b != null)
             setEnd(b.getAbsX(), b.getAbsY(),
-                    b.getAbsX() + b.getNormalX()*(STRENGTH+(lenX/10)),
-                    b.getAbsY() + b.getNormalY()*(STRENGTH+(lenY/10)));
+                    b.getAbsX() + b.getNormalX()*(STRENGTH+(lenX/6)),
+                    b.getAbsY() + b.getNormalY()*(STRENGTH+(lenY/6)));
         else setEnd(defX, defY, defX, defY);
     }
 
