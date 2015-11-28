@@ -8,6 +8,7 @@ import moonlightowl.openblocks.ui.Selection;
 import moonlightowl.openblocks.ui.ZoomPane;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 /**
  * OpenBlocks.Workspace
@@ -21,12 +22,27 @@ public class Workspace {
     private LinkedList<Block> blocks;
     private LinkedList<Wire> wires;
     private Selection selection;
+    private LinkedList<Block> selectedBlocks;
+    private LinkedList<Wire> selectedWires;
 
     public Workspace(ScrollPane scroller) {
         zoomPane = new ZoomPane(scroller);
         blocks = new LinkedList<>();
         wires = new LinkedList<>();
-        selection = new Selection(); zoomPane.addTo(0, selection);
+
+        selectedBlocks = new LinkedList<>();
+        selectedWires = new LinkedList<>();
+        selection = new Selection();
+        selection.setOnMoved((dx, dy) -> {
+            if(isSelectionVisible())
+                for(Block block: selectedBlocks)
+                    block.setPosition(block.getX() + dx, block.getY() + dy);
+            return null;
+        });
+        selection.setOnChanged(() -> {
+            refreshSelection(); return null;
+        });
+        zoomPane.addTo(0, selection);
     }
 
     /** Geometry */
@@ -90,5 +106,25 @@ public class Workspace {
         for(Wire w: wires) removeWire(w, false); wires.clear();
         // Clean up
         zoomPane.clear();
+        // Add selection
+        zoomPane.add(selection);
+    }
+
+    /** Selection magic */
+    private void refreshSelection() {
+        selectedBlocks = blocks.stream()
+                .filter(block -> selection.contains(block.getCenterX(), block.getCenterY()))
+                .collect(Collectors.toCollection(LinkedList::new));
+        selectedWires = wires.stream()
+                .filter(wire -> selection.contains(wire.getStartX(), wire.getStartY()) &&
+                                selection.contains(wire.getEndX(), wire.getEndY()))
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    public void clearSelection() {
+        System.out.println(selectedBlocks.size() + " " + selectedWires.size());
+        selectedBlocks.forEach(this::removeBlock); selectedBlocks.clear();
+        selectedWires.forEach(this::removeWire); selectedWires.clear();
+        setSelectionVisible(false);
     }
 }

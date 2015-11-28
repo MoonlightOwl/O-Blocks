@@ -9,7 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * OpenBlocks.Selection
@@ -20,6 +22,8 @@ import java.util.function.Consumer;
 
 public class Selection extends Group {
     private Rectangle zone;
+    private BiFunction<Double, Double, Void> onMoved;
+    private Supplier<Void> onChanged;
 
     public Selection() {
         zone = new Rectangle(0, 0, 0, 0);
@@ -53,20 +57,32 @@ public class Selection extends Group {
         });
         zone.setOnMouseReleased(event -> getScene().setCursor(Cursor.DEFAULT));
         zone.setOnMouseDragged(event -> {
-            setTranslateX(getTranslateX() + event.getX() - lastMouseCoordinates.get().getX());
-            setTranslateY(getTranslateY() + event.getY() - lastMouseCoordinates.get().getY());
+            double dx = event.getX() - lastMouseCoordinates.get().getX(),
+                   dy = event.getY() - lastMouseCoordinates.get().getY();
+            setTranslateX(getTranslateX() + dx);
+            setTranslateY(getTranslateY() + dy);
+            if(onMoved != null) onMoved.apply(dx, dy);
             event.consume();
         });
     }
 
     public double getWidth() { return zone.getWidth(); }
     public double getHeight() { return zone.getHeight(); }
+    public boolean contains(double x, double y) {
+        return zone.contains(x - getTranslateX(), y - getTranslateY());
+    }
 
     public void setWidth(double width) {
-        zone.setWidth(width);
+        zone.setWidth(width); onChanged.get();
     }
     public void setHeight(double height) {
-        zone.setHeight(height);
+        zone.setHeight(height); onChanged.get();
+    }
+    public void setOnMoved(BiFunction<Double, Double, Void> callback) {
+        this.onMoved = callback;
+    }
+    public void setOnChanged(Supplier<Void> callback) {
+        this.onChanged = callback;
     }
 
     private class Corner extends Circle {

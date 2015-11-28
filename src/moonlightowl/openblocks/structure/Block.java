@@ -70,9 +70,8 @@ public class Block extends Group {
         });
         setOnMouseReleased(event -> getScene().setCursor(Cursor.HAND));
         setOnMouseDragged(event -> {
-            setX(getX() + event.getX() - lastMouseCoordinates.get().getX());
-            setY(getY() + event.getY() - lastMouseCoordinates.get().getY());
-            joints.forEach(Joint::update);
+            setPosition(getX() + event.getX() - lastMouseCoordinates.get().getX(),
+                        getY() + event.getY() - lastMouseCoordinates.get().getY());
             event.consume();
         });
         setOnMouseEntered(event -> {
@@ -105,7 +104,9 @@ public class Block extends Group {
     public Block setX(double x) { this.x = x; setTranslateX(x); return this; }
     public Block setY(double y) { this.y = y; setTranslateY(y); return this; }
     public Block setPosition(double x, double y) {
-        setX(x); setY(y); return this;
+        setX(x); setY(y);
+        joints.forEach(Joint::update);
+        return this;
     }
     public Block addJoint(Joint joint){
         joints.add(joint);

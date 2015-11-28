@@ -276,7 +276,8 @@ public class OpenBlocks extends Application {
                 case D: workspace.drag(-Settings.DRAG_SPEED, 0); break;
                 case A: workspace.drag(Settings.DRAG_SPEED, 0); break;
                 case SHIFT: addWires = true; break;
-                case DELETE: selectTrashTool(); break;
+                case DELETE: if(workspace.isSelectionVisible()) clearSelection();
+                    else selectTrashTool(); break;
                 case ESCAPE: deselect(); break;
             }
         });
@@ -460,11 +461,14 @@ public class OpenBlocks extends Application {
         thread.start();
     }
 
+    public void clearSelection() {
+        workspace.clearSelection();
+    }
+
     public void clearProject(){
         workspace.clear();
         projectChanged();
         deselect(); // Drop all previously selected tools
-        progress.show();
     }
 
     public void showAboutWindow() {

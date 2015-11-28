@@ -1,6 +1,7 @@
 package moonlightowl.openblocks.structure;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
@@ -55,6 +56,20 @@ public class Wire extends Group {
         data.setVisible(false);
     }
 
+
+    public LinkedList<Joint> getJoints(){
+        LinkedList<Joint> list = new LinkedList<>();
+        if(a != null) list.add(a);
+        if(b != null) list.add(b);
+        return list;
+    }
+    public int getDataType() { return dataType; }
+    public double getStartX() { return line.getStartX(); }
+    public double getStartY() { return line.getStartY(); }
+    public double getEndX() { return line.getEndX(); }
+    public double getEndY() { return line.getEndY(); }
+    
+    
     private void setStart(double x, double y, double cx, double cy){
         line.setStartX(x); line.setStartY(y);
         line.setControlX1(cx); line.setControlY1(cy);
@@ -67,15 +82,6 @@ public class Wire extends Group {
         data.setEndX(x); data.setEndY(y);
         data.setControlX2(cx); data.setControlY2(cy);
     }
-
-
-    public LinkedList<Joint> getJoints(){
-        LinkedList<Joint> list = new LinkedList<>();
-        if(a != null) list.add(a);
-        if(b != null) list.add(b);
-        return list;
-    }
-    public int getDataType() { return dataType; }
 
 
     public boolean link(Joint x) {
