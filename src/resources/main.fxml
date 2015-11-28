@@ -29,9 +29,11 @@
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Копировать" disable="true"/>
-            <MenuItem text="Вырезать" disable="true"/>
-            <MenuItem text="Вставить" disable="true"/>
+            <MenuItem text="Выделить все" onAction="#selectAll"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Копировать" onAction="#copySelection"/>
+            <MenuItem text="Вырезать" onAction="#cutSelection"/>
+            <MenuItem text="Вставить" onAction="#pasteSelection"/>
             <MenuItem text="Очистить" onAction="#clearSelection"/>
             <SeparatorMenuItem/>
             <MenuItem text="Очистить все" onAction="#clearProject"/>

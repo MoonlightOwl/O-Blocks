@@ -198,7 +198,7 @@ public class OpenBlocks extends Application {
             }
         });
 
-        // Wire removement
+        // Wire removement  TODO: fixme
         Wire.setOnClickListenter(event -> {
             if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
                 Wire wire = (Wire)event.getSource();
@@ -274,8 +274,12 @@ public class OpenBlocks extends Application {
                 case S: workspace.drag(0, -Settings.DRAG_SPEED); break;
                 case W: workspace.drag(0, Settings.DRAG_SPEED); break;
                 case D: workspace.drag(-Settings.DRAG_SPEED, 0); break;
-                case A: workspace.drag(Settings.DRAG_SPEED, 0); break;
+                case A: if(event.isControlDown()) selectAll();
+                    else workspace.drag(Settings.DRAG_SPEED, 0); break;
                 case SHIFT: addWires = true; break;
+                case C: if(event.isControlDown()) copySelection(); break;
+                case X: if(event.isControlDown()) cutSelection(); break;
+                case V: if(event.isControlDown()) pasteSelection(); break;
                 case DELETE: if(workspace.isSelectionVisible()) clearSelection();
                     else selectTrashTool(); break;
                 case ESCAPE: deselect(); break;
@@ -461,9 +465,12 @@ public class OpenBlocks extends Application {
         thread.start();
     }
 
-    public void clearSelection() {
-        workspace.clearSelection();
-    }
+    public void selectAll() { workspace.selectAll(null); }
+
+    public void copySelection() { workspace.copySelection(); }
+    public void cutSelection() { workspace.cutSelection(); projectChanged(); }
+    public void pasteSelection() { workspace.pasteSelection(); projectChanged(); }
+    public void clearSelection() { workspace.clearSelection(); projectChanged(); }
 
     public void clearProject(){
         workspace.clear();

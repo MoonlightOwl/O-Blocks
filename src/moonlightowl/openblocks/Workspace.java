@@ -1,12 +1,14 @@
 package moonlightowl.openblocks;
 
 import javafx.scene.control.ScrollPane;
+import javafx.scene.shape.Line;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
 import moonlightowl.openblocks.ui.Selection;
 import moonlightowl.openblocks.ui.ZoomPane;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
@@ -19,19 +21,20 @@ import java.util.stream.Collectors;
 
 public class Workspace {
     private ZoomPane zoomPane;
-    private LinkedList<Block> blocks;
-    private LinkedList<Wire> wires;
+    private LinkedList<Block> blocks, selectedBlocks, bufferedBlocks;
+    private LinkedList<Wire> wires, selectedWires, bufferedWires;
     private Selection selection;
-    private LinkedList<Block> selectedBlocks;
-    private LinkedList<Wire> selectedWires;
+    private boolean noRefresh = false;
 
     public Workspace(ScrollPane scroller) {
         zoomPane = new ZoomPane(scroller);
         blocks = new LinkedList<>();
         wires = new LinkedList<>();
-
         selectedBlocks = new LinkedList<>();
         selectedWires = new LinkedList<>();
+        bufferedBlocks = new LinkedList<>();
+        bufferedWires = new LinkedList<>();
+
         selection = new Selection();
         selection.setOnMoved((dx, dy) -> {
             if(isSelectionVisible())
@@ -40,7 +43,7 @@ public class Workspace {
             return null;
         });
         selection.setOnChanged(() -> {
-            refreshSelection(); return null;
+            if(!noRefresh) refreshSelection(); return null;
         });
         zoomPane.addTo(0, selection);
     }
@@ -121,10 +124,68 @@ public class Workspace {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
+    public void selectAll(LinkedList<Block> blocks) {
+        if(blocks == null) blocks = this.blocks;
+        Block leftmost = blocks.stream()
+                .min((a, b) -> Double.compare(a.getCenterX(), b.getCenterX())).get(),
+                rightmost = blocks.stream()
+                        .max((a, b) -> Double.compare(a.getCenterX(), b.getCenterX())).get(),
+                topmost = blocks.stream()
+                        .min((a, b) -> Double.compare(a.getCenterY(), b.getCenterY())).get(),
+                bottommost = blocks.stream()
+                        .max((a, b) -> Double.compare(a.getCenterY(), b.getCenterY())).get();
+        setSelectionX1(leftmost.getX());
+        setSelectionY1(topmost.getY());
+        setSelectionX2(rightmost.getX() + rightmost.getWidth());
+        setSelectionY2(bottommost.getY() + bottommost.getHeight());
+        setSelectionVisible(true);
+    }
+
     public void clearSelection() {
-        System.out.println(selectedBlocks.size() + " " + selectedWires.size());
         selectedBlocks.forEach(this::removeBlock); selectedBlocks.clear();
         selectedWires.forEach(this::removeWire); selectedWires.clear();
         setSelectionVisible(false);
+    }
+
+    private class Elements {
+        public LinkedList<Block> blocks = new LinkedList<>();
+        public LinkedList<Wire> wires = new LinkedList<>();
+    }
+    private Elements deepCopyOf(LinkedList<Block> blocks, LinkedList<Wire> wires) {
+        Elements elements = new Elements();
+        HashMap<Block, Block> index = new HashMap<>();
+        for(Block block: blocks) {
+            Block clone = block.getBlockId().getInstance().setPosition(block.getX(), block.getY());
+            index.put(block, clone);
+        }
+        elements.blocks.addAll(index.values());
+        for(Wire wire: wires) {
+            Wire clone = new Wire();
+            for(Joint joint: wire.getJoints())
+                index.get(joint.getOwner()).getJoint(joint.getJointID()).get().attachWire(clone);
+            elements.wires.add(clone);
+        }
+        return elements;
+    }
+    public void copySelection() {
+        Elements clone = deepCopyOf(selectedBlocks, selectedWires);
+        bufferedBlocks = clone.blocks;
+        bufferedWires = clone.wires;
+    }
+    public void cutSelection() {
+        copySelection(); clearSelection();
+    }
+    public void pasteSelection() {
+        // Clone all buffered blocks
+        Elements clone = deepCopyOf(bufferedBlocks, bufferedWires);
+        selectedBlocks = clone.blocks;
+        selectedWires = clone.wires;
+        // Add cloned elements to selection
+        selectedBlocks.forEach(this::addBlock);
+        selectedWires.forEach(this::addWire);
+        // Calculate new selection rectangle
+        noRefresh = true;
+        selectAll(selectedBlocks);
+        noRefresh = false;
     }
 }
