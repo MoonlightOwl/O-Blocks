@@ -22,10 +22,7 @@ import moonlightowl.openblocks.io.lua.Lua;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
-import moonlightowl.openblocks.ui.About;
-import moonlightowl.openblocks.ui.Progress;
-import moonlightowl.openblocks.ui.ToolButton;
-import moonlightowl.openblocks.ui.ToolPane;
+import moonlightowl.openblocks.ui.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -54,7 +51,7 @@ public class OpenBlocks extends Application {
     private About about;
     private Workspace workspace;
 
-    private boolean selectedTrash = false;
+    private boolean selectedTrash = false, selectionEdit = false;
     private Blocks.Id selected;
     private ImageView selectedIcon;
     private ArrayList<Wire> wires;
@@ -153,7 +150,11 @@ public class OpenBlocks extends Application {
 
         wires = new ArrayList<>();
 
-        /** Event listenters */
+        registerListeners();
+    }
+
+    /** Event listenters */
+    private void registerListeners() {
         // Wire operations
         Joint.setOnClickListenter(event ->{
             Joint joint = (Joint)event.getSource();
@@ -187,6 +188,7 @@ public class OpenBlocks extends Application {
                 projectChanged();
             }
         });
+
         // Block removement
         Block.setOnClickListenter(event -> {
             if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
@@ -195,6 +197,7 @@ public class OpenBlocks extends Application {
                 projectChanged();
             }
         });
+
         // Wire removement
         Wire.setOnClickListenter(event -> {
             if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
@@ -204,12 +207,12 @@ public class OpenBlocks extends Application {
             }
         });
 
-        // Add new objects to workspace
+        // Mouse clicks on workspace
         rootPane.setOnMouseClicked(event -> {
             if(hasOpenedPanes())
                 closeAllToolPanes();
-            else
-            if(event.getButton() == MouseButton.PRIMARY) {
+            else if(event.getButton() == MouseButton.PRIMARY) {
+                // Place new block
                 if(selected != null) {
                     Block block = selected.getInstance()
                             .setPosition(workspace.projectX(event.getX()),
@@ -227,6 +230,22 @@ public class OpenBlocks extends Application {
                 }
             }
         });
+        rootPane.setOnMousePressed(event -> {
+            if(event.getButton() == MouseButton.PRIMARY) {
+                // If there is nothing else to do - change selection
+                if (!hasOpenedPanes() && selected == null) {
+                    selectionEdit = true;
+                    workspace.setSelectionVisible(false);
+                    workspace.setSelectionX1(workspace.projectX(event.getX()));
+                    workspace.setSelectionY1(workspace.projectY(event.getY()));
+                }
+            }
+        });
+        rootPane.setOnMouseReleased(event -> {
+            if(selectionEdit) {
+                selectionEdit = false;
+            }
+        });
 
         // Move mouse tool icon & current wire loose end (if any)
         rootPane.setOnMouseMoved(event -> {
@@ -235,8 +254,14 @@ public class OpenBlocks extends Application {
             if(!wires.isEmpty())
                 for(Wire wire: wires)
                     wire.reposition(workspace.projectX(event.getX()),
-                                    workspace.projectY(event.getY()));
+                            workspace.projectY(event.getY()));
+            if(selectionEdit) {
+                if(!workspace.isSelectionVisible()) workspace.setSelectionVisible(true);
+                workspace.setSelectionX2(workspace.projectX(event.getX()));
+                workspace.setSelectionY2(workspace.projectY(event.getY()));
+            }
         });
+        //rootPane.setOnMouseDragged(event -> rootPane.getOnMouseMoved().handle(event));
         rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, rootPane.getOnMouseMoved());
 
         // Keyboard tool selector
@@ -309,6 +334,8 @@ public class OpenBlocks extends Application {
         selected = null;
         selectedTrash = false;
         selectedIcon.setImage(null);
+        selectionEdit = false;
+        workspace.setSelectionVisible(false);
     }
 
     /** Block panel actions */

@@ -89,8 +89,8 @@ public class ZoomPane {
     public void add(Node node){
         content.getChildren().add(node);
     }
-    public void addToBottom(Node node) {
-        content.getChildren().add(0, node);
+    public void addTo(int index, Node node) {
+        content.getChildren().add(index, node);
     }
     public void remove(Node node) {
         content.getChildren().remove(node);

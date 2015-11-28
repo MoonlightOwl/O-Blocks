@@ -4,6 +4,7 @@ import javafx.scene.control.ScrollPane;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
+import moonlightowl.openblocks.ui.Selection;
 import moonlightowl.openblocks.ui.ZoomPane;
 
 import java.util.LinkedList;
@@ -19,20 +20,37 @@ public class Workspace {
     private ZoomPane zoomPane;
     private LinkedList<Block> blocks;
     private LinkedList<Wire> wires;
+    private Selection selection;
 
     public Workspace(ScrollPane scroller) {
         zoomPane = new ZoomPane(scroller);
         blocks = new LinkedList<>();
         wires = new LinkedList<>();
+        selection = new Selection(); zoomPane.addTo(0, selection);
     }
 
     /** Geometry */
     public double projectX(double screenX){ return zoomPane.projectX(screenX); }
     public double projectY(double screenY){ return zoomPane.projectY(screenY); }
+    public LinkedList<Block> getBlocks(){ return new LinkedList<>(blocks); }
+    public LinkedList<Wire> getWires(){ return new LinkedList<>(wires); }
 
+    public boolean isSelectionVisible() { return selection.isVisible(); }
+    public double getSelectionX1() { return selection.getTranslateX(); }
+    public double getSelectionY1() { return selection.getTranslateY(); }
+    public double getSelectionX2() { return selection.getTranslateX() + selection.getWidth(); }
+    public double getSelectionY2() { return selection.getTranslateY() + selection.getHeight(); }
+
+    /** Workspace actions */
     public void drag(double deltaX, double deltaY){
         zoomPane.drag(deltaX, deltaY);
     }
+
+    public void setSelectionVisible(boolean visible) { selection.setVisible(visible); }
+    public void setSelectionX1(double x) { selection.setTranslateX(x); }
+    public void setSelectionY1(double y) { selection.setTranslateY(y); }
+    public void setSelectionX2(double x) { selection.setWidth(x - selection.getTranslateX()); }
+    public void setSelectionY2(double y) { selection.setHeight(y - selection.getTranslateY()); }
 
     /** Blocks / joints / wires magic */
     public void addBlock(Block block){
@@ -40,7 +58,7 @@ public class Workspace {
         blocks.add(block);
     }
     public void addWire(Wire wire){
-        zoomPane.addToBottom(wire);
+        zoomPane.addTo(1, wire);
         wires.add(wire);
     }
 
@@ -54,8 +72,9 @@ public class Workspace {
             if(clean) blocks.remove(block);
         }
     }
+
+    // Remove wire from list. If not 'clean' - then just detach from blocks
     public void removeWire(Wire wire){ removeWire(wire, true); }
-    /** Remove wire from list. If not 'clean' - then just detach from blocks */
     private void removeWire(Wire wire, boolean clean){
         if(wire != null) {
             for(Joint joint: wire.getJoints())
@@ -72,7 +91,4 @@ public class Workspace {
         // Clean up
         zoomPane.clear();
     }
-
-    public LinkedList<Block> getBlocks(){ return new LinkedList<>(blocks); }
-    public LinkedList<Wire> getWires(){ return new LinkedList<>(wires); }
 }
