@@ -16,7 +16,7 @@ import moonlightowl.openblocks.structure.Joint;
 public class Not extends Block {
     public Not() {
         super(0, 0, Blocks.Id.NOT);
-        addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0));
+        addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0).setMultiwired(true));
         addJoint(new Joint(this, 39, -2, Joint.FROM, Data.BOOLEAN, 1));
         setIcon(Assets.blockIconsIndex.get("not.png"));
     }

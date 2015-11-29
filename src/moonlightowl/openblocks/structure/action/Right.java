@@ -16,7 +16,7 @@ import moonlightowl.openblocks.structure.Joint;
 public class Right extends Block {
     public Right() {
         super(0, 0, Blocks.Id.RIGHT);
-        addJoint(new Joint(this, -37, 0, Joint.TO, 0));
+        addJoint(new Joint(this, -37, 0, Joint.TO, 0).setMultiwired(true));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIconsIndex.get("right.png"));
         operator = new Action("robot.turnRight()");

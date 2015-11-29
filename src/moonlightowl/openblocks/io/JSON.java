@@ -8,7 +8,6 @@ import moonlightowl.openblocks.structure.Wire;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 

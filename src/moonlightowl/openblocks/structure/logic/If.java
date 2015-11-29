@@ -16,7 +16,7 @@ import moonlightowl.openblocks.structure.Joint;
 public class If extends Block {
     public If() {
         super(0, 0, Blocks.Id.IF);
-        addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0));
+        addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0).setMultiwired(true));
         addJoint(new Joint(this, 0, -42, Joint.NO, 2));
         addJoint(new Joint(this, 0, 39, Joint.YES, 3));
         setIcon(Assets.blockIconsIndex.get("if.png"));

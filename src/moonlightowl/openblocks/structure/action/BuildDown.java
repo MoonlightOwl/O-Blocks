@@ -16,7 +16,7 @@ import moonlightowl.openblocks.structure.Joint;
 public class BuildDown extends Block {
     public BuildDown() {
         super(0, 0, Blocks.Id.BUILDDOWN);
-        addJoint(new Joint(this, -37, 0, Joint.TO, 0));
+        addJoint(new Joint(this, -37, 0, Joint.TO, 0).setMultiwired(true));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIconsIndex.get("build_down.png"));
         operator = new Action("robot.placeDown()");

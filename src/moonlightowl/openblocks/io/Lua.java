@@ -1,7 +1,8 @@
-package moonlightowl.openblocks.io.lua;
+package moonlightowl.openblocks.io;
 
 import moonlightowl.openblocks.Settings;
 import moonlightowl.openblocks.Workspace;
+import moonlightowl.openblocks.io.lua.*;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
@@ -12,7 +13,8 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static moonlightowl.openblocks.Blocks.Id.*;
+import static moonlightowl.openblocks.Blocks.Id.END;
+import static moonlightowl.openblocks.Blocks.Id.START;
 
 /**
  * OpenBlocks.Lua
@@ -23,10 +25,12 @@ import static moonlightowl.openblocks.Blocks.Id.*;
 
 public class Lua {
     private static HashMap<String, String> namespace = new HashMap<>();
+    private static HashMap<String, String> gotospace = new HashMap<>();
 
     public static boolean export(Workspace workspace, OutputStream stream) throws IOException {
         NameGen.init();
         namespace.clear();
+        gotospace.clear();
         // Create root structure for project
         Function program = new Function("main");
         // Let's get started - search for Start block
@@ -44,16 +48,33 @@ public class Lua {
 
     private static class Tracer {
         private Block current;
-        private Joint inputPoint;
+        private Joint entry;
         private Function function;
 
         public Tracer(Block beginFrom, Function function){
             this.current = beginFrom;
             this.function = function;
-            inputPoint = null;
         }
         public void run() throws IOException {
             while(current != null){
+                // Create goto mark
+                if(entry != null) {
+                    if(entry.isMultiwired()) {
+                        if(entry.getWires().length > 1) {
+                            // Add new goto mark
+                            if(gotospace.get(current.getID()) == null) {
+                                String name = NameGen.getName();
+                                function.add(new Action("::" + name + "::"));
+                                gotospace.put(current.getID(), name);
+                            }
+                            // Or break processing, and go to to existing implementation
+                            else {
+                                function.add(new Action("goto " + gotospace.get(current.getID())));
+                                break;
+                            }
+                        }
+                    }
+                }
                 // Build structure
                 switch (current.getBlockId()) {
                     case IF:
@@ -109,10 +130,8 @@ public class Lua {
                 // Finita la commedia
                 if(current.getBlockId() == END) break;
                 // Or move to the next block
-                Joint far = jointOf(current, Joint.FROM);
-
-                current = otherSideOf(current, Joint.FROM);
-
+                entry = otherSideJointOf(jointOf(current, Joint.FROM));
+                current = (entry != null ? entry.getOwner() : null);
                 // Finita again?
                 if(current != null && current.getBlockId() == START) break;
             }
@@ -125,10 +144,14 @@ public class Lua {
             return otherSideOf(jointOf(source, jointType));
         }
         private Block otherSideOf(Joint joint) {
+            Joint far = otherSideJointOf(joint);
+            return far == null ? null : far.getOwner();
+        }
+        private Joint otherSideJointOf(Joint joint) {
             if(joint != null) {
                 for (Wire wire : joint.getWires()) {
                     Joint far = joint.getLink(wire);
-                    if (far != null) return far.getOwner();
+                    if (far != null) return far;
                 }
             }
             return null;

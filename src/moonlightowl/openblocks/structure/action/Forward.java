@@ -16,7 +16,7 @@ import moonlightowl.openblocks.structure.Joint;
 public class Forward extends Block {
     public Forward() {
         super(0, 0, Blocks.Id.FORWARD);
-        addJoint(new Joint(this, -37, 0, Joint.TO, 0));
+        addJoint(new Joint(this, -37, 0, Joint.TO, 0).setMultiwired(true));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIconsIndex.get("forward.png"));
         operator = new Action("robot.forward()");

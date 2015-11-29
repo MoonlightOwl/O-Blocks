@@ -20,11 +20,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import moonlightowl.openblocks.io.JSON;
-import moonlightowl.openblocks.io.lua.Lua;
+import moonlightowl.openblocks.io.Lua;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
-import moonlightowl.openblocks.ui.*;
+import moonlightowl.openblocks.ui.About;
+import moonlightowl.openblocks.ui.Progress;
+import moonlightowl.openblocks.ui.ToolButton;
+import moonlightowl.openblocks.ui.ToolPane;
 import moonlightowl.openblocks.util.ImageGen;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -450,7 +453,7 @@ public class OpenBlocks extends Application {
                     else {
                         Log.out("Successfully exported project to Lua");
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.error("Cannot export project properly! Some errors occured.", e);
                     error("Ошибка записи проекта",
                             "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);

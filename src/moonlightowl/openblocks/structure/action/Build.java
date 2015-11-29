@@ -16,7 +16,7 @@ import moonlightowl.openblocks.structure.Joint;
 public class Build extends Block {
     public Build() {
         super(0, 0, Blocks.Id.BUILD);
-        addJoint(new Joint(this, -37, 0, Joint.TO, 0));
+        addJoint(new Joint(this, -37, 0, Joint.TO, 0).setMultiwired(true));
         addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIconsIndex.get("build.png"));
         operator = new Action("robot.place()");
