@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +24,7 @@ import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
 import moonlightowl.openblocks.ui.*;
+import moonlightowl.openblocks.util.ImageGen;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -68,9 +70,10 @@ public class OpenBlocks extends Application {
         loader.setController(this);
         loader.load();
 
-        // Resources
+        // Resources && tools initialization
         Assets.load();
         Log.init();
+        ImageGen.init();
 
         // Generate GUI
         initUI();
@@ -141,8 +144,8 @@ public class OpenBlocks extends Application {
         workspace = new Workspace(scroller);
 
         selectedIcon = new ImageView();
-        selectedIcon.setScaleX(0.3);
-        selectedIcon.setScaleY(0.3);
+        selectedIcon.setScaleX(0.4);
+        selectedIcon.setScaleY(0.4);
         rootPane.getChildren().add(selectedIcon);
 
         initToolsPanels();
@@ -301,8 +304,9 @@ public class OpenBlocks extends Application {
                 new ToolPane("Логика")
         };
         for(Blocks.Id id: Blocks.Id.values()){
-            ToolButton tool = new ToolButton(id.name, Assets.toolIcons[id.id]);
-            tool.setOnMouseClicked(event -> { select(id); closeAllToolPanes(); });
+            WritableImage image = ImageGen.render(id.getInstance(), ImageGen.TOOL_ICON);
+            ToolButton tool = new ToolButton(id.name, image);
+            tool.setOnMouseClicked(event -> { select(id, image); closeAllToolPanes(); });
             tools[id.category.ordinal()].add(tool);
         }
         for(ToolPane pane: tools) rootPane.getChildren().add(pane);
@@ -330,10 +334,10 @@ public class OpenBlocks extends Application {
         selectedTrash = true;
         selectedIcon.setImage(Assets.toolBarIcon[5]);
     }
-    public void select(Blocks.Id id){
+    public void select(Blocks.Id id, Image image){
         deselect();
         selected = id;
-        selectedIcon.setImage(Assets.toolIcons[id.id]);
+        selectedIcon.setImage(image);
     }
     public void deselect(){
         selected = null;
