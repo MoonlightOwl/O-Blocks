@@ -45,10 +45,10 @@ public class Assets {
         };
 
         blockBack = new Image[]{
-                loadImage("blocks/robot.png"),
-                loadImage("blocks/action.png"),
-                loadImage("blocks/cycle.png"),
-                loadImage("blocks/logic.png"),
+                loadImage("blocks/robot_x.png"),
+                loadImage("blocks/action_x.png"),
+                loadImage("blocks/cycle_x.png"),
+                loadImage("blocks/logic_x.png"),
         };
         
         blockIconsIndex = new HashMap<>();
