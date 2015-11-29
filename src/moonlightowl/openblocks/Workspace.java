@@ -1,7 +1,12 @@
 package moonlightowl.openblocks;
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.transform.Translate;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
@@ -10,6 +15,7 @@ import moonlightowl.openblocks.ui.ZoomPane;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -51,8 +57,16 @@ public class Workspace {
     /** Geometry */
     public double projectX(double screenX){ return zoomPane.projectX(screenX); }
     public double projectY(double screenY){ return zoomPane.projectY(screenY); }
+
     public LinkedList<Block> getBlocks(){ return new LinkedList<>(blocks); }
     public LinkedList<Wire> getWires(){ return new LinkedList<>(wires); }
+    public WritableImage snapshot() {
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        Rectangle2D bounds = getBoundsOf(blocks);
+        params.setViewport(bounds);
+        return zoomPane.snapshot(params, null);
+    }
 
     public boolean isSelectionVisible() { return selection.isVisible(); }
     public double getSelectionX1() { return selection.getTranslateX(); }
@@ -124,20 +138,29 @@ public class Workspace {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
+    private Rectangle2D getBoundsOf(LinkedList<Block> blocks) {
+        int padding = 10;
+        Optional<Block> leftmost = blocks.stream()
+                .min((a, b) -> Double.compare(a.getCenterX(), b.getCenterX())),
+                rightmost = blocks.stream()
+                        .max((a, b) -> Double.compare(a.getCenterX(), b.getCenterX())),
+                topmost = blocks.stream()
+                        .min((a, b) -> Double.compare(a.getCenterY(), b.getCenterY())),
+                bottommost = blocks.stream()
+                        .max((a, b) -> Double.compare(a.getCenterY(), b.getCenterY()));
+        double x = leftmost.isPresent() ? leftmost.get().getX() : 0,
+               y = topmost.isPresent() ? leftmost.get().getY() : 0,
+               width = rightmost.isPresent() ? rightmost.get().getX() + rightmost.get().getWidth() - x : 100,
+               height = bottommost.isPresent() ? bottommost.get().getY() + bottommost.get().getHeight() - y : 100;
+        return new Rectangle2D(x-padding, y-padding, width + padding*2, height + padding*2);
+    }
     public void selectAll(LinkedList<Block> blocks) {
         if(blocks == null) blocks = this.blocks;
-        Block leftmost = blocks.stream()
-                .min((a, b) -> Double.compare(a.getCenterX(), b.getCenterX())).get(),
-                rightmost = blocks.stream()
-                        .max((a, b) -> Double.compare(a.getCenterX(), b.getCenterX())).get(),
-                topmost = blocks.stream()
-                        .min((a, b) -> Double.compare(a.getCenterY(), b.getCenterY())).get(),
-                bottommost = blocks.stream()
-                        .max((a, b) -> Double.compare(a.getCenterY(), b.getCenterY())).get();
-        setSelectionX1(leftmost.getX());
-        setSelectionY1(topmost.getY());
-        setSelectionX2(rightmost.getX() + rightmost.getWidth());
-        setSelectionY2(bottommost.getY() + bottommost.getHeight());
+        Rectangle2D bounds = getBoundsOf(blocks);
+        setSelectionX1(bounds.getMinX());
+        setSelectionY1(bounds.getMinY());
+        setSelectionX2(bounds.getMaxX());
+        setSelectionY2(bounds.getMaxY());
         setSelectionVisible(true);
     }
 

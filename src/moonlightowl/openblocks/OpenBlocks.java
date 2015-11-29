@@ -3,6 +3,7 @@ package moonlightowl.openblocks;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,6 +29,8 @@ import moonlightowl.openblocks.util.ImageGen;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,6 +289,7 @@ public class OpenBlocks extends Application {
                 case DELETE: if(workspace.isSelectionVisible()) clearSelection();
                     else selectTrashTool(); break;
                 case ESCAPE: deselect(); break;
+                case P: takeScreenshot(); break;
             }
         });
         rootPane.setOnKeyReleased(event -> {
@@ -456,17 +460,83 @@ public class OpenBlocks extends Application {
         };
         task.setOnSucceeded(event -> {
             progress.hide();
-
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Операция завершена");
             alert.setHeaderText("Экспорт в Lua");
             alert.setContentText("Программа успешно экспортирована");
             alert.showAndWait();
         });
+        task.setOnFailed(event -> {
+            progress.hide();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Операция прервана");
+            alert.setHeaderText("Экспорт в Lua");
+            alert.setContentText("Во время выполнения произошла ошибка.\n Подробнее - в логах");
+            alert.showAndWait();
+        });
 
         progress.show();
         Thread thread = new Thread(task);
         thread.start();
+    }
+    public void takeScreenshot() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Экспортировать в...");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setInitialFileName((projectFile == null ?
+                Settings.UNTITLED : projectFile.getName().split("\\.")[0]) + ".png");
+        fileChooser.setSelectedExtensionFilter(
+                new FileChooser.ExtensionFilter("Изображения", "*.png"));
+        File file = fileChooser.showSaveDialog(parentStage);
+
+        if(file != null) {
+            Task<Void> task = new Task<Void>() {
+                @Override
+                public Void call() throws InterruptedException {
+                    try {
+                        // Make progressbar visible
+                        Thread.sleep(500);
+                        // Do the thing
+                        Platform.runLater(() -> {
+                            BufferedImage bImage = SwingFXUtils.fromFXImage(workspace.snapshot(), null);
+                            try {
+                                ImageIO.write(bImage, "png", file);
+                                Log.out("Successfully exported project to PNG");
+                            } catch (IOException e) {
+                                Log.error("Cannot export project PNG! Some errors occured.", e);
+                                error("Ошибка экспорта проекта",
+                                        "В силу неизвестных причин, произошла ошибка записи отрендеренного изображения в файл.", e);
+                            }
+                        });
+                    } catch (Exception e) {
+                        Log.error("Cannot export project PNG! Some errors occured.", e);
+                        error("Ошибка экспорта проекта",
+                                "В силу неизвестных причин, произошла ошибка записи отрендеренного изображения в файл.", e);
+                    }
+                    return null;
+                }
+            };
+            task.setOnSucceeded(event -> {
+                progress.hide();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Операция завершена");
+                alert.setHeaderText("Экспорт в PNG");
+                alert.setContentText("Программа успешно отрендерена");
+                alert.showAndWait();
+            });
+            task.setOnFailed(event -> {
+                progress.hide();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Операция прервана");
+                alert.setHeaderText("Экспорт в PNG");
+                alert.setContentText("Во время выполнения произошла ошибка. \nПодробнее - в логах");
+                alert.showAndWait();
+            });
+
+            progress.show();
+            Thread thread = new Thread(task);
+            thread.start();
+        }
     }
 
     public void selectAll() { workspace.selectAll(null); }

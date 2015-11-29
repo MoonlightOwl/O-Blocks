@@ -6,7 +6,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -74,6 +76,9 @@ public class ZoomPane {
         return (scroll + screenY - offset) / scale;
     }
     public int getChildrenCount(){ return content.getChildren().size(); }
+    public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
+        return content.snapshot(params, image);
+    }
 
 
     public void drag(double deltaX, double deltaY) {
