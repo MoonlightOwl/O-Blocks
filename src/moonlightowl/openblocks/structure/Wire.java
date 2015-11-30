@@ -48,8 +48,7 @@ public class Wire extends Group {
         data.setStrokeLineCap(StrokeLineCap.ROUND);
 
         // Add listener
-        line.setOnMouseClicked(listener);
-        data.setOnMouseClicked(listener);
+        setOnMouseClicked(listener);
         
         getChildren().addAll(line, data);
         data.setVisible(false);

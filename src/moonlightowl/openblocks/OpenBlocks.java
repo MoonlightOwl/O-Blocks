@@ -207,7 +207,7 @@ public class OpenBlocks extends Application {
             }
         });
 
-        // Wire removement  TODO: fixme
+        // Wire removement
         Wire.setOnClickListenter(event -> {
             if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
                 Wire wire = (Wire)event.getSource();
