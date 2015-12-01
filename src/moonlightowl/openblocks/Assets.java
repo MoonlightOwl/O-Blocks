@@ -16,7 +16,7 @@ public class Assets {
     public static String imagesPath = "/images/";
 
     public static Image logo, node, nodePlus, nodeMinus;
-    public static Image[] toolBarIcon, toolIcons, blockBack;
+    public static Image[] toolBarIcon, blockBack;
     public static ArrayList<Image> blockIcons;
     public static HashMap<String, Image> blockIconsIndex;
 
@@ -72,5 +72,6 @@ public class Assets {
         loadBlockIcon("if.png");
         loadBlockIcon("not.png");
         loadBlockIcon("equals.png");
+        loadBlockIcon("and.png");
     }
 }

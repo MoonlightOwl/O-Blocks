@@ -106,16 +106,17 @@ public class Lua {
                         function.add(new Variable(name, new Unary("not ", ex)));
                         namespace.put(current.getID(), name);
                         break;
-                    case EQUALS:
+                    case EQUALS:case AND:
                         Optional<Joint> a = current.getJoint(0), b = current.getJoint(1);
                         Block blockA = (a.isPresent() ? otherSideOf(a.get()) : null),
                               blockB = (b.isPresent() ? otherSideOf(b.get()) : null);
                         String varA = (blockA != null ? namespace.get(blockA.getID()) : null),
                                varB = (blockB != null ? namespace.get(blockB.getID()) : null);
-                        Operator opA = new Action(varA != null ? varA : "true"),
-                                 opB = new Action(varB != null ? varB : "true");
+                        Operator opA = new Action(varA != null ? varA : "false"),
+                                 opB = new Action(varB != null ? varB : "false");
                         String nameForEquals = NameGen.getName();
-                        function.add(new Variable(nameForEquals, new Binary(" == ", opA, opB)));
+                        function.add(new Variable(nameForEquals,
+                                ((Binary)current.getOperator()).setExpressions(opA, opB)));
                         namespace.put(current.getID(), nameForEquals);
                         break;
                     default:
