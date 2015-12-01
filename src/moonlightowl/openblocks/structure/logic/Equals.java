@@ -17,8 +17,8 @@ import moonlightowl.openblocks.structure.Joint;
 public class Equals extends Block {
     public Equals() {
         super(0, 0, Blocks.Id.EQUALS);
-        addJoint(new Joint(this, -39, -2, Joint.TO, Data.BOOLEAN, 0));
-        addJoint(new Joint(this, 39, -2, Joint.TO, Data.BOOLEAN, 1));
+        addJoint(new Joint(this, -39, -2, Joint.TO, 0));
+        addJoint(new Joint(this, 39, -2, Joint.TO, 1));
         addJoint(new Joint(this, 0, -42, Joint.FROM, Data.BOOLEAN, 2));
         addJoint(new Joint(this, 0, 39, Joint.VARIABLE, Data.BOOLEAN, 3).setMultiwired(true));
         setIcon(Assets.blockIconsIndex.get("equals.png"));

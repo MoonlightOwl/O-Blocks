@@ -36,6 +36,7 @@ public class Blocks {
         DETECT(Category.ACTION, "Блок на пути?", Detect::new),
         DETECTUP(Category.ACTION, "Блок сверху?", DetectUp::new),
         DETECTDOWN(Category.ACTION, "Блок снизу?", DetectDown::new),
+        INPUT(Category.ACTION, "Ввод с консоли", Input::new),
         IF(Category.LOGIC, "Если ... иначе", If::new),
         NOT(Category.LOGIC, "Не", Not::new),
         EQUALS(Category.LOGIC, "Равно", Equals::new),

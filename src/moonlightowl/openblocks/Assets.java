@@ -69,6 +69,7 @@ public class Assets {
         loadBlockIcon("detect.png");
         loadBlockIcon("detect_up.png");
         loadBlockIcon("detect_down.png");
+        loadBlockIcon("input.png");
         loadBlockIcon("if.png");
         loadBlockIcon("not.png");
         loadBlockIcon("equals.png");

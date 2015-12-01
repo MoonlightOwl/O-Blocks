@@ -12,6 +12,6 @@ import javafx.scene.paint.Color;
 public class Data {
     public final static int NOTHING = 0, BOOLEAN = 1, NUMBER = 2, STRING = 3, LINK = 4, ERROR = 5;
     public final static Color[] color = {
-            Color.BLACK, Color.ORANGE, Color.CYAN, Color.GREEN, Color.LIGHTGRAY, Color.RED
+            Color.BLACK, Color.ORANGE, Color.CYAN, Color.GREENYELLOW, Color.LIGHTGRAY, Color.RED
     };
 }
