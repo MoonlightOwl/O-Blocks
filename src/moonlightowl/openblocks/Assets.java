@@ -72,6 +72,12 @@ public class Assets {
         loadBlockIcon("if.png");
         loadBlockIcon("not.png");
         loadBlockIcon("equals.png");
+        loadBlockIcon("not_equals.png");
+        loadBlockIcon("less.png");
+        loadBlockIcon("less_or_equals.png");
+        loadBlockIcon("greater.png");
+        loadBlockIcon("greater_or_equals.png");
         loadBlockIcon("and.png");
+        loadBlockIcon("or.png");
     }
 }

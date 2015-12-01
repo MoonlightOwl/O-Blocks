@@ -2,10 +2,7 @@ package moonlightowl.openblocks;
 
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.action.*;
-import moonlightowl.openblocks.structure.logic.And;
-import moonlightowl.openblocks.structure.logic.Equals;
-import moonlightowl.openblocks.structure.logic.If;
-import moonlightowl.openblocks.structure.logic.Not;
+import moonlightowl.openblocks.structure.logic.*;
 import moonlightowl.openblocks.structure.robot.End;
 import moonlightowl.openblocks.structure.robot.Start;
 
@@ -42,7 +39,13 @@ public class Blocks {
         IF(Category.LOGIC, "Если ... иначе", If::new),
         NOT(Category.LOGIC, "Не", Not::new),
         EQUALS(Category.LOGIC, "Равно", Equals::new),
-        AND(Category.LOGIC, "И", And::new);
+        NOTEQUALS(Category.LOGIC, "Не равно", NotEquals::new),
+        LESS(Category.LOGIC, "Меньше", Less::new),
+        LESSOREQUALS(Category.LOGIC, "Меньше или равно", LessOrEquals::new),
+        GREATER(Category.LOGIC, "Больше", Greater::new),
+        GREATEROREQUALS(Category.LOGIC, "Больше или равно", GreaterOrEquals::new),
+        AND(Category.LOGIC, "И", And::new),
+        OR(Category.LOGIC, "ИЛИ", Or::new);
 
         public final int id;
         public final Category category;

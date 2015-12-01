@@ -106,7 +106,8 @@ public class Lua {
                         function.add(new Variable(name, new Unary("not ", ex)));
                         namespace.put(current.getID(), name);
                         break;
-                    case EQUALS:case AND:
+                    case EQUALS: case NOTEQUALS: case AND: case OR:
+                    case LESS: case LESSOREQUALS: case GREATER: case GREATEROREQUALS:
                         Optional<Joint> a = current.getJoint(0), b = current.getJoint(1);
                         Block blockA = (a.isPresent() ? otherSideOf(a.get()) : null),
                               blockB = (b.isPresent() ? otherSideOf(b.get()) : null);
