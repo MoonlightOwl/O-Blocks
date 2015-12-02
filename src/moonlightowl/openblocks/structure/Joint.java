@@ -57,12 +57,7 @@ public class Joint extends ImageView {
         normal = new Point2D(x, y+Block.DEPTH).normalize();
 
         // Set image
-        if(action == YES)
-            setImage(Assets.nodePlus);
-        else if(action == NO)
-            setImage(Assets.nodeMinus);
-        else
-            setImage(Assets.node);
+        changeImage();
         setTranslateX(owner.getWidth()/2 + x - 8); setTranslateY(owner.getHeight()/2 + y - 8);
 
         // Set color tint to ImageView
@@ -84,6 +79,17 @@ public class Joint extends ImageView {
 
         // Add listener
         setOnMouseClicked(listener);
+    }
+
+    private void changeImage() {
+        if(action == YES)
+            setImage(Assets.nodePlus);
+        else if(action == NO)
+            setImage(Assets.nodeMinus);
+        else if(isMultiwired())
+            setImage(Assets.nodeMulti);
+        else
+            setImage(Assets.node);
     }
 
     /** Getters */
@@ -114,7 +120,9 @@ public class Joint extends ImageView {
 
 
     /** Setters */
-    public Joint setMultiwired(boolean multi) { this.multiwired = multi; return this; }
+    public Joint setMultiwired(boolean multi) {
+        this.multiwired = multi; changeImage(); return this;
+    }
     public boolean attachWire(Wire wire){
         if(!multiwired) detachAllWires();
         if(wire != null) {
