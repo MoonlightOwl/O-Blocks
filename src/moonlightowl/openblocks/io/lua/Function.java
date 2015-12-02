@@ -34,7 +34,7 @@ public class Function extends Compound {
     public ArrayList<Operator> getChildren() { return children; }
     public int size() { return children.size(); }
     public Operator last() {
-        return children.get(children.size()-1);
+        return (children.size() > 0 ? children.get(children.size()-1) : null);
     }
 
     public String toString(){

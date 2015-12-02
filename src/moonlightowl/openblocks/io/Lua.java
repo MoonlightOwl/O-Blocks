@@ -1,5 +1,6 @@
 package moonlightowl.openblocks.io;
 
+import moonlightowl.openblocks.Blocks;
 import moonlightowl.openblocks.Settings;
 import moonlightowl.openblocks.Workspace;
 import moonlightowl.openblocks.io.lua.*;
@@ -62,14 +63,18 @@ public class Lua {
                     if(entry.isMultiwired()) {
                         if(entry.getWires().length > 1) {
                             // Add new goto mark
-                            if(gotospace.get(current.getID()) == null) {
+                            if (gotospace.get(current.getID()) == null) {
                                 String name = NameGen.getName();
-                                function.add(new Action("::" + name + "::"));
+                                // Cycles do not need goto marks
+                                if(current.getBlockId().category != Blocks.Category.CYCLE)
+                                    function.add(new Action("::" + name + "::"));
                                 gotospace.put(current.getID(), name);
                             }
                             // Or break processing, and go to to existing implementation
                             else {
-                                function.add(new Action("goto " + gotospace.get(current.getID())));
+                                // Cycles do not need goto actions
+                                if(current.getBlockId().category != Blocks.Category.CYCLE)
+                                    function.add(new Action("goto " + gotospace.get(current.getID())));
                                 break;
                             }
                         }
@@ -79,8 +84,6 @@ public class Lua {
                 switch (current.getBlockId()) {
                     case IF:
                         Function plus = new Function("plus"), minus = new Function("minus");
-                        plus.setIndent(function.getIndent() + 1);
-                        minus.setIndent(function.getIndent() + 1);
                         // Build condition
                         Condition condition = new Condition(new Action(getLastValue("false")), plus, minus);
                         condition.setIndent(function.getIndent());
@@ -91,6 +94,21 @@ public class Lua {
                         if(minusBlock != null) new Tracer(minusBlock, minus).run();
                         //
                         function.add(condition);
+                        break;
+                    case FOR:
+                        // Get last runtime variable, or look for available variables among all wires
+                        String cap = getLastValue(null);
+                        if(cap == null) cap = seekVariables(current.getJoint(0).get());
+                        cap = (cap == null ? "0" : "tonumber("+cap+")");
+                        // Build cycle
+                        Function body = new Function("body");
+                        String n = NameGen.getName();
+                        Cycle cycle = new Cycle(current.getOperator(), new Action(n + " = 1, " + cap), body);
+                        // Run body branch
+                        Block bodyBlock = otherSideOf(current, Joint.YES);
+                        if(bodyBlock != null) new Tracer(bodyBlock, body).run();
+                        //
+                        function.add(cycle);
                         break;
                     case NOT:
                         String name = NameGen.getName();
@@ -119,9 +137,9 @@ public class Lua {
                     default:
                         Joint from = jointOf(current, Joint.FROM);
                         if(from != null && from.getDataType() != Data.NOTHING) {
-                            String n = NameGen.getName();
-                            function.add(new Variable(n, current.getOperator()));
-                            namespace.put(current.getID(), n);
+                            String nn = NameGen.getName();
+                            function.add(new Variable(nn, current.getOperator()));
+                            namespace.put(current.getID(), nn);
                         }
                         else function.add(current.getOperator());
                 }
@@ -145,6 +163,23 @@ public class Lua {
             else
                 return def;
         }
+
+        /**
+         * Look for available variables
+         */
+        private String seekVariables(Joint source) {
+            if(source != null) {
+                for (Wire wire : source.getWires()) {
+                    Joint far = source.getLink(wire);
+                    if (far != null) {
+                        String name = namespace.get(far.getOwner().getID());
+                        if (name != null) return name;
+                    }
+                }
+            }
+            return null;
+        }
+
 
         /**
          * Get linked block from first non-empty joint of the given type from source block

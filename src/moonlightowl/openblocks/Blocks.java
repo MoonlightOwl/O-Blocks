@@ -2,9 +2,9 @@ package moonlightowl.openblocks;
 
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.action.*;
+import moonlightowl.openblocks.structure.cycle.*;
 import moonlightowl.openblocks.structure.logic.*;
-import moonlightowl.openblocks.structure.robot.End;
-import moonlightowl.openblocks.structure.robot.Start;
+import moonlightowl.openblocks.structure.robot.*;
 
 import java.util.function.Supplier;
 
@@ -38,6 +38,7 @@ public class Blocks {
         DETECTDOWN(Category.ACTION, "Блок снизу?", DetectDown::new),
         INPUT(Category.ACTION, "Ввод с консоли", Input::new),
         PRINT(Category.ACTION, "Печать в консоль", Print::new),
+        FOR(Category.CYCLE, "Повторить N раз", For::new),
         IF(Category.LOGIC, "Если ... иначе", If::new),
         NOT(Category.LOGIC, "Не", Not::new),
         EQUALS(Category.LOGIC, "Равно", Equals::new),

@@ -4,7 +4,6 @@ import moonlightowl.openblocks.Assets;
 import moonlightowl.openblocks.Blocks;
 import moonlightowl.openblocks.io.lua.Action;
 import moonlightowl.openblocks.structure.Block;
-import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
 
 /**

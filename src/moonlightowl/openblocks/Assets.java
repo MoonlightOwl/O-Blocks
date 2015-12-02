@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class Assets {
     public static String imagesPath = "/images/";
 
-    public static Image logo, node, nodePlus, nodeMinus;
+    public static Image logo, node, nodePlus, nodeMinus, nodeMulti;
     public static Image[] toolBarIcon, blockBack;
     public static ArrayList<Image> blockIcons;
     public static HashMap<String, Image> blockIconsIndex;
@@ -34,6 +34,7 @@ public class Assets {
         node = loadImage("blocks/node.png");
         nodePlus = loadImage("blocks/node_plus.png");
         nodeMinus = loadImage("blocks/node_minus.png");
+        nodeMulti = loadImage("blocks/node_multi.png");
 
         toolBarIcon = new Image[]{
                 loadImage("tools/wire.png"),
@@ -71,6 +72,7 @@ public class Assets {
         loadBlockIcon("detect_down.png");
         loadBlockIcon("input.png");
         loadBlockIcon("print.png");
+        loadBlockIcon("for.png");
         loadBlockIcon("if.png");
         loadBlockIcon("not.png");
         loadBlockIcon("equals.png");
