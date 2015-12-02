@@ -81,30 +81,26 @@ public class Lua {
                         Function plus = new Function("plus"), minus = new Function("minus");
                         plus.setIndent(function.getIndent() + 1);
                         minus.setIndent(function.getIndent() + 1);
-                        // Get last operator variable, if any
-                        Operator last = function.last(), expression;
-                        if(last instanceof Variable)
-                            expression = new Action(((Variable) last).getName());
-                        else
-                            expression = new Action("true");
                         // Build condition
-                        Condition condition = new Condition(expression, plus, minus);
+                        Condition condition = new Condition(new Action(getLastValue("false")), plus, minus);
                         condition.setIndent(function.getIndent());
+                        // Run condition branches
                         Block plusBlock = otherSideOf(current, Joint.YES);
                         if(plusBlock != null) new Tracer(plusBlock, plus).run();
                         Block minusBlock = otherSideOf(current, Joint.NO);
                         if(minusBlock != null) new Tracer(minusBlock, minus).run();
+                        //
                         function.add(condition);
                         break;
                     case NOT:
-                        Operator l = function.last(), ex;
-                        if(l instanceof Variable)
-                            ex = new Action(((Variable) l).getName());
-                        else
-                            ex = new Action("true");
                         String name = NameGen.getName();
-                        function.add(new Variable(name, new Unary("not ", ex)));
+                        function.add(
+                                new Variable(name, new Unary("not ", new Action(getLastValue("false")))));
                         namespace.put(current.getID(), name);
+                        break;
+                    case PRINT:
+                        function.add(
+                                new Action(current.getOperator().toString() + "(" + getLastValue("") + ")"));
                         break;
                     case EQUALS: case NOTEQUALS: case AND: case OR:
                     case LESS: case LESSOREQUALS: case GREATER: case GREATEROREQUALS:
@@ -137,6 +133,17 @@ public class Lua {
                 // Finita again?
                 if(current != null && current.getBlockId() == START) break;
             }
+        }
+
+        /**
+         * Return last variable or the default value
+         */
+        private String getLastValue(String def) {
+            Operator l = function.last();
+            if(l instanceof Variable)
+                return ((Variable) l).getName();
+            else
+                return def;
         }
 
         /**

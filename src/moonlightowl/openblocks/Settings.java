@@ -9,7 +9,7 @@ package moonlightowl.openblocks;
 
 public class Settings {
     // App properties
-    public static String VERSION = "0.21a", TITLE = "OcBlocks";
+    public static String VERSION = "0.22a", TITLE = "OcBlocks";
     // Initial window size
     public static int WIDTH = 800, HEIGHT = 600;
     // Workspace properties
