@@ -446,11 +446,13 @@ public class OpenBlocks extends Application {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws InterruptedException {
+                System.out.println(">>>");
                 try (FileOutputStream stream = new FileOutputStream(file)) {
-                    if(!Lua.export(workspace, stream))
+                    if(!Lua.export(workspace, stream)) {
                         error("Ошибка экспорта",
                                 "Внезапно, структура проекта не поддается экпорту! \nОтправьте проект автору IDE, пусть тоже удивится.", null);
-                    else {
+                        Log.error("Cannot export project structure properly! Lua.export returned 'false'");
+                    } else {
                         Log.out("Successfully exported project to Lua");
                     }
                 } catch (Exception e) {
@@ -458,6 +460,7 @@ public class OpenBlocks extends Application {
                     error("Ошибка записи проекта",
                             "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);
                 }
+                System.out.println(">>>");
                 return null;
             }
         };
@@ -470,6 +473,7 @@ public class OpenBlocks extends Application {
             alert.showAndWait();
         });
         task.setOnFailed(event -> {
+            Log.error("Export task failed", task.getException());
             progress.hide();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Операция прервана");
@@ -528,6 +532,7 @@ public class OpenBlocks extends Application {
                 alert.showAndWait();
             });
             task.setOnFailed(event -> {
+                Log.error("Take screenshot task failed", task.getException());
                 progress.hide();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Операция прервана");
