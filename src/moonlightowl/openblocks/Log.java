@@ -28,7 +28,7 @@ public class Log {
         if(writer != null){ writer.println(message); writer.flush(); }
         System.out.println(message);
     }
-    public static void trace(Exception e){
+    public static void trace(Throwable e){
         if(writer != null){ e.printStackTrace(writer); writer.flush(); }
         e.printStackTrace();
     }
@@ -36,7 +36,7 @@ public class Log {
     public static void error(String message){
         out("[ERROR] " + message);
     }
-    public static void error(String message, Exception e){
+    public static void error(String message, Throwable e){
         error(message);
         trace(e);
     }

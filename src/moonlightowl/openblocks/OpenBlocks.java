@@ -446,7 +446,6 @@ public class OpenBlocks extends Application {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws InterruptedException {
-                System.out.println(">>>");
                 try (FileOutputStream stream = new FileOutputStream(file)) {
                     if(!Lua.export(workspace, stream)) {
                         error("Ошибка экспорта",
@@ -460,7 +459,6 @@ public class OpenBlocks extends Application {
                     error("Ошибка записи проекта",
                             "В силу неизвестных причин, произошла ошибка записи экспортированного листинга в файл.", e);
                 }
-                System.out.println(">>>");
                 return null;
             }
         };
