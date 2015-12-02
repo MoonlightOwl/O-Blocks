@@ -104,6 +104,7 @@ public class Lua {
                         Function body = new Function("body");
                         String n = NameGen.getName();
                         Cycle cycle = new Cycle(current.getOperator(), new Action(n + " = 1, " + cap), body);
+                        namespace.put(current.getID(), n);
                         // Run body branch
                         Block bodyBlock = otherSideOf(current, Joint.YES);
                         if(bodyBlock != null) new Tracer(bodyBlock, body).run();
@@ -117,8 +118,11 @@ public class Lua {
                         namespace.put(current.getID(), name);
                         break;
                     case PRINT:
+                        String ln = getLastValue(null);
+                        if(ln == null) ln = seekVariables(current.getJoint(0).get());
+                        if(ln == null) ln = "";
                         function.add(
-                                new Action(current.getOperator().toString() + "(" + getLastValue("") + ")"));
+                                new Action(current.getOperator().toString() + "(" + ln + ")"));
                         break;
                     case EQUALS: case NOTEQUALS: case AND: case OR:
                     case LESS: case LESSOREQUALS: case GREATER: case GREATEROREQUALS:

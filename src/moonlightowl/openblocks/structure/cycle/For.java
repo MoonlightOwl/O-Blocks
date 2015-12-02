@@ -20,7 +20,7 @@ public class For extends Block {
         addJoint(new Joint(this, -37, -2, Joint.TO, 0).setMultiwired(true));
         addJoint(new Joint(this, 0, -40, Joint.NO, 2));
         addJoint(new Joint(this, 0, 37, Joint.YES, 3));
-        addJoint(new Joint(this, 37, -2, Joint.VARIABLE, Data.NUMBER, 0).setMultiwired(true));
+        addJoint(new Joint(this, 37, -2, Joint.VARIABLE, Data.NUMBER, 4).setMultiwired(true));
         setIcon(Assets.blockIconsIndex.get("for.png"));
         operator = new Action("for");
     }
