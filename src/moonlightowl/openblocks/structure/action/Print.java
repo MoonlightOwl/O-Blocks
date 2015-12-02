@@ -18,7 +18,7 @@ public class Print extends Block {
     public Print(){
         super(0, 0, Blocks.Id.PRINT);
         addJoint(new Joint(this, -37, 0, Joint.TO, 0));
-        addJoint(new Joint(this, 37, -10, Joint.FROM, 1));
+        addJoint(new Joint(this, 37, 0, Joint.FROM, 1));
         setIcon(Assets.blockIconsIndex.get("print.png"));
         operator = new Action("print");
     }
