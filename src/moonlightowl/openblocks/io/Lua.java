@@ -81,6 +81,7 @@ public class Lua {
                     }
                 }
                 // Build structure
+                String name;
                 switch (current.getBlockId()) {
                     case IF:
                         Function plus = new Function("plus"), minus = new Function("minus");
@@ -102,9 +103,9 @@ public class Lua {
                         cap = (cap == null ? "0" : "tonumber("+cap+")");
                         // Build cycle
                         Function body = new Function("body");
-                        String n = NameGen.getName();
-                        Cycle cycle = new Cycle(current.getOperator(), new Action(n + " = 1, " + cap), body);
-                        namespace.put(current.getID(), n);
+                        name = NameGen.getName();
+                        Cycle cycle = new Cycle(current.getOperator(), new Action(name + " = 1, " + cap), body);
+                        namespace.put(current.getID(), name);
                         // Run body branch
                         Block bodyBlock = otherSideOf(current, Joint.YES);
                         if(bodyBlock != null) new Tracer(bodyBlock, body).run();
@@ -112,17 +113,24 @@ public class Lua {
                         function.add(cycle);
                         break;
                     case NOT:
-                        String name = NameGen.getName();
+                        name = NameGen.getName();
                         function.add(
                                 new Variable(name, new Unary("not ", new Action(getLastValue("false")))));
                         namespace.put(current.getID(), name);
                         break;
                     case PRINT:
-                        String ln = getLastValue(null);
-                        if(ln == null) ln = seekVariables(current.getJoint(0).get());
-                        if(ln == null) ln = "";
+                        name = getLastValue(null);
+                        if(name == null) name = seekVariables(current.getJoint(0).get());
+                        if(name == null) name = "";
                         function.add(
-                                new Action(current.getOperator().toString() + "(" + ln + ")"));
+                                new Action(current.getOperator().toString() + "(" + name + ")"));
+                        break;
+                    case SELECTSLOT:
+                        name = getLastValue(null);
+                        if(name == null) name = seekVariables(current.getJoint(0).get());
+                        if(name == null) name = "1";
+                        function.add(
+                                new Action(current.getOperator().toString() + "(" + "tonumber("+name+")" + ")"));
                         break;
                     case EQUALS: case NOTEQUALS: case AND: case OR:
                     case LESS: case LESSOREQUALS: case GREATER: case GREATEROREQUALS:
@@ -141,9 +149,9 @@ public class Lua {
                     default:
                         Joint from = jointOf(current, Joint.FROM);
                         if(from != null && from.getDataType() != Data.NOTHING) {
-                            String nn = NameGen.getName();
-                            function.add(new Variable(nn, current.getOperator()));
-                            namespace.put(current.getID(), nn);
+                            name = NameGen.getName();
+                            function.add(new Variable(name, current.getOperator()));
+                            namespace.put(current.getID(), name);
                         }
                         else function.add(current.getOperator());
                 }

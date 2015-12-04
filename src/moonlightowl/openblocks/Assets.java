@@ -72,6 +72,7 @@ public class Assets {
         loadBlockIcon("detect_down.png");
         loadBlockIcon("input.png");
         loadBlockIcon("print.png");
+        loadBlockIcon("select_slot.png");
         loadBlockIcon("for.png");
         loadBlockIcon("if.png");
         loadBlockIcon("not.png");

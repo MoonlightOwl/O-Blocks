@@ -38,6 +38,7 @@ public class Blocks {
         DETECTDOWN(Category.ACTION, "Блок снизу?", DetectDown::new),
         INPUT(Category.ACTION, "Ввод с консоли", Input::new),
         PRINT(Category.ACTION, "Печать в консоль", Print::new),
+        SELECTSLOT(Category.ACTION, "Выбрать слот", SelectSlot::new),
         FOR(Category.CYCLE, "Повторить N раз", For::new),
         IF(Category.LOGIC, "Если ... иначе", If::new),
         NOT(Category.LOGIC, "Не", Not::new),
