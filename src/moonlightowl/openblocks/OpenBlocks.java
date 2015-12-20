@@ -289,6 +289,7 @@ public class OpenBlocks extends Application {
                 case DIGIT2: toggleToolPane(1); break;
                 case DIGIT3: toggleToolPane(2); break;
                 case DIGIT4: toggleToolPane(3); break;
+                case DIGIT5: toggleToolPane(4); break;
                 case S: workspace.drag(0, -Settings.DRAG_SPEED); break;
                 case W: workspace.drag(0, Settings.DRAG_SPEED); break;
                 case D: workspace.drag(-Settings.DRAG_SPEED, 0); break;
