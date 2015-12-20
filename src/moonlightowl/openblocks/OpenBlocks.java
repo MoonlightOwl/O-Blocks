@@ -308,7 +308,8 @@ public class OpenBlocks extends Application {
                 new ToolPane("Точки входа"),
                 new ToolPane("Действия"),
                 new ToolPane("Циклы"),
-                new ToolPane("Логика")
+                new ToolPane("Логика"),
+                new ToolPane("Значения")
         };
         for(Blocks.Id id: Blocks.Id.values()){
             WritableImage image = ImageGen.render(id.getInstance(), ImageGen.TOOL_ICON);
@@ -319,12 +320,12 @@ public class OpenBlocks extends Application {
         for(ToolPane pane: tools) rootPane.getChildren().add(pane);
     }
     private void initToolBar(){
-        for(int c = 0; c < 4; c++) {
+        for(int c = 0; c < tools.length; c++) {
             Button button = newToolBarButton(Assets.toolBarIcon[c+1]);
             int id = c; button.setOnAction(event -> toggleToolPane(id));
             toolBar.getChildren().add(button);
         }
-        Button trash = newToolBarButton(Assets.toolBarIcon[5]);
+        Button trash = newToolBarButton(Assets.toolBarIcon[Assets.toolBarIcon.length-1]);
         trash.setOnAction(event -> selectTrashTool());
         toolBar.getChildren().add(trash);
     }
@@ -339,7 +340,7 @@ public class OpenBlocks extends Application {
     public void selectTrashTool(){
         deselect();
         selectedTrash = true;
-        selectedIcon.setImage(Assets.toolBarIcon[5]);
+        selectedIcon.setImage(Assets.toolBarIcon[Assets.toolBarIcon.length-1]);
     }
     public void select(Blocks.Id id, Image image){
         deselect();

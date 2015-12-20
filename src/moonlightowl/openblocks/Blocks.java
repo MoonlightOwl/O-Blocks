@@ -5,6 +5,7 @@ import moonlightowl.openblocks.structure.action.*;
 import moonlightowl.openblocks.structure.cycle.*;
 import moonlightowl.openblocks.structure.logic.*;
 import moonlightowl.openblocks.structure.robot.*;
+import moonlightowl.openblocks.structure.value.*;
 
 import java.util.function.Supplier;
 
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
  */
 public class Blocks {
     /** Categories */
-    public enum Category { ROBOT, ACTION, CYCLE, LOGIC }
+    public enum Category { ROBOT, ACTION, CYCLE, LOGIC, VALUE }
     public enum Id {
         START(Category.ROBOT, "Начало", Start::new),
         END(Category.ROBOT, "Конец", End::new),
@@ -49,7 +50,8 @@ public class Blocks {
         GREATER(Category.LOGIC, "Больше", Greater::new),
         GREATEROREQUALS(Category.LOGIC, "Больше или равно", GreaterOrEquals::new),
         AND(Category.LOGIC, "И", And::new),
-        OR(Category.LOGIC, "ИЛИ", Or::new);
+        OR(Category.LOGIC, "ИЛИ", Or::new),
+        CONST(Category.VALUE, "Константа", Const::new);
 
         public final int id;
         public final Category category;

@@ -42,6 +42,7 @@ public class Assets {
                 loadImage("tools/action.png"),
                 loadImage("tools/cycle.png"),
                 loadImage("tools/logic.png"),
+                loadImage("tools/value.png"),
                 loadImage("tools/trash.png")
         };
 
@@ -50,6 +51,7 @@ public class Assets {
                 loadImage("blocks/action_x.png"),
                 loadImage("blocks/cycle_x.png"),
                 loadImage("blocks/logic_x.png"),
+                loadImage("blocks/value_x.png"),
         };
         
         blockIconsIndex = new HashMap<>();
