@@ -147,7 +147,7 @@ public class Workspace {
                 bottommost = blocks.stream()
                         .max((a, b) -> Double.compare(a.getCenterY(), b.getCenterY()));
         double x = leftmost.isPresent() ? leftmost.get().getX() : 0,
-               y = topmost.isPresent() ? leftmost.get().getY() : 0,
+               y = topmost.isPresent() ? topmost.get().getY() : 0,
                width = rightmost.isPresent() ? rightmost.get().getX() + rightmost.get().getWidth() - x : 100,
                height = bottommost.isPresent() ? bottommost.get().getY() + bottommost.get().getHeight() - y : 100;
         return new Rectangle2D(x-padding, y-padding, width + padding*2, height + padding*2);
