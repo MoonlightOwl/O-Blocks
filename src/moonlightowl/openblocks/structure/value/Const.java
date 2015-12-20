@@ -6,8 +6,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import moonlightowl.openblocks.Blocks;
+import moonlightowl.openblocks.io.lua.Action;
 import moonlightowl.openblocks.structure.Block;
+import moonlightowl.openblocks.structure.Data;
 import moonlightowl.openblocks.structure.Joint;
+import moonlightowl.openblocks.structure.Metadata;
 
 import java.util.Optional;
 
@@ -18,13 +21,13 @@ import java.util.Optional;
  * Immutable value
  */
 
-public class Const extends Block {
+public class Const extends Block implements Metadata {
     private Label text;
     private String value;
 
     public Const() {
         super(0, 0, Blocks.Id.CONST);
-        addJoint(new Joint(this, 40, 0, Joint.VARIABLE, 1).setMultiwired(true));
+        addJoint(new Joint(this, 40, 0, Joint.VARIABLE, Data.STRING, 1).setMultiwired(true));
 
         text = new Label();
         text.setTextFill(Color.WHITE);
@@ -36,17 +39,17 @@ public class Const extends Block {
         text.setPrefWidth(getWidth()-40);
         text.setPrefHeight(getHeight()-20);
         getChildren().add(text);
-
-        setValue("Demo text");
     }
 
     public void setValue(String value) {
         this.value = value;
         text.setText(value);
+        operator = new Action("'" + value + "'");
     }
+
     public String getValue() { return value; }
 
-    public void fetchData() {
+    public void fetchValue() {
         TextInputDialog dialog = new TextInputDialog("0");
         dialog.setTitle("Константа");
         dialog.setHeaderText("Введите значение");

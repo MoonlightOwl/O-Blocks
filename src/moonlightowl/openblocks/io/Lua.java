@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static moonlightowl.openblocks.Blocks.Id.CONST;
 import static moonlightowl.openblocks.Blocks.Id.END;
 import static moonlightowl.openblocks.Blocks.Id.START;
 
@@ -34,12 +35,13 @@ public class Lua {
         gotospace.clear();
         // Create root structure for project
         Function program = new Function("main");
-        // Let's get started - search for Start block
+        // Let's get started - search for Start block and init all consts
+        Block begin = null;
         for(Block block: workspace.getBlocks())
-            if(block.getBlockId() == START) {
+            if(block.getBlockId() == START) begin = block;
+            else if(block.getBlockId() == CONST)
                 new Tracer(block, program).run();
-                break;
-            }
+        if(begin != null) new Tracer(begin, program).run();
         // Export
         stream.write(("-- [OcBlocks v" + Settings.VERSION + " generated code] --" + Settings.EOL).getBytes());
         stream.write((program.toString() + Settings.EOL).getBytes());
@@ -145,6 +147,11 @@ public class Lua {
                         function.add(new Variable(nameForEquals,
                                 ((Binary)current.getOperator()).setExpressions(opA, opB)));
                         namespace.put(current.getID(), nameForEquals);
+                        break;
+                    case CONST:
+                        name = NameGen.getName();
+                        function.add(new Variable(name, current.getOperator()));
+                        namespace.put(current.getID(), name);
                         break;
                     default:
                         Joint from = jointOf(current, Joint.FROM);

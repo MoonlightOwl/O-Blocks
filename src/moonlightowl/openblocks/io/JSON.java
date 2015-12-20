@@ -4,6 +4,7 @@ import moonlightowl.openblocks.Blocks;
 import moonlightowl.openblocks.Workspace;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
+import moonlightowl.openblocks.structure.Metadata;
 import moonlightowl.openblocks.structure.Wire;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,7 +21,7 @@ import java.util.LinkedList;
 public class JSON {
     public static final String BLOCKS = "blocks", JOINTS = "joints", WIRES = "wires",
             ID = "id", CATEGORY = "category", X = "x", Y = "y", MULTI = "multi",
-            LINK_JOINT_ID = "link_jid", LINK_BLOCK_ID = "link_bid";
+            LINK_JOINT_ID = "link_jid", LINK_BLOCK_ID = "link_bid", META = "meta";
 
     @SuppressWarnings("unchecked")
     public static JSONObject generate(Workspace workspace){
@@ -36,6 +37,7 @@ public class JSON {
             block.put(X, _block.getX());
             block.put(Y, _block.getY());
             block.put(CATEGORY, _block.getBlockId().id);
+            block.put(META, (_block instanceof Metadata ? ((Metadata)_block).getValue() : null));
 
             JSONArray joints = new JSONArray();
             for(Joint _joint: _block.getJoints()) {
@@ -85,6 +87,7 @@ public class JSON {
             JSONObject block = (JSONObject) x;
             Block b = Blocks.Id.values()[(int)(long)block.get(CATEGORY)].getInstance()
                     .setPosition((Double) block.get(X), (Double) block.get(Y));
+            if(b instanceof Metadata) ((Metadata) b).setValue((String) block.get(META));
             workspace.addBlock(b);
         }
         LinkedList<Block> workspaceBlocks = workspace.getBlocks();

@@ -23,8 +23,8 @@ import moonlightowl.openblocks.io.JSON;
 import moonlightowl.openblocks.io.Lua;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
+import moonlightowl.openblocks.structure.Metadata;
 import moonlightowl.openblocks.structure.Wire;
-import moonlightowl.openblocks.structure.value.Const;
 import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.Progress;
 import moonlightowl.openblocks.ui.ToolButton;
@@ -209,9 +209,8 @@ public class OpenBlocks extends Application {
                         projectChanged();
                     } break;
                 case SECONDARY:
-                    if(block.getBlockId() == Blocks.Id.CONST) {
-                        ((Const)block).fetchData();
-                    } break;
+                    if(block instanceof Metadata) ((Metadata)block).fetchValue();
+                    break;
             }
         });
 
@@ -237,7 +236,7 @@ public class OpenBlocks extends Application {
                     workspace.addBlock(block);
                     projectChanged();
                     // Get additional data for some blocks
-                    if(block.getBlockId() == Blocks.Id.CONST) ((Const) block).fetchData();
+                    if(block instanceof Metadata) ((Metadata) block).fetchValue();
                 }
             } else if(event.getButton() == MouseButton.SECONDARY) {
                 // Deselect current block type
