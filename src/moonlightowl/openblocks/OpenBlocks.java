@@ -24,6 +24,7 @@ import moonlightowl.openblocks.io.Lua;
 import moonlightowl.openblocks.structure.Block;
 import moonlightowl.openblocks.structure.Joint;
 import moonlightowl.openblocks.structure.Wire;
+import moonlightowl.openblocks.structure.value.Const;
 import moonlightowl.openblocks.ui.About;
 import moonlightowl.openblocks.ui.Progress;
 import moonlightowl.openblocks.ui.ToolButton;
@@ -200,10 +201,17 @@ public class OpenBlocks extends Application {
 
         // Block removement
         Block.setOnClickListenter(event -> {
-            if (selectedTrash && event.getButton() == MouseButton.PRIMARY) {
-                Block block = (Block)event.getSource();
-                workspace.removeBlock(block);
-                projectChanged();
+            Block block = (Block)event.getSource();
+            switch(event.getButton()){
+                case PRIMARY:
+                    if (selectedTrash) {
+                        workspace.removeBlock(block);
+                        projectChanged();
+                    } break;
+                case SECONDARY:
+                    if(block.getBlockId() == Blocks.Id.CONST) {
+                        ((Const)block).fetchData();
+                    } break;
             }
         });
 
@@ -228,6 +236,8 @@ public class OpenBlocks extends Application {
                                     workspace.projectY(event.getY()));
                     workspace.addBlock(block);
                     projectChanged();
+                    // Get additional data for some blocks
+                    if(block.getBlockId() == Blocks.Id.CONST) ((Const) block).fetchData();
                 }
             } else if(event.getButton() == MouseButton.SECONDARY) {
                 // Deselect current block type
