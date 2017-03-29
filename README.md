@@ -6,8 +6,7 @@ OcBlocks
 реализовать любой алгоритм работы для робота, при этом не требуя
 от пользователя каких либо знаний языков программирования.
 
-![Вот так может выглядеть программа на языке OcBlocks]
-(https://lh3.googleusercontent.com/-TJ4sT8hLt1Q/VlmzzfsQoII/AAAAAAAABSQ/tdlO-k_R048/s818-Ic42/O-Blocks3.png)
+![Вот так может выглядеть программа на языке OcBlocks](https://lh3.googleusercontent.com/-TJ4sT8hLt1Q/VlmzzfsQoII/AAAAAAAABSQ/tdlO-k_R048/s818-Ic42/O-Blocks3.png)
 
 Принцип действия
 ---------
